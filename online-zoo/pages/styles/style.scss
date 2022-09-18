@@ -5,7 +5,6 @@ $buttonHoverColor: rgba(228, 114, 9, 1);
 body {
   width: 100vw;
   position: relative;
-  // margin: 0 auto;
 }
 
 .header {
@@ -146,4 +145,64 @@ body {
     }
   }
 
+}
+
+.section-backstage {
+  padding: 140px 200px 0 200px;
+  width: 100%;
+
+  .section-wrapper {
+    max-width: 1160px;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+}
+
+.section-backstage__container {
+  display: flex;
+  align-items: center;
+  gap: 87px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    background-image: url(../../assets/images/flower_foto1.png);
+    height: 605px;
+    width: 202px;
+    right: 0;
+  }
+
+  .section-backstage__text-container {
+    width: 420px;
+    height: 403px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: black;
+    font-family: 'Roboto';
+    letter-spacing: 0em;
+
+    .backstage-text__top {
+      font-size: 48px;
+      font-weight: 400;
+      line-height: 58px;
+      text-align: left;
+    }
+
+    .backstage-text__second .backstage-text__bottom {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 21px;
+      text-align: left;
+    }
+
+    .backstage-text__third {
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 29px;
+      text-align: left;
+    }
+  }
 }
