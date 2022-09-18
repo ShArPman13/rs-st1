@@ -1,0 +1,149 @@
+$headerColor: #000000;
+$buttonColor: linear-gradient(113.96deg, #F9804B 1.49%, #FE9013 101.44%);
+$buttonHoverColor: rgba(228, 114, 9, 1);
+
+body {
+  width: 100vw;
+  position: relative;
+  // margin: 0 auto;
+}
+
+.header {
+  position: absolute;
+  background-color: $headerColor;
+  height: 80px;
+  width: 100%;
+  padding: 0 220px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  .header__wrapper {
+    max-width: 1160px;
+    width: 1160px;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  .header__logo {
+    width: 82px;
+    height: 52px;
+    border-radius: 2px;
+    border: 2px solid white;
+    padding: 3.55px 4.75px;
+    margin-right: 63px;
+    position: relative;
+
+    .logo__name {
+      font-family: 'Roboto';
+      font-size: 19px;
+      font-weight: 400;
+      text-align: center;
+    }
+
+    &::before {
+      content: '';
+      background-image: url(../../assets/icons/bamboo.svg);
+      position: absolute;
+      width: 12.03px;
+      height: 20.98px;
+      left: 8.23px;
+      top: 23.64px;
+    }
+  }
+
+  .header__nav {
+    width: 100%;
+  }
+}
+
+.nav__list {
+  display: flex;
+  justify-content: flex-start;
+  gap: 58px;
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: 500;
+
+  .designed {
+    margin-left: auto;
+  }
+
+  .nav__item {
+    cursor: pointer;
+  }
+}
+
+.section-watch {
+  background-image: url(../../assets/images/giantpanda.png);
+  background-size: cover;
+  height: 780px;
+  width: 100%;
+  top: 0;
+  padding: 166px 200px 0 200px;
+
+  .section-wrapper {
+    max-width: 1160px;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 auto;
+  }
+}
+
+.section-watch__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+
+  .section-watch-list {
+    position: relative;
+    z-index: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 0.75;
+    font-family: 'Roboto';
+    font-size: 106.5px;
+    font-weight: 700;
+    max-width: max-content;
+
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      width: 465px;
+      height: 465px;
+      border-radius: 465px;
+      background: linear-gradient(113.96deg, #F9804B 1.49%, #FE9013 101.44%);
+      left: calc(50% - 342.5px);
+      top: -81px;
+    }
+
+    .item-yellow {
+      color: rgba(255, 238, 46, 1)
+    }
+  }
+
+  .button {
+    width: 298px;
+    height: 54px;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    background: $buttonColor;
+    border-radius: 25px;
+    color: white;
+    font-family: 'Roboto';
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover {
+      background: $buttonHoverColor;
+    }
+  }
+
+}
