@@ -17,12 +17,14 @@
       </div>
       <nav class="header__nav nav">
         <ul class="nav__list">
-          <li class="nav__item">About</li>
-          <li class="nav__item">Map</li>
-          <li class="nav__item">Zoos</li>
-          <li class="nav__item">Donate</li>
-          <li class="nav__item">Contact us</li>
-          <li class="nav__item designed">Designed by ©</li>
+          <li class="nav__item"><a class="nav__link link__about">About</a></li>
+          <li class="nav__item"><a class="nav__link">Map</a></li>
+          <li class="nav__item"><a class="nav__link">Zoos</a>
+          <li class="nav__item"><a class="nav__link">Donate</a></li>
+          <li class="nav__item"><a class="nav__link">Contact us</a></li>
+          <li class="nav__item nav__designed"><a
+              href="https://www.figma.com/file/jfEFwkXVj1WRq7sUHDr8os/PetStory-online" class="nav__link">Designed by
+              ©</a></li>
         </ul>
       </nav>
     </div>
@@ -38,7 +40,7 @@
           <li class="section-watch-list__item">ANIMALS</li>
           <li class="section-watch-list__item">ONLINE</li>
         </ul>
-        <button class="button">WATCH ONLINE</button>
+        <button class="button section-watch__button">Watch online</button>
       </div>
     </div>
   </section>
@@ -60,6 +62,137 @@
       </div>
     </div>
     <div class="section-backstage__bush"></div>
+  </section>
+
+  <section class="section-pets">
+    <div class="section-wrapper">
+      <div class="section-pets__container">
+        <div class="section-pets__cards">
+          <button class="button section-pets__button-go-left">
+            <img class="goleft__img" src="icons/goleft.svg" alt="left">
+          </button>
+          <div class="section-pets__card">
+            <div class="pet-foto__container">
+              <img class="section-pets__foto" src="images/pandas.png" alt="pandas">
+            </div>
+            <div class="pets-text__container">
+              <div class="section-pets__text">
+                <h3 class="section-pets__animal-name">GIANT PANDAS</h3>
+                <p class="section-pets__native-to">Native to Southwest China</p>
+              </div>
+              <img class="pets-text__icon-feed" src="icons/banana-bamboo_icon.svg" alt="bananas">
+            </div>
+          </div>
+          <div class="section-pets__card">
+            <div class="pet-foto__container">
+              <img class="section-pets__foto" src="images/eagles.png" alt="eagles">
+            </div>
+            <div class="pets-text__container">
+              <div class="section-pets__text">
+                <h3 class="section-pets__animal-name">EAGLES</h3>
+                <p class="section-pets__native-to">Native to South America</p>
+              </div>
+              <img class="pets-text__icon-feed" src="icons/meet-fish_icon.svg" alt="meat">
+            </div>
+          </div>
+          <div class="section-pets__card">
+            <div class="pet-foto__container">
+              <img class="section-pets__foto" src="images/gorillas.png" alt="gorillas">
+            </div>
+            <div class="pets-text__container">
+              <div class="section-pets__text">
+                <h3 class="section-pets__animal-name">GORILLAS</h3>
+                <p class="section-pets__native-to">Native to Congo</p>
+              </div>
+              <img class="pets-text__icon-feed" src="icons/banana-bamboo_icon.svg" alt="bananas">
+            </div>
+          </div>
+          <div class="section-pets__card">
+            <div class="pet-foto__container">
+              <img class="section-pets__foto" src="images/twotoessloth.png" alt="twotoessloth">
+            </div>
+            <div class="pets-text__container">
+              <div class="section-pets__text">
+                <h3 class="section-pets__animal-name">TWO-TOED-SLOTH</h3>
+                <p class="section-pets__native-to">Mesoamerica, South America</p>
+              </div>
+              <img class="pets-text__icon-feed" src="icons/banana-bamboo_icon.svg" alt="bananas">
+            </div>
+          </div>
+          <div class="section-pets__card">
+            <div class="pet-foto__container">
+              <img class="section-pets__foto" src="images/cheetahs.png" alt="cheetahs">
+            </div>
+            <div class="pets-text__container">
+              <div class="section-pets__text">
+                <h3 class="section-pets__animal-name">CHEETAHS</h3>
+                <p class="section-pets__native-to">Native to Africa</p>
+              </div>
+              <img class="pets-text__icon-feed" src="icons/meet-fish_icon.svg" alt="meat">
+            </div>
+          </div>
+          <div class="section-pets__card">
+            <div class="pet-foto__container">
+              <img class="section-pets__foto" src="images/penguins.png" alt="penguins">
+            </div>
+            <div class="pets-text__container">
+              <div class="section-pets__text">
+                <h3 class="section-pets__animal-name">PENGUINS</h3>
+                <p class="section-pets__native-to">Native to Antarctica</p>
+              </div>
+              <img class="pets-text__icon-feed" src="icons/meet-fish_icon.svg" alt="meat">
+            </div>
+          </div>
+          <button class="button section-pets__button-go-right">
+            <img class="goright__img" src="icons/goright.svg" alt="right">
+          </button>
+        </div>
+        <button class="button section-pets__button">Choose your favorite</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-peek-and-feed">
+    <div class="section-wrapper">
+      <div class="section-peek-and-feed__container">
+        <div class="section-peek-and-feed__top-text">
+          <h2 class="section-peek-and-feed__h2">Pick and feed a friend</h2>
+          <p class="section-peek-and-feed__first">We know the animals bring you joy, and in these extraordinary times,
+            we’re glad.</p>
+          <p class="section-peek-and-feed__second">During a time when the COVID-19 epidemic is touching all of our
+            lives, we’re proud and glad that people around the world find joy in PetStory.</p>
+          <p class="section-peek-and-feed__third">Even though the zoo has reopened, we need you now more than ever to
+            help us deal with these problems. Please consider a gift to our <a
+              class="section-peek-and-feed__link">Emergency Support Fund</a> . </p>
+        </div>
+        <div class="section-peek-and-feed__how-it-works">
+          <h3 class="how-it-works__h3">How it works</h3>
+          <div class="how-it-works__parts">
+            <div class="how-it-works__part">
+              <div class="how-it-works__square">
+                <img class="square__img" src="icons/pay.svg" alt="pay">
+              </div>
+              <p class="square__text">Pay with card</p>
+            </div>
+            <img class="how-it-works__arrow-right" src="icons/vector.svg" alt="right">
+            <div class="how-it-works__part">
+              <div class="how-it-works__square">
+                <img class="square__img" src="icons/zoo.svg" alt="zoo">
+              </div>
+              <p class="square__text">Payment goes to the zoo</p>
+            </div>
+            <img class="how-it-works__arrow-right" src="icons/vector.svg" alt="right">
+            <div class="how-it-works__part">
+              <div class="how-it-works__square">
+                <img class="square__img" src="icons/monkey.svg" alt="dish">
+              </div>
+              <p class="square__text">Your favourite animal gets delicious dish</p>
+            </div>
+          </div>
+        </div>
+        <button class="button section-peek-and-feed__button">Feed a friend now</button>
+      </div>
+    </div>
   </section>
 
 </body>
