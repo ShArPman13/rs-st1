@@ -61,10 +61,10 @@ module.exports = ({ develop }) => ({
       filename: 'index.html',
       template: './pages/main/index.html'
     }),
-    // new HtmlWebpackPlugin({
-    //   filename: 'donate.html',
-    //   template: './pages/donate/donate.html'
-    // }),
+    new HtmlWebpackPlugin({
+      filename: 'donate.html',
+      template: './pages/donate/donate.html'
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'
     }),

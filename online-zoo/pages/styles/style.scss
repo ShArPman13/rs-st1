@@ -45,6 +45,7 @@ body {
   padding: 3.55px 4.75px;
   margin-right: 63px;
   position: relative;
+  cursor: pointer;
 
   .logo__name {
     font-family: 'Roboto';
@@ -99,12 +100,20 @@ body {
     margin-left: auto;
   }
 
-  .link__about {
+  .nav__link-active {
     color: orange;
+    cursor: default;
+    pointer-events: none;
   }
 
   .nav__item {
     cursor: pointer;
+    transition: 0.2s ease;
+
+    &:hover {
+      color: orange;
+      transition: 0.2s ease;
+    }
   }
 }
 
@@ -291,6 +300,10 @@ body {
     width: 62px;
     height: 62px;
     border-radius: 62px;
+
+    &:hover {
+      background-color: green;
+    }
   }
 
   .section-pets__button-go-right {
@@ -299,10 +312,15 @@ body {
     width: 62px;
     height: 62px;
     border-radius: 62px;
+
+    &:hover {
+      background-color: green;
+    }
   }
 
   .section-pets__cards {
     display: flex;
+    // flex: 1 1 auto;
     flex-wrap: wrap;
     align-content: space-between;
     align-items: center;
@@ -542,6 +560,7 @@ body {
     display: flex;
     flex-shrink: 1;
     margin: 0 auto;
+    margin-bottom: 180px;
   }
 }
 
@@ -658,14 +677,14 @@ body {
     width: 596px;
     border-radius: 4px;
 
-    .testimonials-scroll__flag {
-      height: 6px;
-      width: 115px;
-      left: 280px;
-      border-radius: 5px;
-      background: rgba(254, 144, 19, 1);
-      cursor: pointer;
-    }
+    // .testimonials-scroll__flag {
+    //   height: 6px;
+    //   width: 115px;
+    //   left: 280px;
+    //   border-radius: 5px;
+    //   background: rgba(254, 144, 19, 1);
+    //   cursor: pointer;
+    // }
   }
 
   .section-testimonials__button {
@@ -679,7 +698,7 @@ body {
   background: $footerColor;
   height: 443px;
   width: 100%;
-  margin-top: 180px;
+  // margin-top: 180px;
   padding: 40px 0 50px 0;
 
   .footer__wrapper {
@@ -709,7 +728,13 @@ body {
       .social__item {
         display: flex;
         align-items: center;
+        width: max-content;
         gap: 12px;
+
+        &:hover {
+          transform: scale(1.03);
+          transition: 0.2s ease;
+        }
       }
 
       .social__grey-circle {
@@ -768,8 +793,6 @@ body {
         .subscribe__input {
           background-color: #000;
           border: 1px solid rgba(249, 128, 75, 1);
-          ;
-          box-sizing: border-box;
           color: #BDBDBD;
           outline: 0;
           padding: 0 10px;
@@ -782,6 +805,18 @@ body {
           line-height: 22px;
           letter-spacing: 0em;
 
+          &:focus {
+            border: 1px solid rgba(75, 146, 0, 1);
+          }
+
+          &:valid {
+            border: 1px solid orange;
+          }
+
+          &:invalid {
+            border: 1px solid #D31414;
+          }
+
         }
 
         .subscribe__button {
@@ -790,6 +825,7 @@ body {
           left: 1251px;
           top: 83px;
           background: linear-gradient(0deg, #F1F3F2, #F1F3F2);
+          color: rgba(51, 59, 65, 1);
           border-radius: 5px;
           cursor: pointer;
           font-family: Roboto;
@@ -798,10 +834,16 @@ body {
           line-height: 22px;
           letter-spacing: 0em;
           transition: 0.3s;
-          border: 1px solid black;
+          border: 1px solid rgba(51, 59, 65, 1);
 
           &:active {
             transform: scale(0.99);
+            transition: 0.3s;
+            color: rgba(75, 146, 0, 1);
+            border: 1px solid rgba(75, 146, 0, 1);
+          }
+
+          &:hover {
             transition: 0.3s;
             color: rgba(75, 146, 0, 1);
             border: 1px solid rgba(75, 146, 0, 1);

@@ -54,6 +54,22 @@ body {
 //   outline-offset: 0;
 // }
 
+
+/* Убираем стрелки из INPUT type NUMBER */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Убираем стрелки из INPUT type NUMBER */
+
 /* Убираем place-holder текст при нажатии */
 .input-text:focus::-webkit-input-placeholder {
   color: transparent;
@@ -114,3 +130,72 @@ input:focus:-ms-input-placeholder {
   opacity: 0;
   transition: opacity 0.5s ease;
 }
+
+/* Отмена default стилей на radio button */
+// input {
+//   -webkit-appearance: none;
+//   -moz-appearance: none;
+//   appearance: none;
+// }
+
+/* Отмена default стилей на radio button */
+
+
+/* Отмена default стилей на INPUT RANGE */
+input[type=range] {
+  -webkit-appearance: none;
+  /* Скрывает слайдер, чтобы можно было создать свой */
+  width: 100%;
+  /* Указание параметра ширины требуется для Firefox. */
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+input[type=range]:focus {
+  outline: none;
+  /* Убирает голубую границу у элемента. Хотя, возможно, и стоит создавать некоторое оформления для состояния фокуса в целях обеспечения доступности. */
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  cursor: pointer;
+  background: transparent;
+  /* Скрывает слайдер, чтобы можно было добавить собственные стили. */
+  border-color: transparent;
+  color: transparent;
+}
+
+/* Отмена default стилей на INPUT RANGE */
+
+/*СТИЛИЗУЕМ INPUT RANGE */
+/* Специальные правила для браузеров на движках WebKit/Blink */
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 6px;
+  width: 115px;
+  border-radius: 5px;
+  background: rgba(254, 144, 19, 1);
+  cursor: pointer;
+}
+
+/* Тоже самое для Firefox */
+input[type=range]::-moz-range-thumb {
+  height: 36px;
+  width: 16px;
+  border-radius: 5px;
+  background: rgba(254, 144, 19, 1);
+  cursor: pointer;
+}
+
+/* Тоже самое для IE */
+input[type=range]::-ms-thumb {
+  height: 36px;
+  width: 16px;
+  border-radius: 5px;
+  background: rgba(254, 144, 19, 1);
+  cursor: pointer;
+}
+
+/*СТИЛИЗУЕМ INPUT RANGE */

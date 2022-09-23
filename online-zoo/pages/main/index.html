@@ -12,15 +12,15 @@
 
   <header class="header">
     <div class="header__wrapper">
-      <div class="header__logo">
+      <a href="./index.html" class="header__logo">
         <h1 class="logo__name">PetStory online</h1>
-      </div>
+      </a>
       <nav class="header__nav nav">
         <ul class="nav__list">
-          <li class="nav__item"><a class="nav__link link__about">About</a></li>
+          <li class="nav__item"><a href="./index.html" class="nav__link nav__link-active">About</a></li>
           <li class="nav__item"><a class="nav__link">Map</a></li>
           <li class="nav__item"><a class="nav__link">Zoos</a>
-          <li class="nav__item"><a class="nav__link">Donate</a></li>
+          <li class="nav__item"><a href="./donate.html" class="nav__link">Donate</a></li>
           <li class="nav__item"><a class="nav__link">Contact us</a></li>
           <li class="nav__item nav__designed"><a
               href="https://www.figma.com/file/jfEFwkXVj1WRq7sUHDr8os/PetStory-online" class="nav__link">Designed by
@@ -168,7 +168,7 @@
             <p class="section-peek-and-feed__second">During a time when the COVID-19 epidemic is touching all of our
               lives, we’re proud and glad that people around the world find joy in PetStory.</p>
             <p class="section-peek-and-feed__third">Even though the zoo has reopened, we need you now more than ever to
-              help us deal with these problems. Please consider a gift to our <a
+              help us deal with these problems. Please consider a gift to our <a a href="./donate.html"
                 class="section-peek-and-feed__link">Emergency Support Fund</a> . </p>
           </div>
         </div>
@@ -290,9 +290,8 @@
           </div>
         </div>
         <div class="testimonials__scroll-out">
-          <div class="testimonials__scroll-in">
-            <div class="testimonials-scroll__flag"></div>
-          </div>
+          <input class="testimonials__scroll-in" type="range" id="volume" name="scroll-bar" min="0" max="5" step="0.01"
+            value="0">
         </div>
         <button class="button section-testimonials__button">Leave feedback</button>
       </div>
@@ -302,45 +301,53 @@
   <footer class="footer">
     <div class="footer__wrapper">
       <div class="footer__left-part">
-        <div class="header__logo">
-          <h1 class="logo__name">PetStory online</h1>
-        </div>
-        <button class="button footer__button">Donate for volunteers</button>
+        <a href="./index.html" class="header__logo">
+          <p class="logo__name">PetStory online</p>
+        </a>
+        <a href="./donate.html" class="button footer__button">Donate for volunteers</a>
         <ul class="social-list">
           <li class="social__item">
-            <div class="social__grey-circle"><img class="social__icon" src="icons/fb.png" alt="facebook"></div>
-            <p class="social__name">Facebook</p>
+            <a class="social__item" href="http://facebook.com">
+              <div class="social__grey-circle"><img class="social__icon" src="icons/fb.png" alt="facebook"></div>
+              <p class="social__name">Facebook</p>
+            </a>
           </li>
           <li class="social__item">
-            <div class="social__grey-circle"><img class="social__icon" src="icons/twitter.png" alt="Twitter"></div>
-            <p class="social__name">Twitter</p>
+            <a class="social__item" href="http://twitter.com" class="social__item">
+              <div class="social__grey-circle"><img class="social__icon" src="icons/twitter.png" alt="Twitter"></div>
+              <p class="social__name">Twitter</p>
+            </a>
           </li>
           <li class="social__item">
-            <div class="social__grey-circle"><img class="social__icon" src="icons/inst.png" alt="Instagram"></div>
-            <p class="social__name">Instagram</p>
+            <a class="social__item" href="http://instagram.com" class="social__item">
+              <div class="social__grey-circle"><img class="social__icon" src="icons/inst.png" alt="Instagram"></div>
+              <p class="social__name">Instagram</p>
+            </a>
           </li>
           <li class="social__item">
-            <div class="social__grey-circle"><img class="social__icon" src="icons/youtube.png" alt="Youtube"></div>
-            <p class="social__name">Youtube</p>
+            <a class="social__item" href="http://youtube.com" class="social__item">
+              <div class="social__grey-circle"><img class="social__icon" src="icons/youtube.png" alt="Youtube"></div>
+              <p class="social__name">Youtube</p>
+            </a>
           </li>
         </ul>
       </div>
       <div class="footer__center-part">
         <ul class="nav__list footer__nav-list">
-          <li class="nav__item"><a class="nav__link link__about">About</a></li>
+          <li class="nav__item"><a class="nav__link nav__link-active">About</a></li>
           <li class="nav__item"><a class="nav__link">Map</a></li>
           <li class="nav__item"><a class="nav__link">Zoos</a></li>
           <li class="nav__item"><a class="nav__link">Contact us</a></li>
         </ul>
       </div>
       <div class="footer__right-part">
-        <div class="subscribe">
+        <form class="subscribe">
           <h3 class="subscribe__head">Subscribe to our news</h3>
           <div class="input-and-button">
-            <input type="text" class="subscribe__input" placeholder="Enter your email">
+            <input type="email" class="subscribe__input" placeholder="Enter your email" required>
             <button class="subscribe__button">Submit</button>
           </div>
-        </div>
+        </form>
         <div class="subscribe__designed">
           <p class="designed__first-line">Designed by Alisa Samborskaya</p>
           <p class="designed__second-line">©RSSchool & ©Yem Digital 2021</p>
