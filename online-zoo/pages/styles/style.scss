@@ -320,7 +320,6 @@ body {
 
   .section-pets__cards {
     display: flex;
-    // flex: 1 1 auto;
     flex-wrap: wrap;
     align-content: space-between;
     align-items: center;
@@ -329,27 +328,73 @@ body {
     position: relative;
 
     .section-pets__card {
+      position: relative;
       height: 426px;
       width: 366px;
       border-radius: 5px;
       border: 1px solid orange;
       overflow: hidden;
 
+      &:hover .section-pets__foto-text {
+        z-index: 0;
+        position: absolute;
+        opacity: 1;
+        top: 80px;
+        transition: 0.5s ease;
+        visibility: visible;
+
+      }
+
+      &:hover .section-pets__foto {
+        transform: scale(1.15);
+        opacity: 0.5;
+        transition: 0.5s ease;
+      }
+
       .pet-foto__container {
+        background-color: #000;
         height: 366px;
         width: 366px;
         overflow: hidden;
+        z-index: 1;
+        transition: 0.5s ease;
       }
 
-      .section-pets__foto {
-        height: 366px;
-        width: 366px;
-        transition: 0.5s ease;
+      // .section-pets__foto {
+      //   height: 366px;
+      //   width: 366px;
+      //   transition: 0.5s ease;
 
-        &:hover {
-          transform: scale(1.1);
-          transition: 0.5s ease;
-        }
+      //   &:hover {
+      //     transform: scale(1.1);
+      //     opacity: 0.4;
+      //     transition: 0.5s ease;
+      //   }
+
+      //   &:hover~.section-pets__foto-text {
+      //     z-index: 0;
+      //     position: absolute;
+      //     opacity: 1;
+      //     top: 80px;
+      //     transition: 0.5s ease;
+      //     visibility: visible;
+      //   }
+      // }
+
+      .section-pets__foto-text {
+        visibility: hidden;
+        opacity: 0;
+        width: 300px;
+        position: absolute;
+        color: white;
+        font-family: Roboto;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 22px;
+        letter-spacing: 0em;
+        top: 300px;
+        left: 30px;
+        transition: 0.5s ease;
       }
 
       .pets-text__container {
@@ -358,13 +403,15 @@ body {
         padding: 8px 9px 14px 16px;
 
         .section-pets__text {
+          display: flex;
+          flex-direction: column;
 
           .section-pets__animal-name {
             color: #000000;
             font-family: Roboto;
             font-size: 16px;
             font-weight: 700;
-            line-height: 22px;
+            line-height: 19px;
             letter-spacing: 0em;
             text-align: left;
           }
@@ -584,7 +631,7 @@ body {
 
   .testimonials-h3 {
     margin-top: 140px;
-    margin-bottom: 47px;
+    margin-bottom: 45px;
     color: rgba(51, 59, 65, 1);
     font-family: Roboto;
     font-size: 36px;
@@ -813,10 +860,19 @@ body {
             border: 1px solid orange;
           }
 
+          &:valid~.subscribe__button {
+            color: green;
+            border: 1px solid green;
+          }
+
           &:invalid {
             border: 1px solid #D31414;
           }
 
+          &:focus~.subscribe__button {
+            color: red;
+            border: 1px solid red;
+          }
         }
 
         .subscribe__button {
