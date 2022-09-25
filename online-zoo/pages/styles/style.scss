@@ -4,6 +4,12 @@ $buttonColor: #FE9013;
 $buttonHoverColor: rgba(228, 114, 9, 1);
 $footerColor: rgba(17, 17, 21, 1);
 
+%flex-element-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 body {
   width: 100%;
@@ -13,10 +19,8 @@ body {
 .button {
   width: 298px;
   height: 54px;
-  display: flex;
+  @extend %flex-element-center;
   flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
   background: $buttonColor;
   border-radius: 25px;
   color: white;
