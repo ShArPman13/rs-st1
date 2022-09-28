@@ -559,7 +559,7 @@ body {
     .section-pets__visible-cards {
       display: flex;
       max-width: 1158px;
-      overflow: auto;
+      overflow: hidden;
 
 
       .section-pets__cards {
