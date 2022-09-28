@@ -314,11 +314,8 @@ $footerColor: rgba(17, 17, 21, 1);
                 border: 2px solid rgba(254, 144, 19, 1);
               }
             }
-
           }
         }
-
-
 
         .amount__price {
           color: rgba(51, 59, 65, 1);
@@ -338,6 +335,24 @@ $footerColor: rgba(17, 17, 21, 1);
             letter-spacing: 0em;
             left: 10px;
           }
+        }
+
+        .amount-1000 {
+          color: rgba(254, 144, 19, 1);
+          font-family: Roboto;
+          font-size: 26px;
+          font-weight: 500;
+          line-height: 36px;
+          letter-spacing: 0em;
+
+          &::before {
+            content: '$';
+            color: rgba(254, 144, 19, 1)
+          }
+        }
+
+        .amount-1000 {
+          color: rgba(254, 144, 19, 1)
         }
 
         .amount__eight-price {
