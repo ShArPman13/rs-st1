@@ -175,6 +175,11 @@ input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 6px;
   width: 115px;
+
+  @media screen and (max-width: 1225px) {
+    width: 75px;
+  }
+
   border-radius: 5px;
   background: rgba(254, 144, 19, 1);
   cursor: pointer;

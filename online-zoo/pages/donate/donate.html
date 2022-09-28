@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./favicon.png" rel="icon" />
   <title>Donate</title>
 </head>
 
@@ -107,7 +108,7 @@
           <form class="square-container-wrapper__donate">
             <div class="amount-input__wrapper">
               <input type="number" class="amount__input" placeholder="Another amount" max="9999"
-                onkeyup="if(parseInt(this.value)>9999){ this.value =9999; return false; }">
+                onkeyup="if(parseInt(this.value)>9999){ this.value =this.value[0] + this.value[1] + this.value[2] + this.value[3];; return false; }">
             </div>
             <div class="donate__monthly-once-container">
               <div class="donate__circle-container">
@@ -120,7 +121,7 @@
               </div>
             </div>
             <div>
-              <button class="button donate__button">Feed a friend now</button>
+              <a href="./donate.html" class="button donate__button">Feed a friend now</a>
             </div>
           </form>
 
@@ -130,9 +131,66 @@
     </div>
   </section>
 
-  <footer class=" footer">
+  <footer class="footer">
     <div class="footer__wrapper">
-      <div class="footer__left-part">
+
+      <div class="footer__top-part">
+        <a href="./index.html" class="header__logo">
+          <p class="logo__name">PetStory online</p>
+        </a>
+        <form class="subscribe">
+          <h3 class="subscribe__head">Subscribe to our news</h3>
+          <div class="input-and-button">
+            <input type="email" class="subscribe__input" placeholder="Enter your email" required>
+            <button class="subscribe__button">Submit</button>
+          </div>
+        </form>
+      </div>
+
+      <a href="./donate.html" class="button footer__button">Donate for volunteers</a>
+
+      <div class="footer__bottom-part">
+        <ul class="social-list">
+          <li class="social__item">
+            <a class="social__item" href="http://facebook.com">
+              <div class="social__grey-circle"><img class="social__icon" src="icons/fb.png" alt="facebook"></div>
+              <p class="social__name">Facebook</p>
+            </a>
+          </li>
+          <li class="social__item">
+            <a class="social__item" href="http://twitter.com">
+              <div class="social__grey-circle"><img class="social__icon" src="icons/twitter.png" alt="Twitter"></div>
+              <p class="social__name">Twitter</p>
+            </a>
+          </li>
+          <li class="social__item">
+            <a class="social__item" href="http://instagram.com">
+              <div class="social__grey-circle"><img class="social__icon" src="icons/inst.png" alt="Instagram"></div>
+              <p class="social__name">Instagram</p>
+            </a>
+          </li>
+          <li class="social__item">
+            <a class="social__item" href="http://youtube.com">
+              <div class="social__grey-circle"><img class="social__icon" src="icons/youtube.png" alt="Youtube"></div>
+              <p class="social__name">YouTube</p>
+            </a>
+          </li>
+        </ul>
+        <ul class="nav__list footer__nav-list">
+          <li class="nav__item"><a class="nav__link nav__link-active">About</a></li>
+          <li class="nav__item"><a class="nav__link">Map</a></li>
+          <li class="nav__item"><a class="nav__link">Zoos</a></li>
+          <li class="nav__item"><a class="nav__link">Contact us</a></li>
+        </ul>
+        <div class="subscribe__designed">
+          <p class="designed__first-line">Designed by Alisa Samborskaya</p>
+          <p class="designed__second-line">©RSSchool & ©Yem Digital 2021</p>
+        </div>
+      </div>
+
+
+
+      <!-- <div class="footer__left-part">
         <a href="./index.html" class="header__logo">
           <p class="logo__name">PetStory online</p>
         </a>
@@ -157,7 +215,7 @@
             </a>
           </li>
           <li class="social__item">
-            <a class="social__item" href="http://youtube.com" class="social__item">
+            <a class="social__item" href="http://youtube.com">
               <div class="social__grey-circle"><img class="social__icon" src="icons/youtube.png" alt="Youtube"></div>
               <p class="social__name">Youtube</p>
             </a>
@@ -166,7 +224,7 @@
       </div>
       <div class="footer__center-part">
         <ul class="nav__list footer__nav-list">
-          <li class="nav__item"><a href="./index.html" class="nav__link link__about">About</a></li>
+          <li class="nav__item"><a class="nav__link nav__link-active">About</a></li>
           <li class="nav__item"><a class="nav__link">Map</a></li>
           <li class="nav__item"><a class="nav__link">Zoos</a></li>
           <li class="nav__item"><a class="nav__link">Contact us</a></li>
@@ -184,8 +242,9 @@
           <p class="designed__first-line">Designed by Alisa Samborskaya</p>
           <p class="designed__second-line">©RSSchool & ©Yem Digital 2021</p>
         </div>
-      </div>
-    </div>
+      </div> -->
+
+
   </footer>
 
 </body>
