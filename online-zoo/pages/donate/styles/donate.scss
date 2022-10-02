@@ -76,32 +76,30 @@ $footerColor: rgba(17, 17, 21, 1);
 }
 
 .section-watch-donate {
-  background-image: url(../../../assets/images/panda_bg.png);
+  background-image: url(../../../assets/images/giantpanda_donate.png);
   height: 466px;
   width: 100%;
-  background-size: 1693px 413px;
-  background-position-x: -43px;
-  background-position-y: 62px;
+  background-position: center;
+  background-size: cover;
+  background-position-y: 33px;
 
   @media screen and (max-width: 1000px) {
-    background-position-x: -175px;
     height: 472px;
-    width: 100%;
-    background-size: 1607px 413px;
-    background-position-y: 62px;
+    background-position-y: 45px;
+    background-position-x: -175px;
   }
 
   @media screen and (max-width: 790px) {
-    background-size: 1354px 353px;
-    background-position-x: -264px;
-    background-position-y: 22px;
+    background-position-y: 13px;
+    background-position-x: -267px;
+    background-size: 1365px 382px;
     height: 369px;
   }
 
   @media screen and (max-width: 610px) {
-    background-size: 760px 190px;
-    background-position-x: -146px;
-    background-position-y: 33px;
+    background-size: 833px 220px;
+    background-position-x: -176px;
+    background-position-y: 19px;
     height: 221px;
   }
 
