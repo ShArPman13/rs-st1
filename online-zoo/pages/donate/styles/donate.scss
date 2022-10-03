@@ -18,7 +18,7 @@ $footerColor: rgba(17, 17, 21, 1);
   @media screen and (max-width: 790px) {
     position: fixed;
     height: 34px;
-    padding: 0 16px;
+    padding: 0 21px 0 16px;
   }
 
   @media screen and (max-width: 320px) {
@@ -39,39 +39,6 @@ $footerColor: rgba(17, 17, 21, 1);
     @media screen and (max-width: 640px) {
       width: 85%;
     }
-  }
-}
-
-.header__burger {
-  display: none;
-  position: relative;
-  background-color: #fff;
-  height: 2px;
-  width: 22px;
-  border-radius: 2px;
-
-  &::after {
-    content: '';
-    position: absolute;
-    background-color: #fff;
-    height: 2px;
-    width: 100%;
-    border-radius: 2px;
-    top: 5px;
-  }
-
-  &::before {
-    content: '';
-    position: absolute;
-    background-color: #fff;
-    height: 2px;
-    width: 100%;
-    border-radius: 2px;
-    top: -5px;
-  }
-
-  @media screen and (max-width: 790px) {
-    display: block;
   }
 }
 
