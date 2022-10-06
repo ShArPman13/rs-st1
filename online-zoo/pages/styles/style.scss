@@ -12,7 +12,6 @@ $smallDesktop: 1000px;
   align-items: center;
 }
 
-
 body {
   width: 100%;
   position: relative;
@@ -994,6 +993,7 @@ body.overflow-hidden {
       width: 62px;
       height: 62px;
       border-radius: 62px;
+      z-index: 1;
 
       &:hover {
         background-color: green;
@@ -1068,8 +1068,10 @@ body.overflow-hidden {
 
     .section-pets__visible-cards {
       display: flex;
+      justify-content: center;
       max-width: 1158px;
       overflow: hidden;
+      gap: 30px;
 
       @media screen and (max-width: 1350px) {
         max-width: 950px;
@@ -1083,31 +1085,189 @@ body.overflow-hidden {
         max-width: 300px;
       }
 
+      .section-pets__cards.left {
+        animation: left 0.7s ease-in-out;
+
+        @media screen and (max-width: 996px) {
+          animation: left996 0.7s ease-in-out;
+        }
+
+        @media screen and (max-width: 660px) {
+          animation: left660 0.7s ease-in-out;
+        }
+
+        @media screen and (max-width: 656px) {
+          animation: left656 0.7s ease-in-out;
+        }
+
+        @media screen and (max-width: 640px) {
+          animation: left640 0.7s ease-in-out;
+        }
+
+      }
+
+      .section-pets__cards.right {
+        animation: right 0.7s ease-in-out;
+
+        @media screen and (max-width: 996px) {
+          animation: right996 0.7s ease-in-out;
+        }
+
+        @media screen and (max-width: 660px) {
+          animation: right660 0.7s ease-in-out;
+        }
+
+        @media screen and (max-width: 656px) {
+          animation: right656 0.7s ease-in-out;
+        }
+
+        @media screen and (max-width: 640px) {
+          animation: right640 0.7s ease-in-out;
+        }
+      }
+
+      @keyframes right {
+        from {
+          left: 0;
+        }
+
+        to {
+          left: -102.5%;
+        }
+      }
+
+      @keyframes right996 {
+        from {
+          left: 0;
+        }
+
+        to {
+          left: -104%;
+        }
+      }
+
+      @keyframes right660 {
+        from {
+          left: 0;
+        }
+
+        to {
+          left: -101.5%;
+        }
+      }
+
+      @keyframes right656 {
+        from {
+          left: 0;
+        }
+
+        to {
+          left: -102.5%;
+        }
+      }
+
+      @keyframes right640 {
+        from {
+          left: 0;
+        }
+
+        to {
+          left: -104.5%;
+        }
+      }
+
+      @keyframes left {
+        from {
+          left: 0;
+        }
+
+        to {
+          left: 102.5%;
+        }
+      }
+
+      @keyframes left996 {
+        from {
+          left: 0;
+        }
+
+        to {
+          left: 104%;
+        }
+      }
+
+      @keyframes left660 {
+        from {
+          left: 0;
+        }
+
+        to {
+          left: 101.5%;
+        }
+      }
+
+      @keyframes left656 {
+        from {
+          left: 0;
+        }
+
+        to {
+          left: 102.5%;
+        }
+      }
+
+      @keyframes left640 {
+        from {
+          left: 0;
+        }
+
+        to {
+          left: 104.5%;
+        }
+      }
 
       .section-pets__cards {
+        flex-shrink: 0;
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        width: 1158px;
+        grid-template-columns: repeat(3, 1fr);
         grid-template-rows: 1fr 1fr;
         column-gap: 30px;
         row-gap: 20px;
         position: relative;
+        transition: 0;
+        left: 0;
 
         @media screen and (max-width: 1350px) {
           row-gap: 90px;
+          width: 940px;
+        }
+
+        @media screen and (max-width: 996px) {
+          grid-template-columns: repeat(2, 1fr);
+          row-gap: 90px;
+          width: 617px;
+        }
+
+        @media screen and (max-width: 660px) {
+          width: 600px;
         }
 
         @media screen and (max-width: 640px) {
+
           column-gap: 30px;
         }
 
         @media screen and (max-width: 639px) {
           column-gap: 20px;
+          width: 590px;
         }
 
         @media screen and (max-width: 630px) {
-          grid-template-columns: repeat(2, 1fr);
-          grid-template-rows: repeat(2, 1fr);
+          grid-template-columns: repeat(1, 1fr);
+          grid-template-rows: repeat(4, 1fr);
           row-gap: 20px;
+          width: 285px;
         }
 
         .section-pets__card {
@@ -1247,7 +1407,6 @@ body.overflow-hidden {
         }
       }
     }
-
   }
 
   .section-pets__button {
@@ -2195,7 +2354,7 @@ body.overflow-hidden {
         gap: 12px;
 
         &:hover {
-          transform: scale(1.03);
+          transform: scale(1.01);
           transition: 0.2s ease;
         }
       }
