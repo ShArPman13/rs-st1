@@ -21,6 +21,7 @@ module.exports = ({ develop }) => ({
   mode: develop ? 'development' : 'production',
   entry: {
     index_: './pages/main/index.js',
+    donate_: './pages/donate/donate.js'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -59,11 +60,13 @@ module.exports = ({ develop }) => ({
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: './pages/main/index.html'
+      template: './pages/main/index.html',
+      chunks: ['index_']
     }),
     new HtmlWebpackPlugin({
       filename: 'donate.html',
-      template: './pages/donate/donate.html'
+      template: './pages/donate/donate.html',
+      chunks: ['donate_']
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'

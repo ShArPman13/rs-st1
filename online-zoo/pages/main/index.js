@@ -1,8 +1,8 @@
 import '../styles/normalize.scss';
 import '../styles/style.scss';
 import '../donate/styles/donate.scss';
-
 import animals from '../main/animals';
+import testimonials from '../main/testimonials';
 
 
 const body = document.querySelector('body');
@@ -47,18 +47,12 @@ body.addEventListener('click', (e) => {//close by pressing Dark
   }
 })
 
-
-
-//for slider in pets
-const sliderVisibleContainer = document.querySelector('.section-pets__visible-cards');
+//...................................................................................................for slider in pets
 const sliderGridContainer = document.querySelectorAll('.section-pets__cards');
 const sliderButtonLeft = document.querySelector('.section-pets__button-go-left');
 const sliderButtonRight = document.querySelector('.section-pets__button-go-right');
 
-const sliderGridRight = document.querySelector('.slider-right');
-const sliderGridLeft = document.querySelector('.slider-left');
-
-function fillOneCard(animal) {
+function fillOneCard(animal) { //create one pet card
 
   const fotoContainer = document.createElement('div');
   fotoContainer.classList.add('pet-foto__container');
@@ -107,29 +101,17 @@ function fillOneCard(animal) {
   return sliderOneCardContainer;
 }
 
-const allCards = animals.map(el => fillOneCard(el))
+const allCards = animals.map(el => fillOneCard(el)) //create array of all 18 pet cards
 
 function getScreenSize() {
   switch (true) {
-    case window.screen.width >= 997: return 6
     case window.screen.width < 997: return 4
     case window.screen.width <= 630: return 1
     default: return 6
   }
 }
 
-// function getCardsNumber() {
-//   const screenSize = getScreenSize();
-//   let n;
-//   switch (screenSize) {
-//       case 1280: n = 6; break;
-//       case 768: n = 4; break;
-//       default: n = 6;
-//   }
-//   return n;
-// }
-
-function getRandomNumArray(cardsAmount) {
+function getRandomNumArray(cardsAmount) { //generate array of random nubers for cards
   let randomArr = [];
   while (randomArr.length < cardsAmount) {
     const randomNum = Math.floor(Math.random() * 18);
@@ -142,13 +124,13 @@ function getRandomNumArray(cardsAmount) {
 }
 
 let currentCards = [];
-currentCards = getRandomNumArray(getScreenSize());
+currentCards = getRandomNumArray(getScreenSize()); //get array of numbers for current cards
 
-currentCards.forEach(el => {
+currentCards.forEach(el => { // fill central GRID by pet cards
   sliderGridContainer[1].append(allCards[el]);
 })
 
-sliderButtonRight.addEventListener('click', () => {
+sliderButtonRight.addEventListener('click', () => {// click right
   body.style.pointerEvents = 'none';
   sliderGridContainer[2].innerHTML = '';
   currentCards = getRandomNumArray(getScreenSize());
@@ -170,7 +152,7 @@ sliderButtonRight.addEventListener('click', () => {
   })
 })
 
-sliderButtonLeft.addEventListener('click', () => {
+sliderButtonLeft.addEventListener('click', () => {//click left
   body.style.pointerEvents = 'none';
   sliderGridContainer[0].innerHTML = '';
   currentCards = getRandomNumArray(getScreenSize());
@@ -191,7 +173,128 @@ sliderButtonLeft.addEventListener('click', () => {
     body.style.pointerEvents = 'auto';
   })
 })
+//...................................................................................................for slider Testimonials
+const containerForOffset = document.querySelector('.container-for-offset')
 
+function fillOneTestimnial(oneTestimonial) {
 
+  const peopleTalkCardOuter = document.createElement('div');
+  peopleTalkCardOuter.classList.add('people-talk__card-outer');
+  const peopleTalkCardInner = document.createElement('div');
+  peopleTalkCardInner.classList.add('people-talk__card-inner');
+  peopleTalkCardOuter.append(peopleTalkCardInner);
 
+  const peopleTalkHeadContainer = document.createElement('div');
+  peopleTalkHeadContainer.classList.add('people-talk__head-container');
 
+  const avatar = document.createElement('img');
+  avatar.classList.add('people-talk__man');
+  avatar.src = oneTestimonial.srcAvatar;
+  avatar.alt = oneTestimonial.alt;
+
+  const headText = document.createElement('div');
+  headText.classList.add('people-talk__head-text');
+
+  const headTextName = document.createElement('p');
+  headTextName.classList.add('people-talk__name');
+  headTextName.innerText = oneTestimonial.name;
+
+  const headTextWhen = document.createElement('p');
+  headTextWhen.classList.add('people-talk__when');
+  headTextWhen.innerText = oneTestimonial.when;
+
+  headText.append(headTextName);
+  headText.append(headTextWhen);
+
+  peopleTalkHeadContainer.append(avatar);
+  peopleTalkHeadContainer.append(headText);
+
+  const peopleTalkText = document.createElement('div');
+  peopleTalkText.classList.add('people-talk__text')
+  peopleTalkText.innerHTML = oneTestimonial.text;
+
+  peopleTalkCardInner.append(peopleTalkHeadContainer);
+  peopleTalkCardInner.append(peopleTalkText);
+
+  return peopleTalkCardOuter;
+}
+
+const allTestimonials = testimonials.map(el => fillOneTestimnial(el));
+
+allTestimonials.forEach(el => {
+  containerForOffset.append(el);
+})
+
+const inputTypeRange = document.querySelector('.testimonials__scroll-in');
+
+function getOffset(position) {
+  if (window.screen.width > 1225) {
+    switch (true) {
+      case position === 1: return '-298px'
+      case position === 2: return '-596px'
+      case position === 3: return '-894px'
+      case position === 4: return '-1192px'
+      case position === 5: return '-1490px'
+      case position === 6: return '-1788px'
+      case position === 7: return '-2086px'
+      default: return '0px'
+    }
+  } else {
+    switch (true) {
+      case position === 1: return '-323px'
+      case position === 2: return '-646px'
+      case position === 3: return '-969px'
+      case position === 4: return '-1292px'
+      case position === 5: return '-1615px'
+      case position === 6: return '-1938px'
+      case position === 7: return '-2261px'
+      default: return '0px'
+    }
+  }
+}
+
+function changeRange() {
+  let position = + inputTypeRange.value;
+  containerForOffset.style.left = getOffset(position);
+}
+
+inputTypeRange.addEventListener("input", changeRange);
+//...................................................................................................for PopUp
+const testimonial = document.querySelectorAll('.people-talk__card-outer');
+const popUp = document.querySelector('.popup__testimonials');
+const popUpWrapper = document.querySelector('.wrapper-popup-cross');
+const closePop = document.querySelector('.cross-container');
+
+testimonial.forEach((el, index) => {
+  el.addEventListener('click', () => {
+    if (window.screen.width <= 970) {
+      popUp.classList.add('active');
+      popUpWrapper.append(fillOneTestimnial(testimonials[index]))
+      closePop.classList.add('active');
+      setTimeout(() => {
+        popUp.classList.add('opacity');
+      }, 100);
+      body.classList.add('overflow-hidden');
+      // body.style.filter = 'blur(2px)';
+    }
+  })
+})
+function closePopUp() {
+  popUp.classList.remove('opacity');
+  setTimeout(() => {
+    popUp.classList.remove('active');
+  }, 300)
+  closePop.classList.remove('active');
+  popUpWrapper.lastChild.remove();
+  body.classList.remove('overflow-hidden');
+}
+popUp.addEventListener('click', (e) => {
+  if (e.target.classList.contains('people-talk__text') || e.target.classList.contains('people-talk__head-container') ||
+    e.target.classList.contains('people-talk__card-inner') || e.target.classList.contains('people-talk__card-outer') ||
+    e.target.classList.contains('people-talk__when') || e.target.classList.contains('people-talk__name') ||
+    e.target.classList.contains('people-talk__man')) {
+    return;
+  }
+  closePopUp();
+});
+//...................................................................................................for PopUp

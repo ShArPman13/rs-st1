@@ -684,19 +684,8 @@ $footerColor: rgba(17, 17, 21, 1);
           }
         }
 
-        // .amount-2000 {
-        //   @media screen and (max-width: 1000px) {
-        //     margin-left: 5px;
-        //   }
-        // }
-
-        .amount-1000 {
+        .amount__price.active {
           color: rgba(254, 144, 19, 1);
-          font-family: Roboto;
-          font-size: 26px;
-          font-weight: 500;
-          line-height: 36px;
-          letter-spacing: 0em;
 
           &::before {
             content: '$';
@@ -704,9 +693,23 @@ $footerColor: rgba(17, 17, 21, 1);
           }
         }
 
-        .amount-1000 {
-          color: rgba(254, 144, 19, 1);
-        }
+        // .amount-1000 {
+        //   color: rgba(254, 144, 19, 1);
+        //   font-family: Roboto;
+        //   font-size: 26px;
+        //   font-weight: 500;
+        //   line-height: 36px;
+        //   letter-spacing: 0em;
+
+        //   &::before {
+        //     content: '$';
+        //     color: rgba(254, 144, 19, 1)
+        //   }
+        // }
+
+        // .amount-1000 {
+        //   color: rgba(254, 144, 19, 1);
+        // }
 
         .amount__eight-price {
           margin-left: -16px;

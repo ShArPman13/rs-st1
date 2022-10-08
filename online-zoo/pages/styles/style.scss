@@ -1831,6 +1831,136 @@ body.overflow-hidden {
   }
 }
 
+//-------------------------------------------------------for popup
+.popup__testimonials {
+  position: absolute;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(31, 31, 31, 0.8);
+  justify-content: center;
+  align-items: center;
+  display: none;
+  opacity: 0;
+  transition: 0.5s ease-in-out;
+
+  .wrapper-popup-cross {
+    position: relative;
+    display: none;
+    width: 268px;
+    height: 391px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .cross-container {
+    height: 15px;
+    width: 15px;
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    .cross {
+      position: absolute;
+      transform: rotate(45deg);
+      top: -2px;
+      left: 270px;
+      width: 14px;
+      height: 2px;
+      background: linear-gradient(315.75deg, rgba(254, 189, 171, 0.74) 30.06%, rgba(243, 169, 248, 0.66) 50.74%, #E0D8F0 80.49%, #EAF7FE 127.9%, #EAF7FE 149.54%),
+        linear-gradient(315.75deg, rgba(254, 210, 144, 0.7) 30.06%, #FEBDAB 100.95%, rgba(254, 210, 144, 0.7) 106.36%);
+
+      &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform: rotate(90deg);
+        background: linear-gradient(315.75deg, rgba(254, 189, 171, 0.74) 30.06%, rgba(243, 169, 248, 0.66) 50.74%, #E0D8F0 80.49%, #EAF7FE 127.9%, #EAF7FE 149.54%),
+          linear-gradient(315.75deg, rgba(254, 210, 144, 0.7) 30.06%, #FEBDAB 100.95%, rgba(254, 210, 144, 0.7) 106.36%);
+      }
+    }
+
+    .cross-container.active {
+      display: flex;
+    }
+  }
+
+  .people-talk__card-outer {
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 268px;
+    height: 391px;
+    border-radius: 20px;
+    background: linear-gradient(315.75deg, rgba(254, 189, 171, 0.74) 30.06%, rgba(243, 169, 248, 0.66) 50.74%, #E0D8F0 80.49%, #EAF7FE 127.9%, #EAF7FE 149.54%),
+      linear-gradient(315.75deg, rgba(254, 189, 171, 0.74) 30.06%, rgba(243, 169, 248, 0.66) 50.74%, #E0D8F0 80.49%, #EAF7FE 127.9%, #EAF7FE 149.54%);
+  }
+
+  .people-talk__card-inner {
+    display: flex;
+    gap: 11px;
+    flex-direction: column;
+    width: 264px;
+    height: 387px;
+    border-radius: 18px;
+    background-color: rgba(241, 243, 242, 1);
+    padding: 13px 16px 19px 16px;
+  }
+
+  .people-talk__head-container {
+    display: flex;
+    gap: 10px;
+
+    .people-talk__name {
+      color: rgba(0, 0, 0, 1);
+      font-family: Roboto;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 19px;
+      letter-spacing: 0em;
+      text-align: left;
+    }
+
+    .people-talk__when {
+      color: #BDBDBD;
+      font-family: Roboto;
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 18px;
+      letter-spacing: 0em;
+      text-align: left;
+    }
+  }
+
+  .people-talk__text {
+    color: rgba(118, 116, 116, 1);
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    height: 309px;
+    width: 237px;
+    overflow: auto;
+  }
+}
+
+.popup__testimonials.active {
+  display: flex;
+}
+
+.popup__testimonials.active.opacity {
+  opacity: 1;
+  transition: 0.5s ease-in-out;
+
+}
+
+//-------------------------------------------------------for popup
 .section-testimonials__container {
   display: flex;
   flex-direction: column;
@@ -1915,21 +2045,69 @@ body.overflow-hidden {
     }
   }
 
+  .container-for-offset {
+    display: flex;
+    gap: 30px;
+    position: relative;
+    left: 0;
+    transition: 1s ease-in-out;
+
+    @media screen and (max-width: 970px) {
+      flex-direction: column;
+      gap: 15px;
+    }
+  }
+
   .testimonials__people-talk-container {
     display: flex;
-    // width: 100%;
+    max-width: 1163px;
+    overflow: hidden;
     gap: 30px;
     justify-content: space-between;
 
     @media screen and (max-width: 1225px) {
+      max-width: 940px;
+
       & div:nth-child(3) {
         width: 600px;
         display: none;
       }
     }
 
-    @media screen and (max-width: 998px) {
+    @media screen and (max-width: 970px) {
       gap: 15px;
+
+      & div:nth-child(4) {
+        display: none;
+      }
+
+      & div:nth-child(6) {
+        display: none;
+      }
+
+      & div:nth-child(6) {
+        display: none;
+      }
+
+      & div:nth-child(7) {
+        display: none;
+      }
+
+      & div:nth-child(8) {
+        display: none;
+      }
+
+      & div:nth-child(9) {
+        display: none;
+      }
+
+      & div:nth-child(10) {
+        display: none;
+      }
+
+      & div:nth-child(11) {
+        display: none;
+      }
     }
 
     @media screen and (max-width: 970px) {
@@ -1939,6 +2117,7 @@ body.overflow-hidden {
 
     .people-talk__card-outer {
       display: flex;
+      flex-shrink: 0;
       flex-direction: column;
       justify-content: center;
       align-items: center;
