@@ -200,6 +200,8 @@ containerCardsArrow.addEventListener("touchend", () => {
   if (Math.abs(diffX) > Math.abs(diffY)) {
     dir = diffX < 0 ? moveLeft() : moveRight();
     body.style.overflowY = null;
+  } else {
+    body.style.overflowY = null;
   }
 });
 //...................................................................................................for slider Testimonials
