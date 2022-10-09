@@ -130,7 +130,8 @@ currentCards.forEach(el => { // fill central GRID by pet cards
   sliderGridContainer[1].append(allCards[el]);
 })
 
-sliderButtonRight.addEventListener('click', () => {// click right
+
+function moveRight() {// click right
   body.style.pointerEvents = 'none';
   sliderGridContainer[2].innerHTML = '';
   currentCards = getRandomNumArray(getScreenSize());
@@ -150,9 +151,10 @@ sliderButtonRight.addEventListener('click', () => {// click right
     sliderGridContainer[1].classList.remove('right')
     body.style.pointerEvents = 'auto';
   })
-})
+}
+sliderButtonRight.addEventListener('click', moveRight)
 
-sliderButtonLeft.addEventListener('click', () => {//click left
+function moveLeft() {//click left
   body.style.pointerEvents = 'none';
   sliderGridContainer[0].innerHTML = '';
   currentCards = getRandomNumArray(getScreenSize());
@@ -172,7 +174,31 @@ sliderButtonLeft.addEventListener('click', () => {//click left
     sliderGridContainer[1].classList.remove('left')
     body.style.pointerEvents = 'auto';
   })
+}
+sliderButtonLeft.addEventListener('click', moveLeft)
+
+//---------------------touch-slide------------------------
+const containerCardsArrow = document.querySelector('.section-pets__cards-arrows');
+
+let startTouch = 0;
+let endTouch = 0;
+
+containerCardsArrow.addEventListener("touchstart", (e) => {
+  startTouch = e;
 })
+
+containerCardsArrow.addEventListener("touchmove", (e) => {
+  e.preventDefault();
+  body.style.overflowY = 'hidden';
+  endTouch = e;
+});
+
+containerCardsArrow.addEventListener("touchend", () => {
+  let diffX = endTouch.touches[0].pageX - startTouch.touches[0].pageX;
+  let dir;
+  dir = diffX < 0 ? moveLeft() : moveRight();
+  body.style.overflowY = null;
+});
 //...................................................................................................for slider Testimonials
 const containerForOffset = document.querySelector('.container-for-offset')
 
