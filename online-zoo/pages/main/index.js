@@ -195,9 +195,12 @@ containerCardsArrow.addEventListener("touchmove", (e) => {
 
 containerCardsArrow.addEventListener("touchend", () => {
   let diffX = endTouch.touches[0].pageX - startTouch.touches[0].pageX;
+  let diffY = endTouch.touches[0].pageY - startTouch.touches[0].pageY;
   let dir;
-  dir = diffX < 0 ? moveLeft() : moveRight();
-  body.style.overflowY = null;
+  if (Math.abs(diffX) > Math.abs(diffY)) {
+    dir = diffX < 0 ? moveLeft() : moveRight();
+    body.style.overflowY = null;
+  }
 });
 //...................................................................................................for slider Testimonials
 const containerForOffset = document.querySelector('.container-for-offset')
