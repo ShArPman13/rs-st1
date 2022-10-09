@@ -183,27 +183,37 @@ const containerCardsArrow = document.querySelector('.section-pets__cards-arrows'
 let startTouch = 0;
 let endTouch = 0;
 
+
 containerCardsArrow.addEventListener("touchstart", (e) => {
-  startTouch = e;
+  if (window.screen.width < 631) {
+    startTouch = e;
+  }
 })
 
 containerCardsArrow.addEventListener("touchmove", (e) => {
-  e.preventDefault();
-  body.style.overflowY = 'hidden';
-  endTouch = e;
+  if (window.screen.width < 631) {
+    e.preventDefault();
+    body.style.overflowY = 'hidden';
+    containerCardsArrow.style.pointerEvents = 'none';
+    endTouch = e;
+  }
 });
 
 containerCardsArrow.addEventListener("touchend", () => {
-  let diffX = endTouch.touches[0].pageX - startTouch.touches[0].pageX;
-  let diffY = endTouch.touches[0].pageY - startTouch.touches[0].pageY;
-  let dir;
-  if (Math.abs(diffX) > Math.abs(diffY)) {
-    dir = diffX < 0 ? moveLeft() : moveRight();
-    body.style.overflowY = null;
-  } else {
-    body.style.overflowY = null;
+  if (window.screen.width < 631) {
+    containerCardsArrow.style.pointerEvents = 'auto';
+    let diffX = endTouch.touches[0].pageX - startTouch.touches[0].pageX;
+    let diffY = endTouch.touches[0].pageY - startTouch.touches[0].pageY;
+    let dir;
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+      dir = diffX < 0 ? moveLeft() : moveRight();
+      body.style.overflowY = null;
+    } else {
+      body.style.overflowY = null;
+    }
   }
 });
+
 //...................................................................................................for slider Testimonials
 const containerForOffset = document.querySelector('.container-for-offset')
 
