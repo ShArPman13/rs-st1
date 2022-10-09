@@ -993,6 +993,7 @@ body.overflow-hidden {
       width: 62px;
       height: 62px;
       border-radius: 62px;
+      order: -1;
 
       &:hover {
         background-color: green;

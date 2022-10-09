@@ -51,8 +51,6 @@ const amountRound = document.querySelectorAll('.amount__round');
 const amountPrice = document.querySelectorAll('.amount__price');
 const amountInput = document.querySelector('.amount__input');
 
-amountPrice[0].innerHTML += 'hi';
-
 amountInput.value = 100; //default value
 
 amountRound.forEach((el, index) => {//function of tracking pressing rounds
