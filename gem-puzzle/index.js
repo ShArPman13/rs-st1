@@ -1,61 +1,8 @@
+import mix from './clevershuffle';
+import showHeader from './draw_header';
 import './styles/normalize.scss';
 import './styles/styles.scss';
 
-function showHeader() {
-  const header = document.createElement('header');
-  header.classList.add('header');
-
-  const headerButtonsRaw = document.createElement('div');
-  headerButtonsRaw.classList.add('header__buttons-raw', 'buttons-raw');
-
-  const buttonNewGame = document.createElement('button');
-  buttonNewGame.classList.add('buttons-raw__button-new-game', 'button');
-  buttonNewGame.innerText = 'New game';
-  const buttonStopGame = document.createElement('button');
-  buttonStopGame.classList.add('buttons-raw__button-stop-game', 'button');
-  buttonStopGame.innerText = 'Stop';
-  const buttonSaveGame = document.createElement('button');
-  buttonSaveGame.classList.add('buttons-raw__button-save-game', 'button');
-  buttonSaveGame.innerText = 'Save game';
-  const buttonLoadGame = document.createElement('button');
-  buttonLoadGame.classList.add('buttons-raw__button-load-game', 'button');
-  buttonLoadGame.innerText = 'Load game';
-  const buttonShowResult = document.createElement('button');
-  buttonShowResult.classList.add('buttons-raw__button-results', 'button');
-  buttonShowResult.innerText = 'Show results';
-
-  headerButtonsRaw.append(buttonNewGame);
-  headerButtonsRaw.append(buttonStopGame);
-  headerButtonsRaw.append(buttonSaveGame);
-  headerButtonsRaw.append(buttonLoadGame);
-  headerButtonsRaw.append(buttonShowResult);
-
-  const headerTimesRaw = document.createElement('div');
-  headerTimesRaw.classList.add('header__times-raw', 'times-raw');
-
-  const spanBlockMoves = document.createElement('span');
-  spanBlockMoves.classList.add('times-raw__span-title');
-  spanBlockMoves.innerText = 'Moves: ';
-  const blockMoves = document.createElement('div');
-  blockMoves.classList.add('times-raw__moves');
-  blockMoves.innerText = '0';
-  const spanBlockTime = document.createElement('span');
-  spanBlockTime.classList.add('times-raw__span-title');
-  spanBlockTime.innerText = 'Time: ';
-  const blockTime = document.createElement('div');
-  blockTime.classList.add('times-raw__time');
-  blockTime.innerText = '00:00';
-
-  headerTimesRaw.append(spanBlockMoves);
-  headerTimesRaw.append(blockMoves);
-  headerTimesRaw.append(spanBlockTime);
-  headerTimesRaw.append(blockTime);
-
-  header.append(headerButtonsRaw);
-  header.append(headerTimesRaw);
-
-  return header;
-}
 document.body.append(showHeader());
 
 const main = document.createElement('main');
@@ -71,11 +18,9 @@ main.append(canvasField);
 
 const ctx = canvasField.getContext('2d');
 
-let arr15 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+const arrTrue15 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
 
-for (let i = 0; i < 10; i += 1) {
-  arr15.sort(() => Math.random() - 0.5);
-}
+let arr15 = mix();
 
 function drawSquare(x, y, number) {
   if (number === 0) {
@@ -112,6 +57,7 @@ function drawAllSquares(position, number) {
     case 13: drawSquare(123.5, 370.5, number); break;
     case 14: drawSquare(247, 370.5, number); break;
     case 15: drawSquare(370.5, 370.5, number); break;
+    case 16: break;
     default: drawSquare(0, 0, number);
   }
 }
@@ -132,6 +78,112 @@ function whichSquare(offsetX) {
     square = 4;
   }
   return square;
+}
+
+function moveSquare(x, y, direction, number) {
+  const startX = x;
+  const startY = y;
+  let positionX = x; // начальная позиция X координаты
+  let positionY = y; // начальная позиция Y координаты
+
+  function animation() {
+    ctx.beginPath();
+    ctx.clearRect(0, 0, 500, 500); // очистка холста
+    for (let i = 0; i <= 15; i += 1) {
+      if (arr15[i] === number) {
+        i += 1;
+      }
+      drawAllSquares(i, arr15[i]);
+    }
+    ctx.fillStyle = 'rgba(100, 100, 100, 0.5)';
+    ctx.fillRect(positionX + 6, positionY + 6, 117.5, 117.5); // x, y, width, height
+
+    if (number < 10 && number !== 0) {
+      ctx.font = '60px Arial';
+      ctx.fillStyle = 'white';
+      ctx.fillText(number, positionX + 48, positionY + 85);
+    } else if (number >= 10) {
+      ctx.font = '60px Arial';
+      ctx.fillStyle = 'white';
+      ctx.fillText(number, positionX + 27, positionY + 85);
+    }
+
+    if (direction === 'up') {
+      positionY -= 3.5;
+    }
+    if (direction === 'down') {
+      positionY += 3.5;
+    }
+    if (direction === 'right') {
+      positionX += 3.5;
+    }
+    if (direction === 'left') {
+      positionX -= 3.5;
+    }
+    const requestAnimation = requestAnimationFrame(animation);
+
+    if (positionX > startX + 123.5 || positionX < startX - 123.5) {
+      cancelAnimationFrame(requestAnimation);
+    }
+    if (positionY > startY + 123.5 || positionY < startY - 123.5) {
+      cancelAnimationFrame(requestAnimation);
+    }
+  }
+
+  requestAnimationFrame(animation);
+}
+
+function eraseSquare(square, direction, number) {
+  console.log(square, direction);
+  switch (square) {
+    case 1:
+      ctx.clearRect(123.5, 0, 124, 124);
+      moveSquare(123.5, 0, direction, number); break;
+    case 2:
+      ctx.clearRect(247, 0, 124, 124);
+      moveSquare(247, 0, direction, number); break;
+    case 3:
+      ctx.clearRect(370.5, 0, 124, 124);
+      moveSquare(370.5, 0, direction, number); break;
+    case 4:
+      ctx.clearRect(0, 123.5, 124, 124);
+      moveSquare(0, 123.5, direction, number); break;
+    case 5:
+      ctx.clearRect(123.5, 123.5, 124, 124);
+      moveSquare(123.5, 123.5, direction, number); break;
+    case 6:
+      ctx.clearRect(247, 123.5, 124, 124);
+      moveSquare(247, 123.5, direction, number); break;
+    case 7:
+      ctx.clearRect(370.5, 123.5, 124, 124);
+      moveSquare(370.5, 123.5, direction, number); break;
+    case 8:
+      ctx.clearRect(0, 247, 124, 124);
+      moveSquare(0, 247, direction, number); break;
+    case 9:
+      ctx.clearRect(123.5, 247, 124, 124);
+      moveSquare(123.5, 247, direction, number); break;
+    case 10:
+      ctx.clearRect(247, 247, 124, 124);
+      moveSquare(247, 247, direction, number); break;
+    case 11:
+      ctx.clearRect(370.5, 247, 124, 124);
+      moveSquare(370.5, 247, direction, number); break;
+    case 12:
+      ctx.clearRect(0, 370.5, 124, 124);
+      moveSquare(0, 370.5, direction, number); break;
+    case 13:
+      ctx.clearRect(123.5, 370.5, 124, 124);
+      moveSquare(123.5, 370.5, direction, number); break;
+    case 14:
+      ctx.clearRect(247, 370.5, 124, 124);
+      moveSquare(247, 370.5, direction, number); break;
+    case 15: ctx.clearRect(370.5, 370.5, 124, 124);
+      moveSquare(370.5, 370.5, direction, number); break;
+    default:
+      ctx.clearRect(0, 0, 124, 124);
+      moveSquare(0, 0, direction, number);
+  }
 }
 
 const countMoves = document.querySelector('.times-raw__moves');
@@ -174,42 +226,62 @@ canvasField.addEventListener('click', (e) => {
       default: clickPos = 15;
     }
   }
+
+  const numberOnSquare = arr15[clickPos];
+
   if (arr15[clickPos - 4] === 0) {
     arr15[clickPos - 4] = arr15[clickPos];
     arr15[clickPos] = 0;
-    ctx.clearRect(0, 0, canvasField.width, canvasField.height);
-    for (let i = 0; i <= 15; i += 1) {
-      drawAllSquares(i, arr15[i]);
-    }
+    eraseSquare(clickPos, 'up', numberOnSquare);
+    setTimeout(() => {
+      ctx.clearRect(0, 0, canvasField.width, canvasField.height);
+      for (let i = 0; i <= 15; i += 1) {
+        drawAllSquares(i, arr15[i]);
+      }
+    }, 200);
     moves += 1;
     countMoves.innerText = moves;
   } else if (arr15[clickPos + 4] === 0) {
     arr15[clickPos + 4] = arr15[clickPos];
     arr15[clickPos] = 0;
-    ctx.clearRect(0, 0, canvasField.width, canvasField.height);
-    for (let i = 0; i <= 15; i += 1) {
-      drawAllSquares(i, arr15[i]);
-    }
+    eraseSquare(clickPos, 'down', numberOnSquare);
+    setTimeout(() => {
+      ctx.clearRect(0, 0, canvasField.width, canvasField.height);
+      for (let i = 0; i <= 15; i += 1) {
+        drawAllSquares(i, arr15[i], numberOnSquare);
+      }
+    }, 200);
     moves += 1;
     countMoves.innerText = moves;
   } else if (arr15[clickPos - 1] === 0 && whichSquare(e.offsetX) !== 1) {
     arr15[clickPos - 1] = arr15[clickPos];
     arr15[clickPos] = 0;
-    ctx.clearRect(0, 0, canvasField.width, canvasField.height);
-    for (let i = 0; i <= 15; i += 1) {
-      drawAllSquares(i, arr15[i]);
-    }
+    eraseSquare(clickPos, 'left', numberOnSquare);
+    setTimeout(() => {
+      ctx.clearRect(0, 0, canvasField.width, canvasField.height);
+      for (let i = 0; i <= 15; i += 1) {
+        drawAllSquares(i, arr15[i]);
+      }
+    }, 200);
     moves += 1;
     countMoves.innerText = moves;
   } else if (arr15[clickPos + 1] === 0 && whichSquare(e.offsetX) !== 4) {
     arr15[clickPos + 1] = arr15[clickPos];
     arr15[clickPos] = 0;
-    ctx.clearRect(0, 0, canvasField.width, canvasField.height);
-    for (let i = 0; i <= 15; i += 1) {
-      drawAllSquares(i, arr15[i]);
-    }
+    eraseSquare(clickPos, 'right', numberOnSquare);
+    setTimeout(() => {
+      ctx.clearRect(0, 0, canvasField.width, canvasField.height);
+      for (let i = 0; i <= 15; i += 1) {
+        drawAllSquares(i, arr15[i]);
+      }
+    }, 200);
     moves += 1;
     countMoves.innerText = moves;
+  }
+  if (JSON.stringify(arr15) === JSON.stringify(arrTrue15)) {
+    setTimeout(() => {
+      console.log('win');
+    }, 300);
   }
 });
 
@@ -241,9 +313,7 @@ showTime();
 const newGameButton = document.querySelector('.buttons-raw__button-new-game');
 newGameButton.addEventListener('click', () => {
   const blockTime = document.querySelector('.times-raw__time');
-  for (let i = 0; i < 10; i += 1) {
-    arr15.sort(() => Math.random() - 0.5);
-  }
+  arr15 = mix();
   ctx.clearRect(0, 0, canvasField.width, canvasField.height);
   for (let i = 0; i <= 15; i += 1) {
     drawAllSquares(i, arr15[i]);
@@ -253,7 +323,7 @@ newGameButton.addEventListener('click', () => {
   countMoves.innerText = moves;
 
   clearTimeout(timeout);
-  blockTime.textContent = '00:00';
+  blockTime.textContent = '00:0';
   showTime();
 });
 
