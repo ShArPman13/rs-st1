@@ -1,4 +1,4 @@
-function mix() {
+function mix(difficulty) {
   function fillMatrix(a) {
     const matrix = [];
     let raw = [];
@@ -25,7 +25,7 @@ function mix() {
   }
 
   const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
-  for (let i = 0; i < 100; i += 1) {
+  for (let i = 0; i < difficulty; i += 1) {
     const rundomNum = Math.random();
     const index0 = arr.indexOf(0);
     if (rundomNum < 0.25) {
