@@ -753,7 +753,7 @@ newGameButton.addEventListener('click', () => { // -----------------------------
 });
 easyGameButton.addEventListener('click', () => { // -----------------------------------------------------click new EASY
   if (!audio.classList.contains('mute')) { createMusic('./Sound_017.wav'); } // -------------------Sounds
-  arr15 = mix(10);
+  arr15 = mix(20);
   arr15.forEach((el, i) => drawAllSquares(i, el));
   moves = 0;
   countMoves.innerText = moves;
@@ -779,7 +779,7 @@ resultsButton.addEventListener('click', () => { // -----------------------------
       popUpResult.innerHTML = 'No winners yet!';
     } else {
       rateTable.sort((a, b) => a[0] - b[0]);
-      const rateTableSliced = rateTable.slice(0, 5);
+      const rateTableSliced = rateTable.slice(0, 10);
       rateTableSliced.forEach((el, i) => {
         const res = document.createElement('div');
         res.classList.add('winner-name');
