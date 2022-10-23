@@ -1,7 +1,7 @@
 body {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  // justify-content: center;
   align-items: center;
   background-image: url(../assets/back.jpg);
   background-position: center;
@@ -19,6 +19,7 @@ body {
 .header {
   display: flex;
   gap: 10px;
+  margin-top: 30px;
   flex-direction: column;
   width: fit-content;
   height: fit-content;
@@ -29,7 +30,6 @@ body {
     width: 100%;
     height: fit-content;
     align-items: center;
-    // background-color: rgba(255, 255, 255, 0.7);
     cursor: pointer;
 
     @media (max-width: 600px) {
@@ -55,7 +55,10 @@ body {
     margin: 0 auto;
 
     .times-raw__span-title {
-      color:black;
+      display: flex;
+      gap: 10px;
+      // color:black;
+      color: rgb(0, 75, 79);
       font-weight: Roboto;
       font-weight: 700;
     }
@@ -65,8 +68,9 @@ body {
       color: black;
       width: 40px;
     }
-    .times-raw__time {
-      width: 75px;
+    .times-raw__time,
+    .times-raw__moves {
+      color: rgb(0, 75, 79);
     }
   }
 }
@@ -113,13 +117,16 @@ body {
   }
 }
 
-.pop-up {
+.pop-up,
+.pop-up-result {
   position: fixed;
   z-index: 100;
   width: 100%;
   height: 100%;
-  background-color: rgba(31, 31, 31, 0.8);
+  background-color: rgba(31, 31, 31, 0.9);
   display: flex;
+  flex-direction: column;
+  gap: 5px;
   justify-content: center;
   align-items: center;
   font-family: Roboto;
@@ -127,6 +134,19 @@ body {
   font-size: 32px;
   text-align: center;
   transition: 0.5s ease-in-out;
+  .pop-up-result__caption {
+    font-weight: 300;
+    font-size: 30px;
+    color: yellow;
+    margin-bottom: 20px;
+  }
+  .winner-name {
+    font-weight: 300;
+    font-size: 20px;
+    margin-bottom: 20px;
+    border: 1px dotted white;
+    padding: 5px;
+  }
 }
 .hidden {
   width: 0;
@@ -134,7 +154,7 @@ body {
 }
 
 .footer {
-  width: 200px;
+  width: 300px;
   padding: 10px;
   border-radius: 5px;
   background-color: rgb(87, 153, 155);
@@ -142,7 +162,8 @@ body {
   margin-top: 50px;
   display: flex;
   gap: 15px;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
 
 
   .volume {
@@ -165,5 +186,28 @@ body {
   }
   .mute {
     background-image: url(../assets/mute.svg);
+  }
+
+  .size3 {
+    opacity: 0.5;
+  }
+  .size3.pressed {
+    opacity: 1;
+  }
+
+  .git,
+  .rss {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    opacity: 0.5;
+    transition: 0.25s ease;
+    &:hover {
+      opacity: 1;
+      transition: 0.25s ease;
+    }
+  }
+  .rss {
+    width: 65px
   }
 }

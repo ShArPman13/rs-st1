@@ -2,10 +2,13 @@ import mix from './clevershuffle';
 import showHeader from './draw_header';
 import showFooter from './draw_footer';
 import showWinPopUp from './win_popup';
+import showResultPopUp from './result-popup';
 import createMusic from './audio';
 import './styles/normalize.scss';
 import './styles/styles.scss';
 import { drawAllSquares, drawSquare } from './draw_squares';
+import { draw3AllSquares } from './draw_3x3_square';
+import mix3 from './mix3';
 
 document.body.append(showHeader());
 
@@ -15,7 +18,9 @@ document.body.append(main);
 
 document.body.append(showFooter());
 document.body.append(showWinPopUp());
+document.body.append(showResultPopUp());
 const popUp = document.querySelector('.pop-up');
+const popUpResult = document.querySelector('.pop-up-result');
 
 const audio = document.querySelector('.volume');
 audio.addEventListener('click', () => {
@@ -40,46 +45,14 @@ main.append(canvasField);
 const ctx = canvasField.getContext('2d');
 
 const arrTrue15 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
+const arrTrue3 = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+
+let rateTable = [];
+if (!localStorage.getItem('winners')) {
+  localStorage.setItem('winners', JSON.stringify(rateTable));
+}
 
 let arr15 = mix(1000);
-
-// function drawSquare(x, y, number) {
-//   if (number === 0) {
-//     ctx.fillStyle = 'rgba(100, 100, 100, 0)';
-//   } else {
-//     ctx.fillStyle = 'rgba(100, 100, 100, 0.7)';
-//   }
-//   ctx.fillRect(6 + x, 6 + y, (canvasField.width - 30) / 4, (canvasField.height - 30) / 4);
-//   if (number < 10 && number !== 0) {
-//     if (canvasField.width === 300) {
-//       ctx.font = '45px Arial';
-//       ctx.fillStyle = 'white';
-//       ctx.fillText(number, x + 26, y + 55);
-//     } else if (canvasField.width === 500) {
-//       ctx.font = '55px Arial';
-//       ctx.fillStyle = 'white';
-//       ctx.fillText(number, x + 48, y + 85);
-//     } else {
-//       ctx.font = '60px Arial';
-//       ctx.fillStyle = 'white';
-//       ctx.fillText(number, x + 58, y + 95);
-//     }
-//   } else if (number >= 10) {
-//     if (canvasField.width === 300) {
-//       ctx.font = '45px Arial';
-//       ctx.fillStyle = 'white';
-//       ctx.fillText(number, x + 13, y + 55);
-//     } else if (canvasField.width === 500) {
-//       ctx.font = '55px Arial';
-//       ctx.fillStyle = 'white';
-//       ctx.fillText(number, x + 27, y + 85);
-//     } else {
-//       ctx.font = '60px Arial';
-//       ctx.fillStyle = 'white';
-//       ctx.fillText(number, x + 37, y + 95);
-//     }
-//   }
-// }
 
 let clickSquare;
 let clickTime;
@@ -175,67 +148,6 @@ function takeCoordForSquare(pos) {
   return xy;
 }
 
-// function drawAllSquares(position, number) {
-//   switch (position) {
-//     case 1: drawSquare((((canvasField.width - 30) / 4) + 6), 0, number); break;
-//     case 2: drawSquare(((canvasField.width - 30) / 4) * 2 + 12, 0, number); break;
-//     case 3: drawSquare(((canvasField.width - 30) / 4) * 3 + 18, 0, number); break;
-//     case 4: drawSquare(0, (((canvasField.width - 30) / 4) + 6), number); break;
-//     case 5: drawSquare(
-//       ((canvasField.width - 30) / 4) + 6,
-//       ((canvasField.width - 30) / 4) + 6,
-//       number,
-//     ); break;
-//     case 6: drawSquare(
-//       ((canvasField.width - 30) / 4) * 2 + 12,
-//       ((canvasField.width - 30) / 4) + 6,
-//       number,
-//     ); break;
-//     case 7: drawSquare(
-//       ((canvasField.width - 30) / 4) * 3 + 18,
-//       (((canvasField.width - 30) / 4) + 6),
-//       number,
-//     ); break;
-//     case 8: drawSquare(0, ((canvasField.width - 30) / 4) * 2 + 12, number); break;
-//     case 9: drawSquare(
-//       (((canvasField.width - 30) / 4) + 6),
-//       ((canvasField.width - 30) / 4) * 2 + 12,
-//       number,
-//     ); break;
-//     case 10: drawSquare(
-//       ((canvasField.width - 30) / 4) * 2 + 12,
-//       ((canvasField.width - 30) / 4) * 2 + 12,
-//       number,
-//     ); break;
-//     case 11: drawSquare(
-//       ((canvasField.width - 30) / 4) * 3 + 18,
-//       ((canvasField.width - 30) / 4) * 2 + 12,
-//       number,
-//     ); break;
-//     case 12: drawSquare(0, ((canvasField.width - 30) / 4) * 3 + 18, number); break;
-//     case 13: drawSquare(
-//       (((canvasField.width - 30) / 4) + 6),
-//       ((canvasField.width - 30) / 4) * 3 + 18,
-//       number,
-//     ); break;
-//     case 14: drawSquare(
-//       ((canvasField.width - 30) / 4) * 2 + 12,
-//       ((canvasField.width - 30) / 4) * 3 + 18,
-//       number,
-//     ); break;
-//     case 15: drawSquare(
-//       ((canvasField.width - 30) / 4) * 3 + 18,
-//       ((canvasField.width - 30) / 4) * 3 + 18,
-//       number,
-//     ); break;
-//     case 0: drawSquare(0, 0, number); break;
-//     default: break;
-//   }
-// }
-
-// for (let i = 0; i <= 15; i += 1) {
-//   drawAllSquares(i, arr15[i]);
-// }
 arr15.forEach((el, i) => drawAllSquares(i, el));
 //  --------------------------------------------------------------------------Drag & Drop-----------
 const BB = canvasField.getBoundingClientRect();
@@ -761,7 +673,15 @@ canvasField.addEventListener('click', (e) => {
       countMoves.innerText = moves;
     }
     // ---------------------------------------------------------------------------Check WIN---------
+    let winners = 1;
+    if (localStorage.getItem('count-winners')) {
+      winners = JSON.parse(localStorage.getItem('count-winners'));
+    }
+
     if (JSON.stringify(arr15) === JSON.stringify(arrTrue15)) {
+      rateTable.push([moves, blockTime.textContent, winners]);
+      winners += 1;
+      localStorage.setItem('count-winners', JSON.stringify(winners));
       setTimeout(() => {
         popUp.classList.remove('hidden');
         clearTimeout(timeout);
@@ -800,16 +720,25 @@ function showTime() { // -------------------------------------------------------
 }
 showTime();
 
-popUp.addEventListener('click', () => { // -----------------------------------------------------------------close Pop-Up
+popUp.addEventListener('click', () => { // -----------------------------------------------------------------close Pop-Up-WIN
   popUp.innerHTML = '';
   popUp.classList.add('hidden');
   arr15 = mix(1000);
   blockTime.innerText = '00:00';
   showTime();
+  moves = 0;
+  countMoves.innerText = moves;
+  localStorage.setItem('winners', JSON.stringify(rateTable));
+});
+
+popUpResult.addEventListener('click', () => { // ----------------------------------------------------------close Pop-Up-RESULT
+  popUpResult.innerHTML = '';
+  popUpResult.classList.add('hidden');
 });
 
 const newGameButton = document.querySelector('.buttons-raw__button-new-game');
 const easyGameButton = document.querySelector('.buttons-raw__button-new-game-easy');
+const resultsButton = document.querySelector('.buttons-raw__button-results');
 newGameButton.addEventListener('click', () => { // -----------------------------------------------------click new HARD
   arr15 = mix(1000);
   arr15.forEach((el, i) => drawAllSquares(i, el));
@@ -832,23 +761,199 @@ easyGameButton.addEventListener('click', () => { // ----------------------------
   blockTime.textContent = '00:00';
   showTime();
 });
+resultsButton.addEventListener('click', () => { // --------------------------------------------------------click RESULT
+  popUpResult.classList.remove('hidden');
 
+  const caption = document.createElement('h2');
+  caption.classList.add('pop-up-result__caption');
+  caption.innerText = 'High Score Table';
+  setTimeout(() => {
+    popUpResult.append(caption);
+  }, 500);
+
+  if (localStorage.getItem('winners') !== 'undefined') {
+    rateTable = JSON.parse(localStorage.getItem('winners'));
+  }
+  setTimeout(() => {
+    if (rateTable.length === 0) {
+      popUpResult.innerHTML = 'No winners yet!';
+    } else {
+      rateTable.sort((a, b) => a[0] - b[0]);
+      const rateTableSliced = rateTable.slice(0, 5);
+      rateTableSliced.forEach((el, i) => {
+        const res = document.createElement('div');
+        res.classList.add('winner-name');
+        res.innerText = `${i + 1} ⦁ Player ${el[2]} solved the puzzle in ${el[1]} and ${el[0]} moves `;
+        popUpResult.append(res);
+      });
+    }
+  }, 500);
+});
 // -------------------------------------------------LOCAL STORAGE-----------------------------------
 function setLocalStorage() {
   localStorage.setItem('currentState', JSON.stringify(arr15));
+  localStorage.setItem('currentMove', JSON.stringify(moves));
+  // localStorage.setItem('winners', JSON.stringify(rateTable));
 }
+
 const saveGameButton = document.querySelector('.buttons-raw__button-save-game');
 saveGameButton.addEventListener('click', setLocalStorage);
 
 function getLocalStorage() {
   if (localStorage.getItem('currentState')) {
     arr15 = JSON.parse(localStorage.getItem('currentState'));
+    moves = JSON.parse(localStorage.getItem('currentMove'));
   }
   ctx.clearRect(0, 0, canvasField.width, canvasField.height);
-  for (let i = 0; i <= 15; i += 1) {
-    drawAllSquares(i, arr15[i]);
-  }
+  arr15.forEach((el, i) => drawAllSquares(i, el));
+  countMoves.innerText = moves;
 }
 const loadGameButton = document.querySelector('.buttons-raw__button-load-game');
 loadGameButton.addEventListener('click', getLocalStorage);
 // -------------------------------------------------LOCAL STORAGE-----------------------------------
+
+const arr3 = mix3(100);
+
+function whichSquare3(offsetX) {
+  let square;
+  if (offsetX < (((canvasField.width - 30) / 3) + 9)) {
+    square = 1;
+  } if (offsetX >= (((canvasField.width - 30) / 3) + 9)
+  && offsetX < ((canvasField.width - 30) / 3) * 2 + 18) {
+    square = 2;
+  } if (offsetX > ((canvasField.width - 30) / 3) * 2 + 18) {
+    square = 3;
+  }
+  return square;
+}
+
+const size3Button = document.querySelector('.size3');
+size3Button.addEventListener('click', () => {
+  size3Button.classList.toggle('pressed');
+  if (size3Button.classList.contains('pressed')) {
+    main.innerHTML = '';
+    const canvasField3 = document.createElement('canvas');
+    canvasField3.classList.add('canvas');
+    if (window.screen.width > 1400) {
+      canvasField3.width = 600;
+      canvasField3.height = 600;
+    } else if (window.screen.width > 600 && window.screen.width < 1400) {
+      canvasField3.width = 500;
+      canvasField3.height = 500;
+    } else {
+      canvasField3.width = 300;
+      canvasField3.height = 300;
+    }
+    canvasField3.innerText = 'Please use modern browser! =)';
+    main.append(canvasField3);
+
+    const ctx3 = canvasField3.getContext('2d');
+
+    ctx3.clearRect(0, 0, canvasField3.width, canvasField3.height);
+    arr3.forEach((el, i) => draw3AllSquares(i, el));
+
+    canvasField3.addEventListener('click', (e) => {
+      let clickPos;
+      countMoves.innerText = moves;
+      if (e.offsetY < (((canvasField.width - 30) / 3) + 9)) {
+        const square = whichSquare3(e.offsetX);
+        switch (square) {
+          case 1: clickPos = 0; break;
+          case 2: clickPos = 1; break;
+          case 3: clickPos = 2; break;
+          default: break;
+        }
+      }
+      if (e.offsetY >= (((canvasField.width - 30) / 3) + 9)
+          && e.offsetY < ((canvasField.width - 30) / 3) * 2 + 18) {
+        const square = whichSquare3(e.offsetX);
+        switch (square) {
+          case 1: clickPos = 3; break;
+          case 2: clickPos = 4; break;
+          case 3: clickPos = 5; break;
+          default: break;
+        }
+      }
+      if (e.offsetY > ((canvasField.width - 30) / 3) * 2 + 18) {
+        const square = whichSquare3(e.offsetX);
+        switch (square) {
+          case 1: clickPos = 6; break;
+          case 2: clickPos = 7; break;
+          case 3: clickPos = 8; break;
+          default: break;
+        }
+      }
+      clickSquare = clickPos;
+      const numberOnSquare = arr3[clickPos];
+      if (arr3[clickPos - 3] === 0) {
+        arr3[clickPos - 3] = arr3[clickPos];
+        arr3[clickPos] = 0;
+        // eraseSquare(clickPos, 'up', numberOnSquare);
+
+        ctx3.clearRect(0, 0, canvasField3.width, canvasField3.height);
+        for (let i = 0; i <= 9; i += 1) {
+          draw3AllSquares(i, arr3[i], numberOnSquare);
+        }
+
+        if (!audio.classList.contains('mute')) { createMusic('./Sound_005.wav'); } // -------------------Sounds
+        moves += 1;
+        countMoves.innerText = moves;
+      } else if (arr3[clickPos + 3] === 0) {
+        arr3[clickPos + 3] = arr3[clickPos];
+        arr3[clickPos] = 0;
+        // eraseSquare(clickPos, 'down', numberOnSquare);
+        ctx3.clearRect(0, 0, canvasField3.width, canvasField3.height);
+        for (let i = 0; i <= 9; i += 1) {
+          draw3AllSquares(i, arr3[i], numberOnSquare);
+        }
+
+        if (!audio.classList.contains('mute')) { createMusic('./Sound_005.wav'); } // -------------------Sounds
+        moves += 1;
+        countMoves.innerText = moves;
+      } else if (arr3[clickPos - 1] === 0 && whichSquare3(e.offsetX) !== 1) {
+        arr3[clickPos - 1] = arr3[clickPos];
+        arr3[clickPos] = 0;
+        // eraseSquare(clickPos, 'left', numberOnSquare);
+        ctx3.clearRect(0, 0, canvasField3.width, canvasField3.height);
+        for (let i = 0; i <= 9; i += 1) {
+          draw3AllSquares(i, arr3[i]);
+        }
+        if (!audio.classList.contains('mute')) { createMusic('./Sound_001.wav'); } // -------------------Sounds
+        moves += 1;
+        countMoves.innerText = moves;
+      } else if (arr3[clickPos + 1] === 0 && whichSquare(e.offsetX) !== 4) {
+        arr3[clickPos + 1] = arr3[clickPos];
+        arr3[clickPos] = 0;
+        // eraseSquare(clickPos, 'right', numberOnSquare);
+        ctx3.clearRect(0, 0, canvasField3.width, canvasField3.height);
+        for (let i = 0; i <= 9; i += 1) {
+          draw3AllSquares(i, arr3[i]);
+        }
+        if (!audio.classList.contains('mute')) { createMusic('./Sound_001.wav'); } // -------------------Sounds
+        moves += 1;
+        countMoves.innerText = moves;
+      }
+      // ---------------------------------------------------------------------------Check WIN-------
+      if (JSON.stringify(arr3) === JSON.stringify(arrTrue3)) {
+        // rateTable.push([moves, blockTime.textContent, winners]);
+        // winners += 1;
+        // localStorage.setItem('count-winners', JSON.stringify(winners));
+        setTimeout(() => {
+          popUp.classList.remove('hidden');
+          clearTimeout(timeout);
+          setTimeout(() => {
+            popUp.innerHTML = `Hooray!<br> You solved the puzzle<br> in<br> ${blockTime.textContent} and ${moves} moves!`;
+          }, 500);
+          if (!audio.classList.contains('mute')) { createMusic('./Sound_025.wav'); }
+        }, 300);
+      }
+      // -------------------------------------------------------------------------Check WIN---------
+    });
+  } else {
+    main.innerHTML = '';
+    main.append(canvasField);
+    arr15 = mix(1000);
+    moves = 0;
+    countMoves.innerText = moves;
+  }
+});

@@ -53,17 +53,20 @@ function showHeader() {
   const blockMoves = document.createElement('div');
   blockMoves.classList.add('times-raw__moves');
   blockMoves.innerText = '0';
+  spanBlockMoves.append(blockMoves);
+
   const spanBlockTime = document.createElement('span');
   spanBlockTime.classList.add('times-raw__span-title');
   spanBlockTime.innerText = 'Time: ';
   const blockTime = document.createElement('div');
   blockTime.classList.add('times-raw__time');
   blockTime.innerText = '00:00';
+  spanBlockTime.append(blockTime);
 
   headerTimesRaw.append(spanBlockMoves);
-  headerTimesRaw.append(blockMoves);
+  // headerTimesRaw.append(blockMoves);
   headerTimesRaw.append(spanBlockTime);
-  headerTimesRaw.append(blockTime);
+  // headerTimesRaw.append(blockTime);
 
   header.append(headerButtonsRaw);
   header.append(headerTimesRaw);
