@@ -1,9 +1,11 @@
 import mix from './clevershuffle';
 import showHeader from './draw_header';
 import showFooter from './draw_footer';
+import showWinPopUp from './win_popup';
 import createMusic from './audio';
 import './styles/normalize.scss';
 import './styles/styles.scss';
+import { drawAllSquares, drawSquare } from './draw_squares';
 
 document.body.append(showHeader());
 
@@ -12,6 +14,8 @@ main.classList.add('main');
 document.body.append(main);
 
 document.body.append(showFooter());
+document.body.append(showWinPopUp());
+const popUp = document.querySelector('.pop-up');
 
 const audio = document.querySelector('.volume');
 audio.addEventListener('click', () => {
@@ -35,64 +39,68 @@ main.append(canvasField);
 
 const ctx = canvasField.getContext('2d');
 
-const BB = canvasField.getBoundingClientRect();
-const dragX = BB.left;
-const dragY = BB.top;
-let dragOk = false;
-let startDragX;
-let startDragY;
-
 const arrTrue15 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
 
 let arr15 = mix(1000);
 
-function drawSquare(x, y, number) {
-  if (number === 0) {
-    ctx.fillStyle = 'rgba(100, 100, 100, 0)';
-  } else {
-    ctx.fillStyle = 'rgba(100, 100, 100, 0.7)';
-  }
-  ctx.fillRect(6 + x, 6 + y, (canvasField.width - 30) / 4, (canvasField.height - 30) / 4);
-  if (number < 10 && number !== 0) {
-    if (canvasField.width === 300) {
-      ctx.font = '45px Arial';
-      ctx.fillStyle = 'white';
-      ctx.fillText(number, x + 26, y + 55);
-    } else if (canvasField.width === 500) {
-      ctx.font = '55px Arial';
-      ctx.fillStyle = 'white';
-      ctx.fillText(number, x + 48, y + 85);
-    } else {
-      ctx.font = '60px Arial';
-      ctx.fillStyle = 'white';
-      ctx.fillText(number, x + 58, y + 95);
-    }
-  } else if (number >= 10) {
-    if (canvasField.width === 300) {
-      ctx.font = '45px Arial';
-      ctx.fillStyle = 'white';
-      ctx.fillText(number, x + 13, y + 55);
-    } else if (canvasField.width === 500) {
-      ctx.font = '55px Arial';
-      ctx.fillStyle = 'white';
-      ctx.fillText(number, x + 27, y + 85);
-    } else {
-      ctx.font = '60px Arial';
-      ctx.fillStyle = 'white';
-      ctx.fillText(number, x + 37, y + 95);
-    }
-  }
-}
-//--------------------------------------------------
-// canvasField.addEventListener('mousedown', onMouseDown);
-// canvasField.addEventListener('mousemove', onMouseMove);
-// canvasField.addEventListener('mouseup', onMouseUp);
-//--------------------------------------------------
-let rects = [];
-let isDragging;
+// function drawSquare(x, y, number) {
+//   if (number === 0) {
+//     ctx.fillStyle = 'rgba(100, 100, 100, 0)';
+//   } else {
+//     ctx.fillStyle = 'rgba(100, 100, 100, 0.7)';
+//   }
+//   ctx.fillRect(6 + x, 6 + y, (canvasField.width - 30) / 4, (canvasField.height - 30) / 4);
+//   if (number < 10 && number !== 0) {
+//     if (canvasField.width === 300) {
+//       ctx.font = '45px Arial';
+//       ctx.fillStyle = 'white';
+//       ctx.fillText(number, x + 26, y + 55);
+//     } else if (canvasField.width === 500) {
+//       ctx.font = '55px Arial';
+//       ctx.fillStyle = 'white';
+//       ctx.fillText(number, x + 48, y + 85);
+//     } else {
+//       ctx.font = '60px Arial';
+//       ctx.fillStyle = 'white';
+//       ctx.fillText(number, x + 58, y + 95);
+//     }
+//   } else if (number >= 10) {
+//     if (canvasField.width === 300) {
+//       ctx.font = '45px Arial';
+//       ctx.fillStyle = 'white';
+//       ctx.fillText(number, x + 13, y + 55);
+//     } else if (canvasField.width === 500) {
+//       ctx.font = '55px Arial';
+//       ctx.fillStyle = 'white';
+//       ctx.fillText(number, x + 27, y + 85);
+//     } else {
+//       ctx.font = '60px Arial';
+//       ctx.fillStyle = 'white';
+//       ctx.fillText(number, x + 37, y + 95);
+//     }
+//   }
+// }
+
 let clickSquare;
 let clickTime;
 let moves = 0;
+const blockTime = document.querySelector('.times-raw__time');
+
+function whichSquare(offsetX) {
+  let square;
+  if (offsetX < (((canvasField.width - 30) / 4) + 6)) {
+    square = 1;
+  } if (offsetX >= (((canvasField.width - 30) / 4) + 6)
+  && offsetX < ((canvasField.width - 30) / 4) * 2 + 12) {
+    square = 2;
+  } if (offsetX >= ((canvasField.width - 30) / 4) * 2 + 12
+  && offsetX < ((canvasField.width - 30) / 4) * 3 + 18) {
+    square = 3;
+  } if (offsetX >= ((canvasField.width - 30) / 4) * 3 + 18) {
+    square = 4;
+  }
+  return square;
+}
 
 function takeCoordForSquare(pos) {
   let x;
@@ -166,6 +174,80 @@ function takeCoordForSquare(pos) {
   }
   return xy;
 }
+
+// function drawAllSquares(position, number) {
+//   switch (position) {
+//     case 1: drawSquare((((canvasField.width - 30) / 4) + 6), 0, number); break;
+//     case 2: drawSquare(((canvasField.width - 30) / 4) * 2 + 12, 0, number); break;
+//     case 3: drawSquare(((canvasField.width - 30) / 4) * 3 + 18, 0, number); break;
+//     case 4: drawSquare(0, (((canvasField.width - 30) / 4) + 6), number); break;
+//     case 5: drawSquare(
+//       ((canvasField.width - 30) / 4) + 6,
+//       ((canvasField.width - 30) / 4) + 6,
+//       number,
+//     ); break;
+//     case 6: drawSquare(
+//       ((canvasField.width - 30) / 4) * 2 + 12,
+//       ((canvasField.width - 30) / 4) + 6,
+//       number,
+//     ); break;
+//     case 7: drawSquare(
+//       ((canvasField.width - 30) / 4) * 3 + 18,
+//       (((canvasField.width - 30) / 4) + 6),
+//       number,
+//     ); break;
+//     case 8: drawSquare(0, ((canvasField.width - 30) / 4) * 2 + 12, number); break;
+//     case 9: drawSquare(
+//       (((canvasField.width - 30) / 4) + 6),
+//       ((canvasField.width - 30) / 4) * 2 + 12,
+//       number,
+//     ); break;
+//     case 10: drawSquare(
+//       ((canvasField.width - 30) / 4) * 2 + 12,
+//       ((canvasField.width - 30) / 4) * 2 + 12,
+//       number,
+//     ); break;
+//     case 11: drawSquare(
+//       ((canvasField.width - 30) / 4) * 3 + 18,
+//       ((canvasField.width - 30) / 4) * 2 + 12,
+//       number,
+//     ); break;
+//     case 12: drawSquare(0, ((canvasField.width - 30) / 4) * 3 + 18, number); break;
+//     case 13: drawSquare(
+//       (((canvasField.width - 30) / 4) + 6),
+//       ((canvasField.width - 30) / 4) * 3 + 18,
+//       number,
+//     ); break;
+//     case 14: drawSquare(
+//       ((canvasField.width - 30) / 4) * 2 + 12,
+//       ((canvasField.width - 30) / 4) * 3 + 18,
+//       number,
+//     ); break;
+//     case 15: drawSquare(
+//       ((canvasField.width - 30) / 4) * 3 + 18,
+//       ((canvasField.width - 30) / 4) * 3 + 18,
+//       number,
+//     ); break;
+//     case 0: drawSquare(0, 0, number); break;
+//     default: break;
+//   }
+// }
+
+// for (let i = 0; i <= 15; i += 1) {
+//   drawAllSquares(i, arr15[i]);
+// }
+arr15.forEach((el, i) => drawAllSquares(i, el));
+//  --------------------------------------------------------------------------Drag & Drop-----------
+const BB = canvasField.getBoundingClientRect();
+const dragX = BB.left;
+const dragY = BB.top;
+let dragOk = false;
+let startDragX;
+let startDragY;
+let rects = [];
+let timeout;
+// let isDragging;
+
 canvasField.addEventListener('mousedown', (e) => {
   e.preventDefault();
   e.stopPropagation();
@@ -245,9 +327,7 @@ canvasField.addEventListener('mouseup', (e) => {
   }
 
   ctx.clearRect(0, 0, canvasField.width, canvasField.height);
-  for (let i = 0; i <= 15; i += 1) {
-    drawAllSquares(i, arr15[i]);
-  }
+  arr15.forEach((el, i) => drawAllSquares(i, el));
 
   if (rects[clickSquare - 4]) { // ----------------------------up
     if (startDragY < rects[clickSquare - 4].yCoord + rects[clickSquare - 4].widthRect
@@ -257,12 +337,10 @@ canvasField.addEventListener('mouseup', (e) => {
       if (arr15[clickSquare - 4] === 0) {
         arr15[clickSquare - 4] = arr15[clickSquare];
         arr15[clickSquare] = 0;
+        if (!audio.classList.contains('mute')) { createMusic('./Sound_005.wav'); } // -------------------Sounds
+        moves += 1;
+        countMoves.innerText = moves;
       }
-    }
-    if (new Date() - clickTime > 150) {
-      if (!audio.classList.contains('mute')) { createMusic('./Sound_005.wav'); } // -------------------Sounds
-      moves += 1;
-      countMoves.innerText = moves;
     }
   }
   if (rects[clickSquare + 4]) { // ----------------------------down
@@ -273,6 +351,9 @@ canvasField.addEventListener('mouseup', (e) => {
       if (arr15[clickSquare + 4] === 0) {
         arr15[clickSquare + 4] = arr15[clickSquare];
         arr15[clickSquare] = 0;
+        if (!audio.classList.contains('mute')) { createMusic('./Sound_005.wav'); } // -------------------Sounds
+        moves += 1;
+        countMoves.innerText = moves;
       }
     }
   }
@@ -285,6 +366,9 @@ canvasField.addEventListener('mouseup', (e) => {
       if (arr15[clickSquare - 1] === 0) {
         arr15[clickSquare - 1] = arr15[clickSquare];
         arr15[clickSquare] = 0;
+        if (!audio.classList.contains('mute')) { createMusic('./Sound_001.wav'); } // -------------------Sounds
+        moves += 1;
+        countMoves.innerText = moves;
       }
     }
   }
@@ -297,15 +381,28 @@ canvasField.addEventListener('mouseup', (e) => {
       if (arr15[clickSquare + 1] === 0) {
         arr15[clickSquare + 1] = arr15[clickSquare];
         arr15[clickSquare] = 0;
+        if (!audio.classList.contains('mute')) { createMusic('./Sound_001.wav'); } // -------------------Sounds
+        moves += 1;
+        countMoves.innerText = moves;
       }
     }
   }
   rects = [];
 
   ctx.clearRect(0, 0, canvasField.width, canvasField.height);
-  for (let i = 0; i <= 15; i += 1) {
-    drawAllSquares(i, arr15[i]);
+  arr15.forEach((el, i) => drawAllSquares(i, el));
+  // ---------------------------------------------------------------------------Check WIN---------
+  if (JSON.stringify(arr15) === JSON.stringify(arrTrue15)) {
+    setTimeout(() => {
+      popUp.classList.remove('hidden');
+      clearTimeout(timeout);
+      setTimeout(() => {
+        popUp.innerHTML = `Hooray!<br> You solved the puzzle<br> in<br> ${blockTime.textContent} and ${moves} moves!`;
+      }, 500);
+      if (!audio.classList.contains('mute')) { createMusic('./Sound_025.wav'); }
+    }, 300);
   }
+  // ---------------------------------------------------------------------------Check WIN---------
 });
 
 canvasField.addEventListener('mousemove', (e) => {
@@ -340,86 +437,7 @@ canvasField.addEventListener('mousemove', (e) => {
   startDragX = mx;
   startDragY = my;
 });
-//--------------------------------------------------
-//--------------------------------------------------
-
-function drawAllSquares(position, number) {
-  switch (position) {
-    case 1: drawSquare((((canvasField.width - 30) / 4) + 6), 0, number); break;
-    case 2: drawSquare(((canvasField.width - 30) / 4) * 2 + 12, 0, number); break;
-    case 3: drawSquare(((canvasField.width - 30) / 4) * 3 + 18, 0, number); break;
-    case 4: drawSquare(0, (((canvasField.width - 30) / 4) + 6), number); break;
-    case 5: drawSquare(
-      ((canvasField.width - 30) / 4) + 6,
-      ((canvasField.width - 30) / 4) + 6,
-      number,
-    ); break;
-    case 6: drawSquare(
-      ((canvasField.width - 30) / 4) * 2 + 12,
-      ((canvasField.width - 30) / 4) + 6,
-      number,
-    ); break;
-    case 7: drawSquare(
-      ((canvasField.width - 30) / 4) * 3 + 18,
-      (((canvasField.width - 30) / 4) + 6),
-      number,
-    ); break;
-    case 8: drawSquare(0, ((canvasField.width - 30) / 4) * 2 + 12, number); break;
-    case 9: drawSquare(
-      (((canvasField.width - 30) / 4) + 6),
-      ((canvasField.width - 30) / 4) * 2 + 12,
-      number,
-    ); break;
-    case 10: drawSquare(
-      ((canvasField.width - 30) / 4) * 2 + 12,
-      ((canvasField.width - 30) / 4) * 2 + 12,
-      number,
-    ); break;
-    case 11: drawSquare(
-      ((canvasField.width - 30) / 4) * 3 + 18,
-      ((canvasField.width - 30) / 4) * 2 + 12,
-      number,
-    ); break;
-    case 12: drawSquare(0, ((canvasField.width - 30) / 4) * 3 + 18, number); break;
-    case 13: drawSquare(
-      (((canvasField.width - 30) / 4) + 6),
-      ((canvasField.width - 30) / 4) * 3 + 18,
-      number,
-    ); break;
-    case 14: drawSquare(
-      ((canvasField.width - 30) / 4) * 2 + 12,
-      ((canvasField.width - 30) / 4) * 3 + 18,
-      number,
-    ); break;
-    case 15: drawSquare(
-      ((canvasField.width - 30) / 4) * 3 + 18,
-      ((canvasField.width - 30) / 4) * 3 + 18,
-      number,
-    ); break;
-    case 0: drawSquare(0, 0, number); break;
-    default: break;
-  }
-}
-
-for (let i = 0; i <= 15; i += 1) {
-  drawAllSquares(i, arr15[i]);
-}
-
-function whichSquare(offsetX) {
-  let square;
-  if (offsetX < (((canvasField.width - 30) / 4) + 6)) {
-    square = 1;
-  } if (offsetX >= (((canvasField.width - 30) / 4) + 6)
-  && offsetX < ((canvasField.width - 30) / 4) * 2 + 12) {
-    square = 2;
-  } if (offsetX >= ((canvasField.width - 30) / 4) * 2 + 12
-  && offsetX < ((canvasField.width - 30) / 4) * 3 + 18) {
-    square = 3;
-  } if (offsetX >= ((canvasField.width - 30) / 4) * 3 + 18) {
-    square = 4;
-  }
-  return square;
-}
+//  --------------------------------------------------------------------------Drag & Drop-----------
 
 function moveSquare(x, y, direction, number) {
   const startX = x;
@@ -445,7 +463,7 @@ function moveSquare(x, y, direction, number) {
     ); // x, y, width, height
 
     if (number < 10 && number !== 0) {
-      if (canvasField.width === 400) {
+      if (canvasField.width === 300) {
         ctx.font = '45px Arial';
         ctx.fillStyle = 'white';
         ctx.fillText(number, positionX + 26, positionY + 55);
@@ -459,7 +477,7 @@ function moveSquare(x, y, direction, number) {
         ctx.fillText(number, positionX + 58, positionY + 95);
       }
     } else if (number >= 10) {
-      if (canvasField.width === 400) {
+      if (canvasField.width === 300) {
         ctx.font = '45px Arial';
         ctx.fillStyle = 'white';
         ctx.fillText(number, positionX + 13, positionY + 55);
@@ -502,7 +520,7 @@ function moveSquare(x, y, direction, number) {
 }
 
 function eraseSquare(square, direction, number) {
-  console.log(square, direction);
+  // console.log(square, direction);
   switch (square) {
     case 1:
       ctx.clearRect(((canvasField.width - 30) / 4) + 6, 0, 124, 124);
@@ -648,7 +666,6 @@ const countMoves = document.querySelector('.times-raw__moves');
 canvasField.addEventListener('click', (e) => {
   e.preventDefault();
   if (new Date() - clickTime < 150) {
-    console.log('111');
     let clickPos;
     if (e.offsetY < (((canvasField.width - 30) / 4) + 6)) {
       const square = whichSquare(e.offsetX);
@@ -743,16 +760,22 @@ canvasField.addEventListener('click', (e) => {
       moves += 1;
       countMoves.innerText = moves;
     }
+    // ---------------------------------------------------------------------------Check WIN---------
     if (JSON.stringify(arr15) === JSON.stringify(arrTrue15)) {
       setTimeout(() => {
-        if (!audio.classList.contains('mute')) { createMusic('./Sound_025.wav'); } // -------------------Sounds
+        popUp.classList.remove('hidden');
+        clearTimeout(timeout);
+        setTimeout(() => {
+          popUp.innerHTML = `Hooray!<br> You solved the puzzle<br> in<br> ${blockTime.textContent} and ${moves} moves!`;
+        }, 500);
+        if (!audio.classList.contains('mute')) { createMusic('./Sound_025.wav'); }
       }, 300);
     }
+    // ---------------------------------------------------------------------------Check WIN---------
   }
 });
 
-let timeout;
-function showTime() {
+function showTime() { // -----------------------------------------------------------------show TIMER
   let sec = 0;
   let min = 0;
 
@@ -763,12 +786,13 @@ function showTime() {
       min += 1;
     }
   }
-
   function timer() {
-    const blockTime = document.querySelector('.times-raw__time');
     timeout = setTimeout(() => {
       tick();
-      blockTime.textContent = `0${min}:${sec}`;
+      if (sec >= 10) {
+        blockTime.textContent = `0${min}:${sec}`;
+      } else blockTime.textContent = `0${min}:0${sec}`;
+
       timer();
     }, 1000);
   }
@@ -776,40 +800,36 @@ function showTime() {
 }
 showTime();
 
-const newGameButton = document.querySelector('.buttons-raw__button-new-game');
-const easyGameButton = document.querySelector('.buttons-raw__button-new-game-easy');
-newGameButton.addEventListener('click', () => {
-  if (!audio.classList.contains('mute')) { createMusic('./Sound_017.wav'); } // -------------------Sounds
-
-  const blockTime = document.querySelector('.times-raw__time');
+popUp.addEventListener('click', () => { // -----------------------------------------------------------------close Pop-Up
+  popUp.innerHTML = '';
+  popUp.classList.add('hidden');
   arr15 = mix(1000);
-  ctx.clearRect(0, 0, canvasField.width, canvasField.height);
-  for (let i = 0; i <= 15; i += 1) {
-    drawAllSquares(i, arr15[i]);
-  }
-
-  moves = 0;
-  countMoves.innerText = moves;
-
-  clearTimeout(timeout);
-  blockTime.textContent = '00:0';
+  blockTime.innerText = '00:00';
   showTime();
 });
-easyGameButton.addEventListener('click', () => {
-  if (!audio.classList.contains('mute')) { createMusic('./Sound_017.wav'); } // -------------------Sounds
 
-  const blockTime = document.querySelector('.times-raw__time');
-  arr15 = mix(10);
-  ctx.clearRect(0, 0, canvasField.width, canvasField.height);
-  for (let i = 0; i <= 15; i += 1) {
-    drawAllSquares(i, arr15[i]);
-  }
-
+const newGameButton = document.querySelector('.buttons-raw__button-new-game');
+const easyGameButton = document.querySelector('.buttons-raw__button-new-game-easy');
+newGameButton.addEventListener('click', () => { // -----------------------------------------------------click new HARD
+  arr15 = mix(1000);
+  arr15.forEach((el, i) => drawAllSquares(i, el));
+  setTimeout(() => {
+    if (!audio.classList.contains('mute')) { createMusic('./Sound_017.wav'); }
+  }, 50);
   moves = 0;
   countMoves.innerText = moves;
-
   clearTimeout(timeout);
-  blockTime.textContent = '00:0';
+  blockTime.textContent = '00:00';
+  showTime();
+});
+easyGameButton.addEventListener('click', () => { // -----------------------------------------------------click new EASY
+  if (!audio.classList.contains('mute')) { createMusic('./Sound_017.wav'); } // -------------------Sounds
+  arr15 = mix(10);
+  arr15.forEach((el, i) => drawAllSquares(i, el));
+  moves = 0;
+  countMoves.innerText = moves;
+  clearTimeout(timeout);
+  blockTime.textContent = '00:00';
   showTime();
 });
 

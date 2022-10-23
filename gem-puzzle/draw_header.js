@@ -58,7 +58,7 @@ function showHeader() {
   spanBlockTime.innerText = 'Time: ';
   const blockTime = document.createElement('div');
   blockTime.classList.add('times-raw__time');
-  blockTime.innerText = '00:0';
+  blockTime.innerText = '00:00';
 
   headerTimesRaw.append(spanBlockMoves);
   headerTimesRaw.append(blockMoves);

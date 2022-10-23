@@ -1,4 +1,8 @@
+import { drawAllSquares } from './draw_squares';
+
 function mix(difficulty) {
+  const canvasField = document.querySelector('.canvas');
+  const ctx = canvasField.getContext('2d');
   function fillMatrix(a) {
     const matrix = [];
     let raw = [];
@@ -25,42 +29,47 @@ function mix(difficulty) {
   }
 
   const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
+
   for (let i = 0; i < difficulty; i += 1) {
-    const rundomNum = Math.random();
-    const index0 = arr.indexOf(0);
-    if (rundomNum < 0.25) {
-      if (arr[index0 - 4]) {
-        arr[index0] = arr[index0 - 4];
-        arr[index0 - 4] = 0;
+    setTimeout(() => {
+      const rundomNum = Math.random();
+      const index0 = arr.indexOf(0);
+      if (rundomNum < 0.25) {
+        if (arr[index0 - 4]) {
+          arr[index0] = arr[index0 - 4];
+          arr[index0 - 4] = 0;
+        }
+        fillMatrix(arr);
+      } else if (rundomNum >= 0.25 && rundomNum < 0.5) {
+        if (arr[index0 + 4]) {
+          arr[index0] = arr[index0 + 4];
+          arr[index0 + 4] = 0;
+        }
+        fillMatrix(arr);
+      } else if (rundomNum >= 0.5 && rundomNum < 0.75) {
+        if (arr[index0 + 1]
+          && arr[index0 + 1] !== fillMatrix(arr)[0][0]
+          && arr[index0 + 1] !== fillMatrix(arr)[1][0]
+          && arr[index0 + 1] !== fillMatrix(arr)[2][0]
+          && arr[index0 + 1] !== fillMatrix(arr)[3][0]) {
+          arr[index0] = arr[index0 + 1];
+          arr[index0 + 1] = 0;
+        }
+        fillMatrix(arr);
+      } else if (rundomNum >= 0.75) {
+        if (arr[index0 - 1]
+          && arr[index0 - 1] !== fillMatrix(arr)[0][3]
+          && arr[index0 - 1] !== fillMatrix(arr)[1][3]
+          && arr[index0 - 1] !== fillMatrix(arr)[2][3]
+          && arr[index0 - 1] !== fillMatrix(arr)[3][3]) {
+          arr[index0] = arr[index0 - 1];
+          arr[index0 - 1] = 0;
+        }
+        fillMatrix(arr);
       }
-      fillMatrix(arr);
-    } else if (rundomNum >= 0.25 && rundomNum < 0.5) {
-      if (arr[index0 + 4]) {
-        arr[index0] = arr[index0 + 4];
-        arr[index0 + 4] = 0;
-      }
-      fillMatrix(arr);
-    } else if (rundomNum >= 0.5 && rundomNum < 0.75) {
-      if (arr[index0 + 1]
-        && arr[index0 + 1] !== fillMatrix(arr)[0][0]
-        && arr[index0 + 1] !== fillMatrix(arr)[1][0]
-        && arr[index0 + 1] !== fillMatrix(arr)[2][0]
-        && arr[index0 + 1] !== fillMatrix(arr)[3][0]) {
-        arr[index0] = arr[index0 + 1];
-        arr[index0 + 1] = 0;
-      }
-      fillMatrix(arr);
-    } else if (rundomNum >= 0.75) {
-      if (arr[index0 - 1]
-        && arr[index0 - 1] !== fillMatrix(arr)[0][3]
-        && arr[index0 - 1] !== fillMatrix(arr)[1][3]
-        && arr[index0 - 1] !== fillMatrix(arr)[2][3]
-        && arr[index0 - 1] !== fillMatrix(arr)[3][3]) {
-        arr[index0] = arr[index0 - 1];
-        arr[index0 - 1] = 0;
-      }
-      fillMatrix(arr);
-    }
+      ctx.clearRect(0, 0, canvasField.width, canvasField.height);
+      arr.forEach((el, j) => drawAllSquares(j, el));
+    }, 50);
   }
   return arr;
 }
