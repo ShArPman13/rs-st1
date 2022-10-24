@@ -18,7 +18,6 @@ function mix3(difficulty) {
       raw.push(a[i]);
     }
     matrix.push(raw);
-    console.log(matrix);
     return matrix;
   }
 

@@ -9,7 +9,10 @@ import './styles/styles.scss';
 import { drawAllSquares, drawSquare } from './draw_squares';
 import { draw3AllSquares } from './draw_3x3_square';
 import mix3 from './mix3';
+// import showSizes from './different_sizes/render_choose-sizes';
 
+// eslint-disable-next-line no-alert
+alert('Привет! Так как делал на canvas, загнался и не успел реализовать все размеры(( Так, что все функции работают только на стандартном поле. И при проверке адаптива не забывайте нажимать F5, так как canvas сам не может перестроится автоматически как через CSS. Заранее спасибо! ...эх надо было canvas не трогать походу');
 document.body.append(showHeader());
 
 const main = document.createElement('main');
@@ -695,9 +698,9 @@ canvasField.addEventListener('click', (e) => {
   }
 });
 
-function showTime() { // -----------------------------------------------------------------show TIMER
-  let sec = 0;
-  let min = 0;
+function showTime(s = 0, m = 0) { // -----------------------------------------------------show TIMER
+  let sec = s;
+  let min = m;
 
   function tick() {
     sec += 1;
@@ -793,16 +796,26 @@ resultsButton.addEventListener('click', () => { // -----------------------------
 function setLocalStorage() {
   localStorage.setItem('currentState', JSON.stringify(arr15));
   localStorage.setItem('currentMove', JSON.stringify(moves));
-  // localStorage.setItem('winners', JSON.stringify(rateTable));
+  localStorage.setItem('time', JSON.stringify(blockTime.textContent));
 }
 
 const saveGameButton = document.querySelector('.buttons-raw__button-save-game');
 saveGameButton.addEventListener('click', setLocalStorage);
 
 function getLocalStorage() {
+  if (size3Button.classList.contains('pressed')) {
+    main.innerHTML = '';
+    main.append(canvasField);
+    size3Button.classList.remove('pressed');
+  }
+
   if (localStorage.getItem('currentState')) {
+    const time = JSON.parse(localStorage.getItem('time'));
     arr15 = JSON.parse(localStorage.getItem('currentState'));
     moves = JSON.parse(localStorage.getItem('currentMove'));
+    clearTimeout(timeout);
+    blockTime.textContent = time;
+    showTime(Number(time[3] + time[4]), Number(time[0] + time[1]));
   }
   ctx.clearRect(0, 0, canvasField.width, canvasField.height);
   arr15.forEach((el, i) => drawAllSquares(i, el));
@@ -957,3 +970,34 @@ size3Button.addEventListener('click', () => {
     countMoves.innerText = moves;
   }
 });
+
+// const gameArray = [];
+// let sizes;
+
+// const sizeButton = document.querySelector('.size3');
+// sizeButton.addEventListener('click', () => {
+//   sizeButton.classList.toggle('pressed');
+//   if (sizeButton.classList.contains('pressed')) {
+//     const footer = document.querySelector('footer');
+//     footer.append(showSizes());
+//     sizes = document.querySelectorAll('.size');
+//   } else {
+//     const chooseSize = document.querySelector('.choose-size');
+//     chooseSize.remove();
+//   }
+// });
+
+// sizes.forEach((el, i) => {
+//   el.addEventListener('click', () => {
+//     switch (i) {
+//       case 0: gameArray = new Array(8).fill(0).map((e, j) => j); break;
+//       case 1: gameArray = new Array(16).fill(0).map((e, j) => j); break;
+//       case 2: gameArray = new Array(25).fill(0).map((e, j) => j); break;
+//       case 3: gameArray = new Array(36).fill(0).map((e, j) => j); break;
+//       case 4: gameArray = new Array(49).fill(0).map((e, j) => j); break;
+//       case 5: gameArray = new Array(64).fill(0).map((e, j) => j); break;
+//       default: break;
+//     }
+//   });
+//   console.log(gameArray);
+// });
