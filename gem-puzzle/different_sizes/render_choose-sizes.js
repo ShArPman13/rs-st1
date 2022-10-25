@@ -20,12 +20,8 @@ function showSizes() {
   const size8 = document.createElement('button');
   size8.classList.add('size');
   size8.innerText = '8x8';
-  chooseSize.append(size3);
-  chooseSize.append(size4);
-  chooseSize.append(size5);
-  chooseSize.append(size6);
-  chooseSize.append(size7);
-  chooseSize.append(size8);
+  chooseSize.append(size3, size4, size5, size6, size7, size8);
+  chooseSize.classList.add('hidden');
 
   return chooseSize;
 }

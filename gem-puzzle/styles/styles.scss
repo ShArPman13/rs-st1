@@ -165,8 +165,6 @@ body {
   align-items: center;
   justify-content: space-around;
 
-
-
   .volume {
     width: 40px;
     height: 40px;
@@ -239,5 +237,8 @@ body {
       font-size: 20px;
       cursor: pointer;
     }
+  }
+  .choose-size.hidden {
+   display: none;
   }
 }

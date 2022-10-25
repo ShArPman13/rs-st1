@@ -9,7 +9,7 @@ import './styles/styles.scss';
 import { drawAllSquares, drawSquare } from './draw_squares';
 import { draw3AllSquares } from './draw_3x3_square';
 import mix3 from './mix3';
-// import showSizes from './different_sizes/render_choose-sizes';
+import showSizes from './different_sizes/render_choose-sizes';
 
 // eslint-disable-next-line no-alert
 alert('Привет! Так как делал на canvas, загнался и не успел реализовать все размеры(( Так, что все функции работают только на стандартном поле. И при проверке адаптива не забывайте нажимать F5, так как canvas сам не может перестроится автоматически как через CSS. Заранее спасибо! ...эх надо было canvas не трогать походу');
@@ -50,10 +50,7 @@ const ctx = canvasField.getContext('2d');
 const arrTrue15 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
 const arrTrue3 = [1, 2, 3, 4, 5, 6, 7, 8, 0];
 
-let rateTable = [];
-if (!localStorage.getItem('winners')) {
-  localStorage.setItem('winners', JSON.stringify(rateTable));
-}
+let rateTable = JSON.parse(localStorage.getItem('winners')) || [];
 
 let arr15 = mix(1000);
 
@@ -685,6 +682,7 @@ canvasField.addEventListener('click', (e) => {
       rateTable.push([moves, blockTime.textContent, winners]);
       winners += 1;
       localStorage.setItem('count-winners', JSON.stringify(winners));
+      localStorage.setItem('winners', JSON.stringify(rateTable));
       setTimeout(() => {
         popUp.classList.remove('hidden');
         clearTimeout(timeout);
@@ -970,34 +968,36 @@ size3Button.addEventListener('click', () => {
     countMoves.innerText = moves;
   }
 });
+// let gameArray = [];
 
-// const gameArray = [];
-// let sizes;
+// const footer = document.querySelector('footer');
+// footer.append(showSizes());
+// const sizesArr = document.querySelectorAll('.size');
+// console.log(sizesArr);
+// const chooseSize = document.querySelector('.choose-size');
 
 // const sizeButton = document.querySelector('.size3');
 // sizeButton.addEventListener('click', () => {
 //   sizeButton.classList.toggle('pressed');
-//   if (sizeButton.classList.contains('pressed')) {
-//     const footer = document.querySelector('footer');
-//     footer.append(showSizes());
-//     sizes = document.querySelectorAll('.size');
-//   } else {
-//     const chooseSize = document.querySelector('.choose-size');
-//     chooseSize.remove();
-//   }
+//   chooseSize.classList.toggle('hidden');
 // });
 
-// sizes.forEach((el, i) => {
+// sizesArr.forEach((el, i) => {
 //   el.addEventListener('click', () => {
 //     switch (i) {
-//       case 0: gameArray = new Array(8).fill(0).map((e, j) => j); break;
-//       case 1: gameArray = new Array(16).fill(0).map((e, j) => j); break;
-//       case 2: gameArray = new Array(25).fill(0).map((e, j) => j); break;
-//       case 3: gameArray = new Array(36).fill(0).map((e, j) => j); break;
-//       case 4: gameArray = new Array(49).fill(0).map((e, j) => j); break;
-//       case 5: gameArray = new Array(64).fill(0).map((e, j) => j); break;
+//       case 0: gameArray = new Array(8).fill(0).map((e, j) => j);
+//         console.log(gameArray); break;
+//       case 1: gameArray = new Array(16).fill(0).map((e, j) => j);
+//         console.log(gameArray); break;
+//       case 2: gameArray = new Array(25).fill(0).map((e, j) => j);
+//         console.log(gameArray); break;
+//       case 3: gameArray = new Array(36).fill(0).map((e, j) => j);
+//         console.log(gameArray); break;
+//       case 4: gameArray = new Array(49).fill(0).map((e, j) => j);
+//         console.log(gameArray); break;
+//       case 5: gameArray = new Array(64).fill(0).map((e, j) => j);
+//         console.log(gameArray); break;
 //       default: break;
 //     }
 //   });
-//   console.log(gameArray);
 // });
