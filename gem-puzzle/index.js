@@ -8,12 +8,16 @@ import './styles/normalize.scss';
 import './styles/styles.scss';
 import { drawAllSquares, drawSquare } from './draw_squares';
 import { draw3AllSquares } from './draw_3x3_square';
-import mix3 from './mix3';
+import mixForAnyMatrix from './mix3';
 import showSizes from './different_sizes/render_choose-sizes';
 import LS_WINNERS from './constants/LS_WINNERS';
+import renderField from './different_sizes/render-field-for-game';
+import getMatrix from './different_sizes/get-matrix';
+import setNodeStyle, { setPositionItems } from './different_sizes/set-node-onfield';
+import findCoordinatesByNumber from './different_sizes/find-coordinates';
+import isOkForMove from './different_sizes/can-mave';
+import swap from './different_sizes/swap';
 
-// eslint-disable-next-line no-alert
-alert('Привет! Так как делал на canvas, загнался и не успел реализовать все размеры(( Так, что все функции работают только на стандартном поле. И при проверке адаптива не забывайте нажимать F5, так как canvas сам не может перестроится автоматически как через CSS. Заранее спасибо! ...эх надо было canvas не трогать походу');
 document.body.append(showHeader());
 
 const main = document.createElement('main');
@@ -741,12 +745,45 @@ popUpResult.addEventListener('click', () => { // -------------------------------
 const newGameButton = document.querySelector('.buttons-raw__button-new-game');
 const easyGameButton = document.querySelector('.buttons-raw__button-new-game-easy');
 const resultsButton = document.querySelector('.buttons-raw__button-results');
+const sizeButton = document.querySelector('.size3');
+
+let gameArray = [];
+const etalonArr3 = (new Array(9).fill(0).map((e, j) => j)).slice(1);
+etalonArr3.push(0);
+
 newGameButton.addEventListener('click', () => { // -----------------------------------------------------click new HARD
-  arr15 = mix(1000);
-  arr15.forEach((el, i) => drawAllSquares(i, el));
-  setTimeout(() => {
+  if (sizeButton.innerText === '4x4') {
+    arr15 = mix(1000);
+    arr15.forEach((el, i) => drawAllSquares(i, el));
+    setTimeout(() => {
+      if (!audio.classList.contains('mute')) { createMusic('./Sound_017.wav'); }
+    }, 50);
+  } else {
+    mixForAnyMatrix(1000, gameArray);
+    main.innerHTML = '';
+    const matr = getMatrix(gameArray);
+
+    main.append(renderField(gameArray));
+    setPositionItems(matr);
     if (!audio.classList.contains('mute')) { createMusic('./Sound_017.wav'); }
-  }, 50);
+
+    const gameField = document.querySelector('.game-field');
+    gameField.addEventListener('click', (event) => {
+      const buttonNode = event.target.closest('button');
+      const buttonNumber = Number(buttonNode.getAttribute('data-matrix-id'));
+      const buttonCoords = findCoordinatesByNumber(buttonNumber, matr);
+      const zeroCoords = findCoordinatesByNumber(0, matr);
+      const canMove = isOkForMove(buttonCoords, zeroCoords);
+
+      if (canMove === true) {
+        swap(buttonCoords, zeroCoords, matr);
+        setPositionItems(matr);
+        if (!audio.classList.contains('mute')) { createMusic('./Sound_005.wav'); }
+        moves += 1;
+        countMoves.innerText = moves;
+      }
+    });
+  }
   moves = 0;
   countMoves.innerText = moves;
   clearTimeout(timeout);
@@ -754,9 +791,65 @@ newGameButton.addEventListener('click', () => { // -----------------------------
   showTime();
 });
 easyGameButton.addEventListener('click', () => { // -----------------------------------------------------click new EASY
-  if (!audio.classList.contains('mute')) { createMusic('./Sound_017.wav'); } // -------------------Sounds
-  arr15 = mix(20);
-  arr15.forEach((el, i) => drawAllSquares(i, el));
+  if (sizeButton.innerText === '4x4') {
+    if (!audio.classList.contains('mute')) { createMusic('./Sound_017.wav'); } // -------------------Sounds
+    arr15 = mix(20);
+    arr15.forEach((el, i) => drawAllSquares(i, el));
+  } else {
+    switch (sizeButton.innerText) {
+      case '3x3':
+        gameArray = (new Array(9).fill(0).map((e, j) => j)).slice(1);
+        gameArray.push(0); break;
+      case '5x5':
+        gameArray = (new Array(25).fill(0).map((e, j) => j)).slice(1);
+        gameArray.push(0); break;
+      case '6x6':
+        gameArray = (new Array(36).fill(0).map((e, j) => j)).slice(1);
+        gameArray.push(0); break;
+      case '7x7':
+        gameArray = (new Array(49).fill(0).map((e, j) => j)).slice(1);
+        gameArray.push(0); break;
+      case '8x8':
+        gameArray = (new Array(64).fill(0).map((e, j) => j)).slice(1);
+        gameArray.push(0); break;
+      default: break;
+    }
+
+    mixForAnyMatrix(13, gameArray);
+    main.innerHTML = '';
+    const matr = getMatrix(gameArray);
+
+    main.append(renderField(gameArray));
+    setPositionItems(matr);
+    if (!audio.classList.contains('mute')) { createMusic('./Sound_017.wav'); }
+
+    const gameField = document.querySelector('.game-field');
+    gameField.addEventListener('click', (event) => {
+      const buttonNode = event.target.closest('button');
+      const buttonNumber = Number(buttonNode.getAttribute('data-matrix-id'));
+      const buttonCoords = findCoordinatesByNumber(buttonNumber, matr);
+      const zeroCoords = findCoordinatesByNumber(0, matr);
+      const canMove = isOkForMove(buttonCoords, zeroCoords);
+
+      if (canMove === true) {
+        swap(buttonCoords, zeroCoords, matr);
+        setPositionItems(matr);
+        if (!audio.classList.contains('mute')) { createMusic('./Sound_005.wav'); }
+        moves += 1;
+        countMoves.innerText = moves;
+        if (JSON.stringify(getMatrix(etalonArr3)) === JSON.stringify(matr)) {
+          setTimeout(() => {
+            popUp.classList.remove('hidden');
+            clearTimeout(timeout);
+            setTimeout(() => {
+              popUp.innerHTML = `Hooray!<br> You solved the puzzle<br> in<br> ${blockTime.textContent} and ${moves} moves!`;
+            }, 500);
+            if (!audio.classList.contains('mute')) { createMusic('./Sound_025.wav'); }
+          }, 300);
+        }
+      }
+    });
+  }
   moves = 0;
   countMoves.innerText = moves;
   clearTimeout(timeout);
@@ -802,10 +895,10 @@ const saveGameButton = document.querySelector('.buttons-raw__button-save-game');
 saveGameButton.addEventListener('click', setLocalStorage);
 
 function getLocalStorage() {
-  if (size3Button.classList.contains('pressed')) {
+  if (sizeButton.classList.contains('pressed')) {
     main.innerHTML = '';
     main.append(canvasField);
-    size3Button.classList.remove('pressed');
+    sizeButton.classList.remove('pressed');
   }
 
   if (localStorage.getItem('currentState')) {
@@ -824,181 +917,133 @@ const loadGameButton = document.querySelector('.buttons-raw__button-load-game');
 loadGameButton.addEventListener('click', getLocalStorage);
 // -------------------------------------------------LOCAL STORAGE-----------------------------------
 
-const arr3 = mix3(100);
+const footer = document.querySelector('footer');
+footer.append(showSizes());
+const sizesArr = document.querySelectorAll('.size');
+const chooseSize = document.querySelector('.choose-size');
 
-function whichSquare3(offsetX) {
-  let square;
-  if (offsetX < (((canvasField.width - 30) / 3) + 9)) {
-    square = 1;
-  } if (offsetX >= (((canvasField.width - 30) / 3) + 9)
-  && offsetX < ((canvasField.width - 30) / 3) * 2 + 18) {
-    square = 2;
-  } if (offsetX > ((canvasField.width - 30) / 3) * 2 + 18) {
-    square = 3;
-  }
-  return square;
-}
-
-const size3Button = document.querySelector('.size3');
-size3Button.addEventListener('click', () => {
-  size3Button.classList.toggle('pressed');
-  if (size3Button.classList.contains('pressed')) {
-    main.innerHTML = '';
-    const canvasField3 = document.createElement('canvas');
-    canvasField3.classList.add('canvas');
-    if (window.screen.width > 1400) {
-      canvasField3.width = 600;
-      canvasField3.height = 600;
-    } else if (window.screen.width > 600 && window.screen.width < 1400) {
-      canvasField3.width = 500;
-      canvasField3.height = 500;
-    } else {
-      canvasField3.width = 300;
-      canvasField3.height = 300;
-    }
-    canvasField3.innerText = 'Please use modern browser! =)';
-    main.append(canvasField3);
-
-    const ctx3 = canvasField3.getContext('2d');
-
-    ctx3.clearRect(0, 0, canvasField3.width, canvasField3.height);
-    arr3.forEach((el, i) => draw3AllSquares(i, el));
-
-    canvasField3.addEventListener('click', (e) => {
-      let clickPos;
-      countMoves.innerText = moves;
-      if (e.offsetY < (((canvasField.width - 30) / 3) + 9)) {
-        const square = whichSquare3(e.offsetX);
-        switch (square) {
-          case 1: clickPos = 0; break;
-          case 2: clickPos = 1; break;
-          case 3: clickPos = 2; break;
-          default: break;
-        }
-      }
-      if (e.offsetY >= (((canvasField.width - 30) / 3) + 9)
-          && e.offsetY < ((canvasField.width - 30) / 3) * 2 + 18) {
-        const square = whichSquare3(e.offsetX);
-        switch (square) {
-          case 1: clickPos = 3; break;
-          case 2: clickPos = 4; break;
-          case 3: clickPos = 5; break;
-          default: break;
-        }
-      }
-      if (e.offsetY > ((canvasField.width - 30) / 3) * 2 + 18) {
-        const square = whichSquare3(e.offsetX);
-        switch (square) {
-          case 1: clickPos = 6; break;
-          case 2: clickPos = 7; break;
-          case 3: clickPos = 8; break;
-          default: break;
-        }
-      }
-      clickSquare = clickPos;
-      const numberOnSquare = arr3[clickPos];
-      if (arr3[clickPos - 3] === 0) {
-        arr3[clickPos - 3] = arr3[clickPos];
-        arr3[clickPos] = 0;
-        // eraseSquare(clickPos, 'up', numberOnSquare);
-
-        ctx3.clearRect(0, 0, canvasField3.width, canvasField3.height);
-        for (let i = 0; i <= 9; i += 1) {
-          draw3AllSquares(i, arr3[i], numberOnSquare);
-        }
-
-        if (!audio.classList.contains('mute')) { createMusic('./Sound_005.wav'); } // -------------------Sounds
-        moves += 1;
-        countMoves.innerText = moves;
-      } else if (arr3[clickPos + 3] === 0) {
-        arr3[clickPos + 3] = arr3[clickPos];
-        arr3[clickPos] = 0;
-        // eraseSquare(clickPos, 'down', numberOnSquare);
-        ctx3.clearRect(0, 0, canvasField3.width, canvasField3.height);
-        for (let i = 0; i <= 9; i += 1) {
-          draw3AllSquares(i, arr3[i], numberOnSquare);
-        }
-
-        if (!audio.classList.contains('mute')) { createMusic('./Sound_005.wav'); } // -------------------Sounds
-        moves += 1;
-        countMoves.innerText = moves;
-      } else if (arr3[clickPos - 1] === 0 && whichSquare3(e.offsetX) !== 1) {
-        arr3[clickPos - 1] = arr3[clickPos];
-        arr3[clickPos] = 0;
-        // eraseSquare(clickPos, 'left', numberOnSquare);
-        ctx3.clearRect(0, 0, canvasField3.width, canvasField3.height);
-        for (let i = 0; i <= 9; i += 1) {
-          draw3AllSquares(i, arr3[i]);
-        }
-        if (!audio.classList.contains('mute')) { createMusic('./Sound_001.wav'); } // -------------------Sounds
-        moves += 1;
-        countMoves.innerText = moves;
-      } else if (arr3[clickPos + 1] === 0 && whichSquare(e.offsetX) !== 4) {
-        arr3[clickPos + 1] = arr3[clickPos];
-        arr3[clickPos] = 0;
-        // eraseSquare(clickPos, 'right', numberOnSquare);
-        ctx3.clearRect(0, 0, canvasField3.width, canvasField3.height);
-        for (let i = 0; i <= 9; i += 1) {
-          draw3AllSquares(i, arr3[i]);
-        }
-        if (!audio.classList.contains('mute')) { createMusic('./Sound_001.wav'); } // -------------------Sounds
-        moves += 1;
-        countMoves.innerText = moves;
-      }
-      // ---------------------------------------------------------------------------Check WIN-------
-      if (JSON.stringify(arr3) === JSON.stringify(arrTrue3)) {
-        // rateTable.push([moves, blockTime.textContent, winners]);
-        // winners += 1;
-        // localStorage.setItem('count-winners', JSON.stringify(winners));
-        setTimeout(() => {
-          popUp.classList.remove('hidden');
-          clearTimeout(timeout);
-          setTimeout(() => {
-            popUp.innerHTML = `Hooray!<br> You solved the puzzle<br> in<br> ${blockTime.textContent} and ${moves} moves!`;
-          }, 500);
-          if (!audio.classList.contains('mute')) { createMusic('./Sound_025.wav'); }
-        }, 300);
-      }
-      // -------------------------------------------------------------------------Check WIN---------
-    });
-  } else {
-    main.innerHTML = '';
-    main.append(canvasField);
-    arr15 = mix(1000);
-    moves = 0;
-    countMoves.innerText = moves;
-  }
+sizeButton.addEventListener('click', () => {
+  sizeButton.classList.toggle('pressed');
+  chooseSize.classList.toggle('hidden');
 });
-// let gameArray = [];
 
-// const footer = document.querySelector('footer');
-// footer.append(showSizes());
-// const sizesArr = document.querySelectorAll('.size');
-// console.log(sizesArr);
-// const chooseSize = document.querySelector('.choose-size');
+sizesArr.forEach((el, i) => {
+  el.addEventListener('click', () => {
+    switch (i) {
+      case 0:
+        main.innerHTML = '';
+        gameArray = (new Array(9).fill(0).map((e, j) => j)).slice(1);
+        gameArray.push(0);
+        canvasField.remove();
+        mixForAnyMatrix(1000, gameArray);
+        main.append(renderField(gameArray));
+        chooseSize.classList.add('hidden');
+        sizeButton.classList.remove('pressed');
+        sizeButton.innerText = '3x3';
+        moves = 0;
+        countMoves.innerText = moves;
+        clearTimeout(timeout);
+        blockTime.textContent = '00:00';
+        showTime();
+        break;
+      case 1:
+        main.innerHTML = '';
+        main.append(canvasField);
+        chooseSize.classList.add('hidden');
+        sizeButton.classList.remove('pressed');
+        sizeButton.innerText = '4x4';
+        break;
+      case 2:
+        main.innerHTML = '';
+        gameArray = (new Array(25).fill(0).map((e, j) => j)).slice(1);
+        gameArray.push(0);
+        canvasField.remove();
+        mixForAnyMatrix(1000, gameArray);
+        main.append(renderField(gameArray));
+        chooseSize.classList.add('hidden');
+        sizeButton.classList.remove('pressed');
+        sizeButton.innerText = '5x5';
+        moves = 0;
+        countMoves.innerText = moves;
+        clearTimeout(timeout);
+        blockTime.textContent = '00:00';
+        showTime();
+        break;
+      case 3:
+        main.innerHTML = '';
+        gameArray = (new Array(36).fill(0).map((e, j) => j)).slice(1);
+        gameArray.push(0);
+        canvasField.remove();
+        mixForAnyMatrix(1000, gameArray);
+        main.append(renderField(gameArray));
+        chooseSize.classList.add('hidden');
+        sizeButton.classList.remove('pressed');
+        sizeButton.innerText = '6x6';
+        moves = 0;
+        countMoves.innerText = moves;
+        clearTimeout(timeout);
+        blockTime.textContent = '00:00';
+        showTime();
+        break;
+      case 4:
+        main.innerHTML = '';
+        gameArray = (new Array(49).fill(0).map((e, j) => j)).slice(1);
+        gameArray.push(0);
+        canvasField.remove();
+        mixForAnyMatrix(1000, gameArray);
+        main.append(renderField(gameArray));
+        chooseSize.classList.add('hidden');
+        sizeButton.classList.remove('pressed');
+        sizeButton.innerText = '7x7';
+        moves = 0;
+        countMoves.innerText = moves;
+        clearTimeout(timeout);
+        blockTime.textContent = '00:00';
+        showTime();
+        break;
+      case 5:
+        main.innerHTML = '';
+        gameArray = (new Array(64).fill(0).map((e, j) => j)).slice(1);
+        gameArray.push(0);
+        canvasField.remove();
+        mixForAnyMatrix(1000, gameArray);
+        main.append(renderField(gameArray));
+        chooseSize.classList.add('hidden');
+        sizeButton.classList.remove('pressed');
+        sizeButton.innerText = '8x8';
+        moves = 0;
+        countMoves.innerText = moves;
+        clearTimeout(timeout);
+        blockTime.textContent = '00:00';
+        showTime();
+        break;
+      default: break;
+    }
 
-// const sizeButton = document.querySelector('.size3');
-// sizeButton.addEventListener('click', () => {
-//   sizeButton.classList.toggle('pressed');
-//   chooseSize.classList.toggle('hidden');
-// });
+    const matrixNum = getMatrix(gameArray);
 
-// sizesArr.forEach((el, i) => {
-//   el.addEventListener('click', () => {
-//     switch (i) {
-//       case 0: gameArray = new Array(8).fill(0).map((e, j) => j);
-//         console.log(gameArray); break;
-//       case 1: gameArray = new Array(16).fill(0).map((e, j) => j);
-//         console.log(gameArray); break;
-//       case 2: gameArray = new Array(25).fill(0).map((e, j) => j);
-//         console.log(gameArray); break;
-//       case 3: gameArray = new Array(36).fill(0).map((e, j) => j);
-//         console.log(gameArray); break;
-//       case 4: gameArray = new Array(49).fill(0).map((e, j) => j);
-//         console.log(gameArray); break;
-//       case 5: gameArray = new Array(64).fill(0).map((e, j) => j);
-//         console.log(gameArray); break;
-//       default: break;
-//     }
-//   });
-// });
+    const gameField = document.querySelector('.game-field');
+    if (gameField) {
+      gameField.addEventListener('click', (event) => {
+        const buttonNode = event.target.closest('button');
+        const buttonNumber = Number(buttonNode.getAttribute('data-matrix-id'));
+        const buttonCoords = findCoordinatesByNumber(buttonNumber, matrixNum);
+        const zeroCoords = findCoordinatesByNumber(0, matrixNum);
+        const canMove = isOkForMove(buttonCoords, zeroCoords);
+
+        if (canMove === true) {
+          swap(buttonCoords, zeroCoords, matrixNum);
+          setPositionItems(matrixNum);
+          if (!audio.classList.contains('mute')) { createMusic('./Sound_005.wav'); }
+          moves += 1;
+          countMoves.innerText = moves;
+          console.log(matrixNum);
+          if (JSON.stringify(getMatrix(etalonArr3)) === JSON.stringify(matrixNum)) {
+            console.log('win');
+          }
+        }
+      });
+    }
+    setPositionItems(matrixNum);
+  });
+});

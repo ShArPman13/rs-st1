@@ -8,7 +8,7 @@ function showFooter() {
 
   const size3 = document.createElement('button');
   size3.classList.add('size3', 'button');
-  size3.innerText = '3x3';
+  size3.innerText = '4x4';
   footer.append(size3);
 
   const gitLink = document.createElement('a');
