@@ -11,7 +11,6 @@ function renderField(array) {
     gameField.style.width = '300px';
     gameField.style.height = '300px';
   }
-
   array.forEach((_element, i) => {
     const square = document.createElement('button');
     square.setAttribute('data-matrix-id', i);

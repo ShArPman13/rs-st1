@@ -124,7 +124,7 @@ body {
   position: relative;
   .square {
     position: absolute;
-    background-color: rgb(77, 77, 77);
+    background-color: rgba(100, 100, 100, 0.7);
     width: 10%;
     height: 10%;
     left: 0;
@@ -135,6 +135,10 @@ body {
     font-family: Roboto;
     box-shadow: inset 3px 3px #ffffff;
     transition: transform 0.2s;
+    @media (max-width: 600px) {
+      font-size: 10px;
+      font-weight: 700;
+    }
   }
 }
 
@@ -235,16 +239,16 @@ body {
 
   .choose-size {
     position: absolute;
-    width: 150px;
-    height: 300px;
+    width: 110px;
+    height: 260px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
     gap: 10px;
     bottom: 120px;
     background-color: white;
+    border-radius: 5px;
     .size {
       width: 70px;
       height: 30px;

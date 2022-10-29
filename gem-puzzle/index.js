@@ -7,16 +7,19 @@ import createMusic from './audio';
 import './styles/normalize.scss';
 import './styles/styles.scss';
 import { drawAllSquares, drawSquare } from './draw_squares';
-import { draw3AllSquares } from './draw_3x3_square';
 import mixForAnyMatrix from './mix3';
 import showSizes from './different_sizes/render_choose-sizes';
 import LS_WINNERS from './constants/LS_WINNERS';
 import renderField from './different_sizes/render-field-for-game';
 import getMatrix from './different_sizes/get-matrix';
-import setNodeStyle, { setPositionItems } from './different_sizes/set-node-onfield';
+import { setPositionItems } from './different_sizes/set-node-onfield';
 import findCoordinatesByNumber from './different_sizes/find-coordinates';
 import isOkForMove from './different_sizes/can-mave';
 import swap from './different_sizes/swap';
+import {
+  ETALON_ARRAY_3, ETALON_ARRAY_5, ETALON_ARRAY_6, ETALON_ARRAY_7, ETALON_ARRAY_8,
+} from './constants/ETALON_ARRAYS';
+import getArrayFromMatrix from './different_sizes/getArrayFromMatrix';
 
 document.body.append(showHeader());
 
@@ -53,7 +56,6 @@ main.append(canvasField);
 const ctx = canvasField.getContext('2d');
 
 const arrTrue15 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
-const arrTrue3 = [1, 2, 3, 4, 5, 6, 7, 8, 0];
 
 let rateTable = JSON.parse(localStorage.getItem(LS_WINNERS)) || [];
 
@@ -310,6 +312,7 @@ canvasField.addEventListener('mouseup', (e) => {
   arr15.forEach((el, i) => drawAllSquares(i, el));
   // ---------------------------------------------------------------------------Check WIN---------
   if (JSON.stringify(arr15) === JSON.stringify(arrTrue15)) {
+    console.log('win');
     setTimeout(() => {
       popUp.classList.remove('hidden');
       clearTimeout(timeout);
@@ -726,15 +729,31 @@ function showTime(s = 0, m = 0) { // -------------------------------------------
 }
 showTime();
 
+const sizeButton = document.querySelector('.size3');
+let gameArray = [];
+let gameMatr = [];
+
 popUp.addEventListener('click', () => { // -----------------------------------------------------------------close Pop-Up-WIN
   popUp.innerHTML = '';
   popUp.classList.add('hidden');
-  arr15 = mix(1000);
+
   blockTime.innerText = '00:00';
   showTime();
   moves = 0;
   countMoves.innerText = moves;
-  localStorage.setItem(LS_WINNERS, JSON.stringify(rateTable));
+
+  if (sizeButton.innerText === '4x4') {
+    arr15 = mix(1000);
+    localStorage.setItem(LS_WINNERS, JSON.stringify(rateTable));
+  } else {
+    mixForAnyMatrix(1000, gameArray);
+    main.innerHTML = '';
+    const matr = getMatrix(gameArray);
+
+    main.append(renderField(gameArray));
+    setPositionItems(matr);
+    alert('Statistics are updated only on the field 4x4');
+  }
 });
 
 popUpResult.addEventListener('click', () => { // ----------------------------------------------------------close Pop-Up-RESULT
@@ -745,11 +764,6 @@ popUpResult.addEventListener('click', () => { // -------------------------------
 const newGameButton = document.querySelector('.buttons-raw__button-new-game');
 const easyGameButton = document.querySelector('.buttons-raw__button-new-game-easy');
 const resultsButton = document.querySelector('.buttons-raw__button-results');
-const sizeButton = document.querySelector('.size3');
-
-let gameArray = [];
-const etalonArr3 = (new Array(9).fill(0).map((e, j) => j)).slice(1);
-etalonArr3.push(0);
 
 newGameButton.addEventListener('click', () => { // -----------------------------------------------------click new HARD
   if (sizeButton.innerText === '4x4') {
@@ -767,6 +781,8 @@ newGameButton.addEventListener('click', () => { // -----------------------------
     setPositionItems(matr);
     if (!audio.classList.contains('mute')) { createMusic('./Sound_017.wav'); }
 
+    gameMatr = getArrayFromMatrix(matr);
+
     const gameField = document.querySelector('.game-field');
     gameField.addEventListener('click', (event) => {
       const buttonNode = event.target.closest('button');
@@ -781,6 +797,24 @@ newGameButton.addEventListener('click', () => { // -----------------------------
         if (!audio.classList.contains('mute')) { createMusic('./Sound_005.wav'); }
         moves += 1;
         countMoves.innerText = moves;
+
+        gameMatr = getArrayFromMatrix(matr);
+        // ---------------------------------------------------------------------------Check WIN-----
+        if (JSON.stringify(getMatrix(ETALON_ARRAY_3)) === JSON.stringify(matr)
+          || JSON.stringify(getMatrix(ETALON_ARRAY_5)) === JSON.stringify(matr)
+          || JSON.stringify(getMatrix(ETALON_ARRAY_6)) === JSON.stringify(matr)
+          || JSON.stringify(getMatrix(ETALON_ARRAY_7)) === JSON.stringify(matr)
+          || JSON.stringify(getMatrix(ETALON_ARRAY_8)) === JSON.stringify(matr)) {
+          setTimeout(() => {
+            popUp.classList.remove('hidden');
+            clearTimeout(timeout);
+            setTimeout(() => {
+              popUp.innerHTML = `Hooray!<br> You solved the puzzle<br> in<br> ${blockTime.textContent} and ${moves} moves!`;
+            }, 500);
+            if (!audio.classList.contains('mute')) { createMusic('./Sound_025.wav'); }
+          }, 300);
+        }
+        // ---------------------------------------------------------------------------Check WIN-----
       }
     });
   }
@@ -823,6 +857,8 @@ easyGameButton.addEventListener('click', () => { // ----------------------------
     setPositionItems(matr);
     if (!audio.classList.contains('mute')) { createMusic('./Sound_017.wav'); }
 
+    gameMatr = getArrayFromMatrix(matr);
+
     const gameField = document.querySelector('.game-field');
     gameField.addEventListener('click', (event) => {
       const buttonNode = event.target.closest('button');
@@ -837,7 +873,13 @@ easyGameButton.addEventListener('click', () => { // ----------------------------
         if (!audio.classList.contains('mute')) { createMusic('./Sound_005.wav'); }
         moves += 1;
         countMoves.innerText = moves;
-        if (JSON.stringify(getMatrix(etalonArr3)) === JSON.stringify(matr)) {
+        gameMatr = getArrayFromMatrix(matr);
+        // ---------------------------------------------------------------------------Check WIN-----
+        if (JSON.stringify(getMatrix(ETALON_ARRAY_3)) === JSON.stringify(matr)
+        || JSON.stringify(getMatrix(ETALON_ARRAY_5)) === JSON.stringify(matr)
+        || JSON.stringify(getMatrix(ETALON_ARRAY_6)) === JSON.stringify(matr)
+        || JSON.stringify(getMatrix(ETALON_ARRAY_7)) === JSON.stringify(matr)
+        || JSON.stringify(getMatrix(ETALON_ARRAY_8)) === JSON.stringify(matr)) {
           setTimeout(() => {
             popUp.classList.remove('hidden');
             clearTimeout(timeout);
@@ -847,6 +889,7 @@ easyGameButton.addEventListener('click', () => { // ----------------------------
             if (!audio.classList.contains('mute')) { createMusic('./Sound_025.wav'); }
           }, 300);
         }
+        // ---------------------------------------------------------------------------Check WIN-----
       }
     });
   }
@@ -889,6 +932,7 @@ function setLocalStorage() {
   localStorage.setItem('currentState', JSON.stringify(arr15));
   localStorage.setItem('currentMove', JSON.stringify(moves));
   localStorage.setItem('time', JSON.stringify(blockTime.textContent));
+  localStorage.setItem('currentStateNoCanvas', JSON.stringify(gameMatr));
 }
 
 const saveGameButton = document.querySelector('.buttons-raw__button-save-game');
@@ -909,9 +953,54 @@ function getLocalStorage() {
     blockTime.textContent = time;
     showTime(Number(time[3] + time[4]), Number(time[0] + time[1]));
   }
-  ctx.clearRect(0, 0, canvasField.width, canvasField.height);
-  arr15.forEach((el, i) => drawAllSquares(i, el));
-  countMoves.innerText = moves;
+  if (sizeButton.innerText === '4x4') {
+    ctx.clearRect(0, 0, canvasField.width, canvasField.height);
+    arr15.forEach((el, i) => drawAllSquares(i, el));
+    countMoves.innerText = moves;
+  } else {
+    const currentStateNoCanvas = JSON.parse(localStorage.getItem('currentStateNoCanvas'));
+    main.innerHTML = '';
+    countMoves.innerText = moves;
+    main.append(renderField(currentStateNoCanvas));
+    setPositionItems(getMatrix(currentStateNoCanvas));
+
+    const matrixNum = getMatrix(currentStateNoCanvas);
+
+    const gameField = document.querySelector('.game-field');
+    if (gameField) {
+      gameField.addEventListener('click', (event) => {
+        const buttonNode = event.target.closest('button');
+        const buttonNumber = Number(buttonNode.getAttribute('data-matrix-id'));
+        const buttonCoords = findCoordinatesByNumber(buttonNumber, matrixNum);
+        const zeroCoords = findCoordinatesByNumber(0, matrixNum);
+        const canMove = isOkForMove(buttonCoords, zeroCoords);
+
+        if (canMove === true) {
+          swap(buttonCoords, zeroCoords, matrixNum);
+          setPositionItems(matrixNum);
+          if (!audio.classList.contains('mute')) { createMusic('./Sound_005.wav'); }
+          moves += 1;
+          countMoves.innerText = moves;
+          // ---------------------------------------------------------------------------Check WIN---
+          if (JSON.stringify(getMatrix(ETALON_ARRAY_3)) === JSON.stringify(matrixNum)
+        || JSON.stringify(getMatrix(ETALON_ARRAY_5)) === JSON.stringify(matrixNum)
+        || JSON.stringify(getMatrix(ETALON_ARRAY_6)) === JSON.stringify(matrixNum)
+        || JSON.stringify(getMatrix(ETALON_ARRAY_7)) === JSON.stringify(matrixNum)
+        || JSON.stringify(getMatrix(ETALON_ARRAY_8)) === JSON.stringify(matrixNum)) {
+            setTimeout(() => {
+              popUp.classList.remove('hidden');
+              clearTimeout(timeout);
+              setTimeout(() => {
+                popUp.innerHTML = `Hooray!<br> You solved the puzzle<br> in<br> ${blockTime.textContent} and ${moves} moves!`;
+              }, 500);
+              if (!audio.classList.contains('mute')) { createMusic('./Sound_025.wav'); }
+            }, 300);
+          }
+        // ---------------------------------------------------------------------------Check WIN-----
+        }
+      });
+    }
+  }
 }
 const loadGameButton = document.querySelector('.buttons-raw__button-load-game');
 loadGameButton.addEventListener('click', getLocalStorage);
@@ -1021,6 +1110,7 @@ sizesArr.forEach((el, i) => {
     }
 
     const matrixNum = getMatrix(gameArray);
+    gameMatr = getArrayFromMatrix(matrixNum);
 
     const gameField = document.querySelector('.game-field');
     if (gameField) {
@@ -1037,10 +1127,24 @@ sizesArr.forEach((el, i) => {
           if (!audio.classList.contains('mute')) { createMusic('./Sound_005.wav'); }
           moves += 1;
           countMoves.innerText = moves;
-          console.log(matrixNum);
-          if (JSON.stringify(getMatrix(etalonArr3)) === JSON.stringify(matrixNum)) {
-            console.log('win');
+          gameMatr = getArrayFromMatrix(matrixNum);
+
+          // ---------------------------------------------------------------------------Check WIN---
+          if (JSON.stringify(getMatrix(ETALON_ARRAY_3)) === JSON.stringify(matrixNum)
+        || JSON.stringify(getMatrix(ETALON_ARRAY_5)) === JSON.stringify(matrixNum)
+        || JSON.stringify(getMatrix(ETALON_ARRAY_6)) === JSON.stringify(matrixNum)
+        || JSON.stringify(getMatrix(ETALON_ARRAY_7)) === JSON.stringify(matrixNum)
+        || JSON.stringify(getMatrix(ETALON_ARRAY_8)) === JSON.stringify(matrixNum)) {
+            setTimeout(() => {
+              popUp.classList.remove('hidden');
+              clearTimeout(timeout);
+              setTimeout(() => {
+                popUp.innerHTML = `Hooray!<br> You solved the puzzle<br> in<br> ${blockTime.textContent} and ${moves} moves!`;
+              }, 500);
+              if (!audio.classList.contains('mute')) { createMusic('./Sound_025.wav'); }
+            }, 300);
           }
+        // ---------------------------------------------------------------------------Check WIN-----
         }
       });
     }
