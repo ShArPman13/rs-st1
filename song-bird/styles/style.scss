@@ -4,7 +4,7 @@
 .body {
   background-color: rgb(5, 27, 41, 1);
   width: 100vw;
-  height: 100vh;
+  // height: 100%;
   padding: 40px 100px;
   // overflow-x: hidden;
   background-image: url('../assets/images/bg.jpg');
@@ -12,6 +12,7 @@
   background-repeat: no-repeat;
   background-position-x: 40%;
   background-position-y: 48%;
+  display: flex;
 
     @media (max-width: 950px) {
       background-position-x: -375px;
@@ -34,8 +35,8 @@
 .wrapper {
   max-width: 1140px;
   width: 100%;
-  height: 100%;
-  max-height: 100vh;
+  // height: 100%;
+  // max-height: 100vh;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -83,6 +84,7 @@
 
       .nav__list {
         display: flex;
+        align-items: center;
         gap:50px;
         font-family: Montserrat;
         font-size: 20px;
@@ -101,9 +103,17 @@
             opacity: 0.7;
             transition: 0.3s;
           }
+
+          .nav__home-img {
+            width: 30px;
+          }
         }
       }
     }
+  }
+
+  .header__wrapper.game {
+    justify-content: flex-end;
   }
 }
 
@@ -125,6 +135,8 @@
   justify-content: center;
   align-items: right;
   height: fit-content;
+  opacity: 1;
+  transition: 1s;
 
   @media (max-width: 950px) {
     max-width: 60%;
@@ -248,7 +260,7 @@
 
 .main__container.hidden {
   opacity: 0;
-  transition: 1s;
+  transition: 0.5s;
 }
 
 .main__button {

@@ -19,8 +19,12 @@
       <div class="header__wrapper">
         <nav class="header__nav nav">
           <ul class="nav__list">
-            <li class="nav__item nav__item-main"><a class="nav__link nav__link-active">Main</a></li>
-            <li class="nav__item nav__item-play"><a class="nav__link">Play</a></li>
+            <li class="nav__item nav__item-main">
+              <a class="nav__link nav__link-active">
+                <img class="nav__home-img" src="/icons/home.svg" alt="home">
+              </a>
+            </li>
+            <li class="nav__item nav__item-play"><a data-action="play" class="nav__link-play">Play</a></li>
             <li class="nav__item nav__item-res"><a class="nav__link">Statistics</a></li>
           </ul>
         </nav>
@@ -38,7 +42,7 @@
           <br><br>
           Do you want recognise birds by singing?<br> Just play the game!
         </p>
-        <div class="main__button">Play</div>
+        <div data-action="play" class="main__button">Play</div>
       </div>
     </main>
 
