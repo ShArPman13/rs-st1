@@ -1,7 +1,7 @@
 import birdsButtons from '../constants/birdsBtn';
 import renderPlayer from './render-audio-player';
 
-function renderGamePage(parts) {
+function renderGamePage(parts, __audioSrc) {
   const gameWrapper = document.createElement('div');
   gameWrapper.classList.add('wrapper-game');
   const ulBirdTypes = document.createElement('ul');
@@ -48,11 +48,7 @@ function renderGamePage(parts) {
   bierdToGuess.classList.add('bierd-to-guess');
   bierdToGuess.innerText = '********';
 
-  const {
-    player, playButton, volumeButton, progressLine,
-    progressPoint, timeline, currentTime, lengthTime, volumeSlider,
-    volumePercentage,
-  } = renderPlayer();
+  const { player } = renderPlayer(__audioSrc);
 
   randomBirdPlayerContainer.append(bierdToGuess, player);
 
@@ -87,19 +83,12 @@ function renderGamePage(parts) {
 
   return {
     gameWrapper,
-    playButton,
-    volumeButton,
-    progressLine,
-    progressPoint,
     birdTopBtnArray,
     birdLeftBtnArray,
-    timeline,
-    currentTime,
-    lengthTime,
-    volumeSlider,
-    volumePercentage,
     chooseBirdRight,
     player,
+    bierdToGuess,
+    scoreValue,
   };
 }
 

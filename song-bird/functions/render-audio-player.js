@@ -1,4 +1,6 @@
-function renderPlayer() {
+import getTimeCodeFromNum from './usefull/getTimeCodeFromNum';
+
+function renderPlayer(__audioSrc) {
   const player = document.createElement('div');
   player.classList.add('player');
 
@@ -22,7 +24,7 @@ function renderPlayer() {
   currentTime.innerText = '0:00';
   const lengthTime = document.createElement('div');
   lengthTime.classList.add('time__length');
-  lengthTime.innerText = '00:00';
+  lengthTime.innerText = '0:00';
   timelineTime.append(currentTime, lengthTime);
 
   progressLine.append(progressPoint);
@@ -44,18 +46,88 @@ function renderPlayer() {
 
   player.append(playerControls, timeline);
 
-  return {
-    player,
-    playButton,
-    volumeButton,
-    progressLine,
-    progressPoint,
-    timeline,
-    currentTime,
-    lengthTime,
-    volumeSlider,
-    volumePercentage,
-  };
+  // ---------------------------------------------------------------AUDIO---------------------------
+
+  let isPlay = false;
+
+  const audio = new Audio(__audioSrc);
+
+  let globalTimeToSeek = 0;
+  let globalVolume = 0.3;
+
+  setTimeout(() => {
+    lengthTime.innerText = (getTimeCodeFromNum(audio.duration));
+  }, 300);
+
+  function togglePlayBtn() {
+    if (!isPlay) {
+      playButton.classList.remove('pause');
+    } else {
+      playButton.classList.add('pause');
+    }
+  }
+
+  function playAudio() {
+    let intervalProgressLine;
+    audio.src = __audioSrc;
+    audio.volume = globalVolume;
+    if (!isPlay) {
+      audio.play();
+      audio.currentTime = globalTimeToSeek;
+      isPlay = true;
+      intervalProgressLine = setInterval(() => {
+        progressLine.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
+        currentTime.textContent = getTimeCodeFromNum(audio.currentTime);
+        globalTimeToSeek = audio.currentTime;
+      }, 100);
+    } else {
+      audio.pause();
+      isPlay = false;
+      clearInterval(intervalProgressLine);
+      audio.currentTime = globalTimeToSeek;
+    }
+    togglePlayBtn();
+  }
+
+  playButton.addEventListener('click', playAudio);
+
+  audio.addEventListener('ended', () => {
+    globalTimeToSeek = 0;
+    audio.currentTime = globalTimeToSeek;
+    isPlay = false;
+    togglePlayBtn();
+  });
+
+  timeline.addEventListener('click', (e) => {
+    const timelineWidth = window.getComputedStyle(timeline).width;
+    const timeToSeek = (e.offsetX / parseInt(timelineWidth, 10)) * audio.duration;
+    audio.currentTime = timeToSeek;
+    globalTimeToSeek = timeToSeek;
+  });
+
+  volumeButton.addEventListener('click', () => {
+    audio.muted = !audio.muted;
+    if (audio.muted) {
+      volumeButton.classList.add('mute');
+    } else {
+      volumeButton.classList.remove('mute');
+    }
+  });
+
+  volumeSlider.addEventListener('click', (e) => {
+    const sliderHeight = window.getComputedStyle(volumeSlider).height;
+    const newVolume = (e.offsetY) / parseInt(sliderHeight, 10);
+    audio.volume = newVolume;
+    globalVolume = newVolume;
+    volumePercentage.style.height = `${newVolume * 100}%`;
+  });
+
+  function turnOffAudio() {
+    audio.pause();
+  }
+
+  // ---------------------------------------------------------------AUDIO---------------------------
+  return { player, turnOffAudio };
 }
 
 export default renderPlayer;

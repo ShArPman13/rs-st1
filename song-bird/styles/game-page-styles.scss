@@ -18,7 +18,7 @@
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  background-color:rgb(0, 157, 157);
+  background-color: #3F5F74;
   justify-content: space-between;
 
   .bird-type {
@@ -28,13 +28,14 @@
     align-items: center;
     width: 16.666%;
     height: 30px;
-    background-color:rgb(0, 157, 157);
+    background-color: #3F5F74;
+    cursor: pointer;
     font-family: Montserrat;
     font-size: 17px;
   }
 
   .bird-type.active {
-    background-color:rgb(17, 92, 92);
+    background-color:rgb(0, 157, 157);
   }
 }
 
@@ -109,6 +110,15 @@
       &:hover {
         background-color: #2e485a;
       }
+    }
+
+    .li-bird.pressed {
+      background-color: transparent;
+      border: 1px solid #3F5F74;
+    }
+
+    .li-bird.pressed-truth {
+      background-color: rgb(56, 147, 56);
     }
   }
   .choose-bird__right {

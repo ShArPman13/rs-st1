@@ -9,31 +9,32 @@ import parallax from './functions/design_and_styling/parallax';
 import {
   body, mainNavButton, mainContainer, main,
 } from './constants/dom/constants_dom';
-import getTimeCodeFromNum from './functions/usefull/getTimeCodeFromNum';
 import renderGamePage from './functions/render_gamepage';
 import renderBirdRightCard from './functions/render_birdRightCard';
 import renderPlayer from './functions/render-audio-player';
-// import renderPlayer from './functions/render-audio-player';
+import { playAudioRightAnswer, playAudioWrongAnswer } from './functions/play_sounds';
 
 if (window.screen.width > 1400) { // moving back-ground by mousemove
   document.addEventListener('mousemove', parallax);
 }
 
+let turnOff;
+
+function getRandomNum() {
+  const randomNum = Math.floor(Math.random() * 6);
+  return randomNum;
+}
+
+const randomNum = getRandomNum();
+
 const {
   gameWrapper,
-  playButton,
-  volumeButton,
-  progressLine,
-  progressPoint,
-  birdTopBtnArray,
   birdLeftBtnArray,
-  timeline,
-  currentTime,
-  lengthTime,
-  volumeSlider,
-  volumePercentage,
+  birdTopBtnArray,
   chooseBirdRight,
-} = renderGamePage(birdsData);
+  bierdToGuess,
+  scoreValue,
+} = renderGamePage(birdsData, birdsData[0][randomNum].audio);
 
 body.addEventListener('click', (event) => { // -------------------play_Button click---------------
   if (event.target.dataset.action !== 'play') { return; }
@@ -55,95 +56,36 @@ mainNavButton.addEventListener('click', () => { // -------------------home_Butto
     mainContainer.classList.remove('hidden');
   }, 700);
 });
-// ----------------------------------------------------------------AUDIO---------------------------
-let isPlay = false;
 
-function getRandomNum() {
-  const randomNum = Math.floor(Math.random() * 6);
-  return randomNum;
-}
-const bird = getRandomNum();
-const audio = new Audio(birdsData[0][bird].audio);
-
-setTimeout(() => {
-  console.log(audio.duration);
-}, 300);
-
-let globalTimeToSeek = 0;
-let globalVolume = 0.3;
-
-setTimeout(() => {
-  lengthTime.innerText = (getTimeCodeFromNum(audio.duration));
-}, 300);
-
-function togglePlayBtn() {
-  if (!isPlay) {
-    playButton.classList.remove('pause');
-  } else {
-    playButton.classList.add('pause');
-  }
-}
-
-function playAudio() {
-  let intervalProgressLine;
-  audio.src = birdsData[0][bird].audio;
-  audio.volume = globalVolume;
-  if (!isPlay) {
-    audio.play();
-    audio.currentTime = globalTimeToSeek;
-    isPlay = true;
-    intervalProgressLine = setInterval(() => {
-      progressLine.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
-      currentTime.textContent = getTimeCodeFromNum(audio.currentTime);
-      globalTimeToSeek = audio.currentTime;
-    }, 100);
-  } else {
-    audio.pause();
-    isPlay = false;
-    clearInterval(intervalProgressLine);
-    audio.currentTime = globalTimeToSeek;
-  }
-  togglePlayBtn();
-}
-
-playButton.addEventListener('click', playAudio);
-
-audio.addEventListener('ended', () => {
-  globalTimeToSeek = 0;
-  audio.currentTime = globalTimeToSeek;
-  isPlay = false;
-  togglePlayBtn();
-});
-
-timeline.addEventListener('click', (e) => {
-  const timelineWidth = window.getComputedStyle(timeline).width;
-  const timeToSeek = (e.offsetX / parseInt(timelineWidth, 10)) * audio.duration;
-  audio.currentTime = timeToSeek;
-  globalTimeToSeek = timeToSeek;
-});
-
-volumeButton.addEventListener('click', () => {
-  audio.muted = !audio.muted;
-  if (audio.muted) {
-    volumeButton.classList.add('mute');
-  } else {
-    volumeButton.classList.remove('mute');
-  }
-});
-
-volumeSlider.addEventListener('click', (e) => {
-  const sliderHeight = window.getComputedStyle(volumeSlider).height;
-  const newVolume = (e.offsetY) / parseInt(sliderHeight, 10);
-  audio.volume = newVolume;
-  globalVolume = newVolume;
-  volumePercentage.style.height = `${newVolume * 100}%`;
-});
-// ----------------------------------------------------------------AUDIO---------------------------
+let click = 0;
+let yourScore = 0;
 
 birdLeftBtnArray.forEach((el, index) => {
   el.addEventListener('click', () => {
-    const { player: secondPlayer } = renderPlayer();
+    click += 1;
+    if (index === randomNum) {
+      if (!el.classList.contains('pressed-truth')) {
+        playAudioRightAnswer();
+        yourScore += (6 - click);
+        scoreValue.innerText = yourScore;
+        click = 0;
+      }
+      el.classList.add('pressed-truth');
+      bierdToGuess.innerText = birdsData[0][index].name;
+    } else {
+      if (!el.classList.contains('pressed')) { playAudioWrongAnswer(); }
+      el.classList.add('pressed');
+    }
 
+    if (typeof turnOff === 'function') {
+      turnOff();
+    }
+    const {
+      player: secondPlayer,
+      turnOffAudio: turnOffPlayer,
+    } = renderPlayer(birdsData[0][index].audio);
+
+    turnOff = turnOffPlayer;
     const imgDescriptionContainer = renderBirdRightCard(
       birdsData[0][index].image,
       birdsData[0][index].description,
