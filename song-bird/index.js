@@ -1,6 +1,7 @@
 import './styles/normalize.scss';
 import './styles/style.scss';
 import './styles/game-page-styles.scss';
+import './styles/player.scss';
 
 import birdsData from './constants/birds';
 
@@ -8,8 +9,11 @@ import parallax from './functions/design_and_styling/parallax';
 import {
   body, mainNavButton, mainContainer, main,
 } from './constants/dom/constants_dom';
-import renderBirdTypes from './functions/render_bird-types';
 import getTimeCodeFromNum from './functions/usefull/getTimeCodeFromNum';
+import renderGamePage from './functions/render_gamepage';
+import renderBirdRightCard from './functions/render_birdRightCard';
+import renderPlayer from './functions/render-audio-player';
+// import renderPlayer from './functions/render-audio-player';
 
 if (window.screen.width > 1400) { // moving back-ground by mousemove
   document.addEventListener('mousemove', parallax);
@@ -28,9 +32,10 @@ const {
   lengthTime,
   volumeSlider,
   volumePercentage,
-} = renderBirdTypes(birdsData);
+  chooseBirdRight,
+} = renderGamePage(birdsData);
 
-body.addEventListener('click', (event) => {
+body.addEventListener('click', (event) => { // -------------------play_Button click---------------
   if (event.target.dataset.action !== 'play') { return; }
   gameWrapper.classList.remove('opacity');
   mainContainer.classList.add('hidden');
@@ -41,7 +46,7 @@ body.addEventListener('click', (event) => {
   }, 700);
 });
 
-mainNavButton.addEventListener('click', () => {
+mainNavButton.addEventListener('click', () => { // -------------------home_Button click---------------
   gameWrapper.classList.add('opacity');
   setTimeout(() => {
     mainContainer.style.display = 'flex';
@@ -60,12 +65,16 @@ function getRandomNum() {
 const bird = getRandomNum();
 const audio = new Audio(birdsData[0][bird].audio);
 
+setTimeout(() => {
+  console.log(audio.duration);
+}, 300);
+
 let globalTimeToSeek = 0;
 let globalVolume = 0.3;
 
 setTimeout(() => {
   lengthTime.innerText = (getTimeCodeFromNum(audio.duration));
-}, 200);
+}, 300);
 
 function togglePlayBtn() {
   if (!isPlay) {
@@ -130,3 +139,17 @@ volumeSlider.addEventListener('click', (e) => {
   volumePercentage.style.height = `${newVolume * 100}%`;
 });
 // ----------------------------------------------------------------AUDIO---------------------------
+
+birdLeftBtnArray.forEach((el, index) => {
+  el.addEventListener('click', () => {
+    const { player: secondPlayer } = renderPlayer();
+
+    const imgDescriptionContainer = renderBirdRightCard(
+      birdsData[0][index].image,
+      birdsData[0][index].description,
+    );
+
+    chooseBirdRight.innerHTML = '';
+    chooseBirdRight.append(imgDescriptionContainer, secondPlayer);
+  });
+});

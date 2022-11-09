@@ -19,7 +19,7 @@ function renderPlayer() {
   timelineTime.classList.add('timeline__time', 'time');
   const currentTime = document.createElement('div');
   currentTime.classList.add('time__current');
-  currentTime.innerText = '00:00';
+  currentTime.innerText = '0:00';
   const lengthTime = document.createElement('div');
   lengthTime.classList.add('time__length');
   lengthTime.innerText = '00:00';

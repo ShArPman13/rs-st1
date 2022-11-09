@@ -1,8 +1,7 @@
 import birdsButtons from '../constants/birdsBtn';
-// import { gameWrapper } from '../constants/dom/constants_dom';
 import renderPlayer from './render-audio-player';
 
-function renderBirdTypes(parts) {
+function renderGamePage(parts) {
   const gameWrapper = document.createElement('div');
   gameWrapper.classList.add('wrapper-game');
   const ulBirdTypes = document.createElement('ul');
@@ -99,7 +98,9 @@ function renderBirdTypes(parts) {
     lengthTime,
     volumeSlider,
     volumePercentage,
+    chooseBirdRight,
+    player,
   };
 }
 
-export default renderBirdTypes;
+export default renderGamePage;
