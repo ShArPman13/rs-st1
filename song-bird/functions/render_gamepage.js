@@ -1,8 +1,14 @@
+import birdsData from '../constants/birds';
 import birdsButtons from '../constants/birdsBtn';
+import { main } from '../constants/dom/constants_dom';
+import { playAudioRightAnswer, playAudioWrongAnswer } from './play_sounds';
 import renderPlayer from './render-audio-player';
+import renderBirdRightCard from './render_birdRightCard';
+import getRandomNum from './usefull/getRandomNum';
 
-function renderGamePage(parts, __audioSrc) {
-  const gameWrapper = document.createElement('div');
+function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score) {
+  let level = gameLevel;
+  let gameWrapper = document.createElement('div');
   gameWrapper.classList.add('wrapper-game');
   const ulBirdTypes = document.createElement('ul');
   ulBirdTypes.classList.add('ul__bird-types');
@@ -11,10 +17,10 @@ function renderGamePage(parts, __audioSrc) {
   const birdTopBtnArray = [];
   const birdLeftBtnArray = [];
 
-  for (let i = 0; i < parts.length; i += 1) {
+  for (let i = 0; i < __parts.length; i += 1) {
     const birdType = document.createElement('li');
     birdType.classList.add('bird-type');
-    if (i === 0) { birdType.classList.add('active'); }
+    if (i === gameLevel) { birdType.classList.add('active'); }
     birdType.innerText = birdsButtons[i];
     ulBirdTypes.append(birdType);
     birdTopBtnArray.push(birdType);
@@ -34,7 +40,7 @@ function renderGamePage(parts, __audioSrc) {
   scoreCaption.innerText = 'Your Score:';
   const scoreValue = document.createElement('span');
   scoreValue.classList.add('score-value');
-  scoreValue.innerText = '0';
+  scoreValue.innerText = __score;
   scoreContainer.append(scoreCaption, scoreValue);
 
   const randomBirdImg = document.createElement('img');
@@ -48,7 +54,7 @@ function renderGamePage(parts, __audioSrc) {
   bierdToGuess.classList.add('bierd-to-guess');
   bierdToGuess.innerText = '********';
 
-  const { player } = renderPlayer(__audioSrc);
+  const { player, turnOffAudio } = renderPlayer(__audioSrc);
 
   randomBirdPlayerContainer.append(bierdToGuess, player);
 
@@ -61,10 +67,10 @@ function renderGamePage(parts, __audioSrc) {
   chooseBird.classList.add('choose-bird');
   const chooseBirdLeft = document.createElement('ul');
 
-  for (let i = 0; i < parts.length; i += 1) {
+  for (let i = 0; i < __parts.length; i += 1) {
     const liBird = document.createElement('li');
     liBird.classList.add('li-bird');
-    liBird.innerText = parts[0][i].name;
+    liBird.innerText = __parts[gameLevel][i].name;
     chooseBirdLeft.append(liBird);
     birdLeftBtnArray.push(liBird);
   }
@@ -81,6 +87,73 @@ function renderGamePage(parts, __audioSrc) {
   nextLevelButton.innerText = 'Next Level';
   gameWrapper.append(nextLevelButton);
 
+  let turnOff;
+
+  let click = 0;
+  let yourScore = __score;
+
+  birdLeftBtnArray.forEach((el, index) => {
+    el.addEventListener('click', () => {
+      if (!el.classList.contains('pressed')) { click += 1; }
+
+      if (index === __randomNum) {
+        if (!el.classList.contains('pressed-truth')) {
+          turnOffAudio();
+          playAudioRightAnswer();
+          yourScore += (6 - click);
+          scoreValue.innerText = yourScore;
+          click = 0;
+          if (level === 5) { alert(`You Win with score: ${yourScore}`); }
+        }
+        el.classList.add('pressed-truth');
+        bierdToGuess.innerText = birdsData[gameLevel][index].name;
+        nextLevelButton.classList.add('active');
+      } else {
+        if (!el.classList.contains('pressed')) { playAudioWrongAnswer(); }
+        el.classList.add('pressed');
+      }
+
+      if (typeof turnOff === 'function') {
+        turnOff();
+      }
+      const {
+        player: secondPlayer,
+        turnOffAudio: turnOffPlayer,
+      } = renderPlayer(birdsData[gameLevel][index].audio);
+
+      turnOff = turnOffPlayer;
+      const imgDescriptionContainer = renderBirdRightCard(
+        birdsData[gameLevel][index].image,
+        birdsData[gameLevel][index].description,
+      );
+      chooseBirdRight.innerHTML = '';
+      chooseBirdRight.append(imgDescriptionContainer, secondPlayer);
+    });
+  });
+
+  nextLevelButton.addEventListener('click', () => {
+    if (nextLevelButton.classList.contains('active')) {
+      if (typeof turnOff === 'function') {
+        turnOff();
+      }
+      turnOffAudio();
+      level += 1;
+      const game = document.querySelector('.wrapper-game');
+      game.remove();
+      const randomNum = getRandomNum();
+
+      gameWrapper = renderGamePage(
+        birdsData,
+        birdsData[level][randomNum].audio,
+        level,
+        randomNum,
+        yourScore,
+      );
+
+      main.append(gameWrapper.gameWrapper);
+    }
+  });
+
   return {
     gameWrapper,
     birdTopBtnArray,
@@ -89,6 +162,9 @@ function renderGamePage(parts, __audioSrc) {
     player,
     bierdToGuess,
     scoreValue,
+    nextLevelButton,
+    turnOffAudio,
+    turnOff,
   };
 }
 

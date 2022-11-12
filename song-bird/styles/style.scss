@@ -4,9 +4,7 @@
 .body {
   background-color: rgb(5, 27, 41, 1);
   width: 100vw;
-  // height: 100%;
   padding: 40px 100px;
-  // overflow-x: hidden;
   background-image: url('../assets/images/bg.jpg');
   background-size: cover;
   background-repeat: no-repeat;
@@ -45,6 +43,12 @@
   // @media (max-width: 580px) {
   //   justify-content: stretch;
   // }
+}
+
+.wrapper.opacity-for-homepopup {
+  opacity: 0.1;
+  transition: 1s;
+  overflow: hidden;
 }
 
 // .bgvideo {
@@ -115,6 +119,11 @@
   .header__wrapper.game {
     justify-content: flex-end;
   }
+}
+
+.header-opacity-for-homepopup {
+  opacity: 0.1;
+  transition: 1s;
 }
 
 .main {
@@ -323,4 +332,37 @@
     font-size: 17px;
     opacity: 0.5;
   }
+}
+
+.home-popup {
+  position: fixed;
+  margin: -40px -100px;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  // background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  .home-poup__text {
+    font-family: Montserrat;
+    font-size: 20px;
+  }
+
+  .home-popup__btn {
+    background: transparent;
+    font-family: Montserrat;
+    font-size: 28px;
+    font-weight: 100;
+    cursor: pointer;
+    color: white;
+  }
+}
+
+.home-popup.hidden {
+  display: none;
 }

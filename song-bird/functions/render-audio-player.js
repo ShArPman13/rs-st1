@@ -124,6 +124,7 @@ function renderPlayer(__audioSrc) {
 
   function turnOffAudio() {
     audio.pause();
+    console.log('audio');
   }
 
   // ---------------------------------------------------------------AUDIO---------------------------
