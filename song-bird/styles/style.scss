@@ -23,9 +23,15 @@
 
     @media (max-width: 580px) {
       padding: 20px;
-      background-position-x: -375px;
-      // background-position-y: 62px;
+      background-position-x: -421px;
     }
+
+    @media (max-width: 480px) {
+      background-size: auto;
+      background-position-x: -667px;
+      background-position-y: -140px;
+    }
+
 }
 
 .body.game {
@@ -35,16 +41,10 @@
 .wrapper {
   max-width: 1140px;
   width: 100%;
-  // height: 100%;
-  // max-height: 100vh;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-  // @media (max-width: 580px) {
-  //   justify-content: stretch;
-  // }
 }
 
 .wrapper.opacity-for-homepopup {
@@ -159,7 +159,8 @@
 
   @media (max-width: 580px) {
     max-width: 100%;
-    gap: 40px;
+    gap: 22px;
+    margin-top: 130px;
   }
 
   .main__logo-box {
@@ -170,7 +171,8 @@
 
     @media (max-width: 580px) {
       justify-content: center;
-      margin-left: 50px;
+      margin-left: 35px;
+      align-self: flex-end;
     }
 
     .logo-box__title {
@@ -192,8 +194,8 @@
         }
 
         @media (max-width: 580px) {
-          font-size: 55px;
-          line-height: 58px;
+          font-size: 45px;
+          line-height: 47px;
         }
 
       &::after{
@@ -262,8 +264,6 @@
     }
 
     @media (max-width: 580px) {
-      margin-top: 130px;
-      text-align: center;
       text-shadow: 2px 2px 1px rgb(0 0 0);
     }
 
