@@ -5,6 +5,10 @@
   width: 100%;
   height: fit-content;
 
+  @media (max-width: 550px) {
+    margin-top: -10px;
+  }
+
   .player__controls {
     display: flex;
     align-items: center;
@@ -16,6 +20,11 @@
       height: 50px;
       background-image: url("../assets/icons/play.svg");
       background-size: 100%;
+
+      @media (max-width: 550px) {
+        width: 40px;
+        height: 40px;
+      }
     }
 
     .pause {
@@ -24,7 +33,6 @@
 
     .volume {
       width: 30px;
-      height: 30px;
       background-image: url("../assets/icons/volume.svg");
       background-size: 100%;
       margin-top: 8px;

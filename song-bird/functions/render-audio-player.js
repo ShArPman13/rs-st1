@@ -55,9 +55,9 @@ function renderPlayer(__audioSrc) {
   let globalTimeToSeek = 0;
   let globalVolume = 0.3;
 
-  setTimeout(() => {
+  audio.addEventListener('loadedmetadata', () => {
     lengthTime.innerText = (getTimeCodeFromNum(audio.duration));
-  }, 300);
+  });
 
   function togglePlayBtn() {
     if (!isPlay) {
@@ -124,11 +124,12 @@ function renderPlayer(__audioSrc) {
 
   function turnOffAudio() {
     audio.pause();
-    console.log('audio');
+    isPlay = false;
+    console.log('pause');
   }
 
   // ---------------------------------------------------------------AUDIO---------------------------
-  return { player, turnOffAudio };
+  return { player, turnOffAudio, togglePlayBtn };
 }
 
 export default renderPlayer;

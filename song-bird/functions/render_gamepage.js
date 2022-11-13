@@ -1,6 +1,6 @@
 import birdsData from '../constants/birds';
 import birdsButtons from '../constants/birdsBtn';
-import { main } from '../constants/dom/constants_dom';
+import { homePopup, main } from '../constants/dom/constants_dom';
 import { playAudioRightAnswer, playAudioWrongAnswer } from './play_sounds';
 import renderPlayer from './render-audio-player';
 import renderBirdRightCard from './render_birdRightCard';
@@ -54,7 +54,7 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score) {
   bierdToGuess.classList.add('bierd-to-guess');
   bierdToGuess.innerText = '********';
 
-  const { player, turnOffAudio } = renderPlayer(__audioSrc);
+  const { player, turnOffAudio, togglePlayBtn } = renderPlayer(__audioSrc);
 
   randomBirdPlayerContainer.append(bierdToGuess, player);
 
@@ -99,11 +99,15 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score) {
       if (index === __randomNum) {
         if (!el.classList.contains('pressed-truth')) {
           turnOffAudio();
+          togglePlayBtn();
           playAudioRightAnswer();
           yourScore += (6 - click);
           scoreValue.innerText = yourScore;
           click = 0;
-          if (level === 5) { alert(`You Win with score: ${yourScore}`); }
+          if (level === 5) {
+            homePopup.classList.remove('hidden');
+            // { alert(`You Win with score: ${yourScore}`); }
+          }
         }
         el.classList.add('pressed-truth');
         bierdToGuess.innerText = birdsData[gameLevel][index].name;

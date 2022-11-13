@@ -23,6 +23,8 @@
 
     @media (max-width: 580px) {
       padding: 20px;
+      background-position-x: -375px;
+      // background-position-y: 62px;
     }
 }
 
@@ -157,6 +159,7 @@
 
   @media (max-width: 580px) {
     max-width: 100%;
+    gap: 40px;
   }
 
   .main__logo-box {
@@ -348,9 +351,22 @@
   align-items: center;
   text-align: center;
 
+  @media (max-width: 950px) {
+    margin: -40px -50px;
+  }
+
+  @media (max-width: 580px) {
+    margin: -20px -20px;
+  }
+
+
   .home-poup__text {
     font-family: Montserrat;
     font-size: 20px;
+
+    @media (max-width: 950px) {
+      font-size: 15px;
+    }
   }
 
   .home-popup__btn {

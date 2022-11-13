@@ -31,10 +31,10 @@ const score = 0;
 body.addEventListener('click', (event) => { // -------------------play_Button click---------------
   const {
     gameWrapper,
-    turnOffAudio,
+    // turnOffAudio,
     // turnOff,
   } = renderGamePage(birdsData, birdsData[gameLevel][randomNum].audio, gameLevel, randomNum, score);
-  audioTrigger1 = turnOffAudio;
+  // audioTrigger1 = turnOffAudio;
   // audioTrigger2 = turnOff;
   if (body.classList.contains('game')) return;
   if (event.target.dataset.action !== 'play') { return; }
