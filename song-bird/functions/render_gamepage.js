@@ -1,12 +1,13 @@
 import birdsData from '../constants/birds';
-import birdsButtons from '../constants/birdsBtn';
+import birdsLang from '../constants/birdsLang';
 import { homePopup, main } from '../constants/dom/constants_dom';
+import gamePageLang from '../constants/gamePageLang';
 import { playAudioRightAnswer, playAudioWrongAnswer } from './play_sounds';
 import renderPlayer from './render-audio-player';
 import renderBirdRightCard from './render_birdRightCard';
 import getRandomNum from './usefull/getRandomNum';
 
-function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score) {
+function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score, lang) {
   let level = gameLevel;
   let gameWrapper = document.createElement('div');
   gameWrapper.classList.add('wrapper-game');
@@ -21,7 +22,7 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score) {
     const birdType = document.createElement('li');
     birdType.classList.add('bird-type');
     if (i === gameLevel) { birdType.classList.add('active'); }
-    birdType.innerText = birdsButtons[i];
+    birdType.innerText = gamePageLang[lang][0][i];
     ulBirdTypes.append(birdType);
     birdTopBtnArray.push(birdType);
   }
@@ -37,7 +38,7 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score) {
   scoreContainer.classList.add('score-container');
   const scoreCaption = document.createElement('h5');
   scoreCaption.classList.add('score-caption');
-  scoreCaption.innerText = 'Your Score:';
+  [, , scoreCaption.innerText] = gamePageLang[lang];
   const scoreValue = document.createElement('span');
   scoreValue.classList.add('score-value');
   scoreValue.innerText = __score;
@@ -70,7 +71,7 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score) {
   for (let i = 0; i < __parts.length; i += 1) {
     const liBird = document.createElement('li');
     liBird.classList.add('li-bird');
-    liBird.innerText = __parts[gameLevel][i].name;
+    liBird.innerText = birdsLang[lang][gameLevel][i].name;
     chooseBirdLeft.append(liBird);
     birdLeftBtnArray.push(liBird);
   }
@@ -78,13 +79,13 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score) {
   const chooseBirdRight = document.createElement('div');
   chooseBirdLeft.classList.add('choose-bird__left');
   chooseBirdRight.classList.add('choose-bird__right');
-  chooseBirdRight.innerText = 'Listen and select a bird from the list';
+  [, chooseBirdRight.innerText] = gamePageLang[lang];
   chooseBird.append(chooseBirdLeft, chooseBirdRight);
   gameWrapper.append(chooseBird);
 
   const nextLevelButton = document.createElement('button');
   nextLevelButton.classList.add('next-level-button');
-  nextLevelButton.innerText = 'Next Level';
+  [, , , nextLevelButton.innerText] = gamePageLang[lang];
   gameWrapper.append(nextLevelButton);
 
   let turnOff;
@@ -110,7 +111,7 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score) {
           }
         }
         el.classList.add('pressed-truth');
-        bierdToGuess.innerText = birdsData[gameLevel][index].name;
+        bierdToGuess.innerText = birdsLang[lang][gameLevel][index].name;
         nextLevelButton.classList.add('active');
       } else {
         if (!el.classList.contains('pressed')) { playAudioWrongAnswer(); }
@@ -123,12 +124,12 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score) {
       const {
         player: secondPlayer,
         turnOffAudio: turnOffPlayer,
-      } = renderPlayer(birdsData[gameLevel][index].audio);
+      } = renderPlayer(birdsLang[lang][gameLevel][index].audio);
 
       turnOff = turnOffPlayer;
       const imgDescriptionContainer = renderBirdRightCard(
-        birdsData[gameLevel][index].image,
-        birdsData[gameLevel][index].description,
+        birdsLang[lang][gameLevel][index].image,
+        birdsLang[lang][gameLevel][index].description,
       );
       chooseBirdRight.innerHTML = '';
       chooseBirdRight.append(imgDescriptionContainer, secondPlayer);
@@ -152,6 +153,7 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score) {
         level,
         randomNum,
         yourScore,
+        lang,
       );
 
       main.append(gameWrapper.gameWrapper);

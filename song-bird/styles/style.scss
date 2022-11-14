@@ -91,6 +91,8 @@
       .nav__list {
         display: flex;
         align-items: center;
+        // justify-content: space-between;
+        // width: 300px;
         gap:50px;
         font-family: Montserrat;
         font-size: 20px;
@@ -112,6 +114,10 @@
 
           .nav__home-img {
             width: 30px;
+          }
+
+          .nav__link {
+            width: 100px;
           }
         }
       }
