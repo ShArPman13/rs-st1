@@ -1,4 +1,17 @@
-function renderBirdRightCard(img, description) {
+function renderBirdRightCard(img, description, n, latN) {
+  const topContainer = document.createElement('div');
+  topContainer.classList.add('top-container');
+
+  const namesContainer = document.createElement('div');
+  namesContainer.classList.add('names-container');
+  const name = document.createElement('span');
+  name.classList.add('realname');
+  name.innerText = n;
+  const latinName = document.createElement('span');
+  latinName.classList.add('latin-realname');
+  latinName.innerText = `[${latN}]`;
+  namesContainer.append(name, latinName);
+
   const imgDescriptionContainer = document.createElement('div');
   imgDescriptionContainer.classList.add('img-description-container');
 
@@ -11,7 +24,8 @@ function renderBirdRightCard(img, description) {
 
   imgDescriptionContainer.append(birdImg, birdDescription);
 
-  return imgDescriptionContainer;
+  topContainer.append(namesContainer, imgDescriptionContainer);
+  return topContainer;
 }
 
 export default renderBirdRightCard;

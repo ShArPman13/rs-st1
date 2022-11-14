@@ -135,7 +135,7 @@
   display: flex;
   justify-content: space-between;
 
-  @media (max-width: 650px) {
+  @media (max-width: 780px) {
     flex-direction: column;
     gap: 20px;
   }
@@ -148,7 +148,7 @@
     flex-direction: column;
     justify-content: space-between;
 
-    @media (max-width: 650px) {
+    @media (max-width: 780px) {
       height: 200px;
       flex-wrap: wrap;
       width: 100%;
@@ -169,7 +169,7 @@
       font-size: 1.2rem;
       background-color: #3F5F74;
 
-      @media (max-width: 650px) {
+      @media (max-width: 780px) {
         height: 30%;
         width: 49%;
       }
@@ -207,8 +207,18 @@
     font-size: 1.5rem;
     color: rgb(5, 27, 41, 1);
 
-    @media (max-width: 650px) {
+    @media (max-width: 780px) {
       width: 100%;
+    }
+
+    .top-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .names-container {
+      display: flex;
+      flex-direction: column;
     }
   }
 }

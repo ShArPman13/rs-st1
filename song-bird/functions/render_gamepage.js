@@ -130,6 +130,8 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score, la
       const imgDescriptionContainer = renderBirdRightCard(
         birdsLang[lang][gameLevel][index].image,
         birdsLang[lang][gameLevel][index].description,
+        birdsLang[lang][gameLevel][index].name,
+        birdsLang[lang][gameLevel][index].species,
       );
       chooseBirdRight.innerHTML = '';
       chooseBirdRight.append(imgDescriptionContainer, secondPlayer);

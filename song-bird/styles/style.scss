@@ -87,16 +87,16 @@
       display: flex;
       order: -1;
       justify-content: flex-end;
+      width: 100%;
 
       .nav__list {
         display: flex;
         align-items: center;
-        // justify-content: space-between;
-        // width: 300px;
         gap:50px;
         font-family: Montserrat;
         font-size: 20px;
         cursor: pointer;
+        width: 100%;
 
         @media (max-width: 580px) {
           gap:30px;
@@ -115,10 +115,6 @@
           .nav__home-img {
             width: 30px;
           }
-
-          .nav__link {
-            width: 100px;
-          }
         }
       }
     }
@@ -129,6 +125,9 @@
   }
 }
 
+.nav__item-lang {
+  margin-left: auto;
+}
 .header-opacity-for-homepopup {
   opacity: 0.1;
   transition: 1s;
