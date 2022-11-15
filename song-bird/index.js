@@ -2,6 +2,7 @@ import './styles/normalize.scss';
 import './styles/style.scss';
 import './styles/game-page-styles.scss';
 import './styles/player.scss';
+import './styles/game-result-styles.scss';
 import parallax from './functions/design_and_styling/parallax';
 import {
   body,

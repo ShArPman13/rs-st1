@@ -44,7 +44,7 @@
     height: 30px;
     background-color: #43494d;
     font-family: Montserrat;
-    font-size: 17px;
+    font-size: 15px;
 
     @media (max-width: 860px) {
       width: 200px;
@@ -90,10 +90,16 @@
     }
 
     .random-bird-img {
-      width: 150px;
+      flex-shrink: 0;
+      width: 185px;
+      height: 185px;
+      border-radius: 100px;
+      background-size: cover;
+      background-position: center;
 
       @media (max-width: 650px) {
         width: 120px;
+        height: 120px;
       }
     }
   }
@@ -135,7 +141,7 @@
   display: flex;
   justify-content: space-between;
 
-  @media (max-width: 780px) {
+  @media (max-width: 1140px) {
     flex-direction: column;
     gap: 20px;
   }
@@ -148,7 +154,7 @@
     flex-direction: column;
     justify-content: space-between;
 
-    @media (max-width: 780px) {
+    @media (max-width: 1140px) {
       height: 200px;
       flex-wrap: wrap;
       width: 100%;
@@ -169,7 +175,7 @@
       font-size: 1.2rem;
       background-color: #3F5F74;
 
-      @media (max-width: 780px) {
+      @media (max-width: 1140px) {
         height: 30%;
         width: 49%;
       }
@@ -180,8 +186,9 @@
     }
 
     .li-bird.pressed {
-      background-color: transparent;
-      border: 1px solid #3F5F74;
+      // background-color: transparent;
+      // border: 1px solid #3F5F74;
+      background-color: #833535;
     }
 
     .li-bird.pressed-truth {
@@ -207,7 +214,7 @@
     font-size: 1.5rem;
     color: rgb(5, 27, 41, 1);
 
-    @media (max-width: 780px) {
+    @media (max-width: 1140px) {
       width: 100%;
     }
 
@@ -218,7 +225,8 @@
     }
     .names-container {
       display: flex;
-      flex-direction: column;
+      gap: 10px;
+      justify-content: center;
     }
   }
 }
@@ -256,6 +264,7 @@
   align-items: center;
   width: 75%;
   height: fit-content;
+  margin-top: 15px;
 
   @media (max-width: 550px) {
     width: 100%;
@@ -276,9 +285,9 @@
   gap: 20px;
   width: 100%;
 
-  @media (max-width: 1150px) {
-    flex-direction: column;
-  }
+  // @media (max-width: 1150px) {
+  //   flex-direction: column;
+  // }
 
   @media (max-width: 650px) {
     flex-direction: row;
@@ -290,8 +299,8 @@
 
   .bird-img {
     flex-shrink: 0;
-    width: 200px;
-    height: 200px;
+    width: 185px;
+    height: 185px;
     border-radius: 100px;
     background-size: cover;
     background-position: center;
@@ -314,6 +323,9 @@
 
     @media (max-width: 1230px) {
       font-size: 15px;
+    }
+    @media (max-width: 1140px) {
+      font-size: 20px;
     }
 
     @media (max-width: 650px) {

@@ -1,9 +1,12 @@
 import birdsData from '../constants/birds';
 import birdsLang from '../constants/birdsLang';
-import { homePopup, main } from '../constants/dom/constants_dom';
+import {
+  body, homePopup, main, mainWrapper,
+} from '../constants/dom/constants_dom';
 import gamePageLang from '../constants/gamePageLang';
 import { playAudioRightAnswer, playAudioWrongAnswer } from './play_sounds';
 import renderPlayer from './render-audio-player';
+import renderResultPage from './renderResultPage';
 import renderBirdRightCard from './render_birdRightCard';
 import getRandomNum from './usefull/getRandomNum';
 
@@ -44,9 +47,9 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score, la
   scoreValue.innerText = __score;
   scoreContainer.append(scoreCaption, scoreValue);
 
-  const randomBirdImg = document.createElement('img');
+  const randomBirdImg = document.createElement('div');
   randomBirdImg.classList.add('random-bird-img');
-  randomBirdImg.src = './images/random-bird.png';
+  randomBirdImg.style.backgroundImage = 'url(./images/random-bird.png)';
 
   const randomBirdPlayerContainer = document.createElement('div');
   randomBirdPlayerContainer.classList.add('random-bird__player-container');
@@ -105,15 +108,22 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score, la
           yourScore += (6 - click);
           scoreValue.innerText = yourScore;
           click = 0;
+          randomBirdImg.style.backgroundImage = `url(${birdsLang[lang][gameLevel][index].image})`;
           if (level === 5) {
-            homePopup.classList.remove('hidden');
+            // homePopup.classList.remove('hidden');
             // { alert(`You Win with score: ${yourScore}`); }
+            gameWrapper.classList.add('opacity-for-homepopup');
+            main.classList.add('result');
+            setTimeout(() => {
+              gameWrapper.style.display = 'none';
+              body.append(renderResultPage(yourScore));
+            }, 700);
           }
         }
         el.classList.add('pressed-truth');
         bierdToGuess.innerText = birdsLang[lang][gameLevel][index].name;
         nextLevelButton.classList.add('active');
-      } else {
+      } else if (!nextLevelButton.classList.contains('active')) { // do not change btnColor after win
         if (!el.classList.contains('pressed')) { playAudioWrongAnswer(); }
         el.classList.add('pressed');
       }
