@@ -1,11 +1,39 @@
 import birdsLang from '../constants/birdsLang';
-import { body, main, mainContainer } from '../constants/dom/constants_dom';
+import {
+  body, main, mainContainer, playNavButton, resultNavButton,
+} from '../constants/dom/constants_dom';
 import gamePageLang from '../constants/gamePageLang';
 import renderGamePage from './render_gamepage';
 import getRandomNum from './usefull/getRandomNum';
-import observable from './usefull/observer';
 
 function renderResultPage(score, language, observer) {
+  const backBtn = document.createElement('button');
+  if (localStorage.getItem('score-Sharp13') === 'null'
+  || !localStorage.getItem('score-Sharp13')) {
+    const resultWrapper = document.createElement('div');
+    resultWrapper.classList.add('result-wrapper');
+    backBtn.classList.add('newgame-btn');
+    if (language === 'ru') {
+      resultWrapper.textContent = 'Вы еще не прошли игру!';
+      backBtn.textContent = 'Назад';
+    } else {
+      resultWrapper.textContent = 'You haven\'t finished the game yet!';
+      backBtn.textContent = 'Back';
+    }
+    resultWrapper.append(backBtn);
+
+    backBtn.addEventListener('click', () => {
+      body.classList.remove('noscroll');
+      main.classList.remove('result');
+      resultWrapper.remove();
+      body.classList.remove('game');
+      mainContainer.style.display = 'flex';
+      mainContainer.classList.remove('hidden');
+    });
+
+    return resultWrapper;
+  }
+
   const resultWrapper = document.createElement('div');
   resultWrapper.classList.add('result-wrapper');
 
@@ -45,6 +73,9 @@ function renderResultPage(score, language, observer) {
   }
 
   newGameBtn.addEventListener('click', () => {
+    playNavButton.classList.add('game');
+    resultNavButton.classList.add('game');
+    body.classList.remove('noscroll');
     main.classList.remove('result');
     resultWrapper.remove();
     const randomNum = getRandomNum();
@@ -67,11 +98,14 @@ function renderResultPage(score, language, observer) {
   });
 
   backHomeBtn.addEventListener('click', () => {
+    body.classList.remove('noscroll');
     main.classList.remove('result');
     resultWrapper.remove();
     body.classList.remove('game');
     mainContainer.style.display = 'flex';
     mainContainer.classList.remove('hidden');
+    playNavButton.classList.remove('game');
+    resultNavButton.classList.remove('game');
   });
 
   return resultWrapper;

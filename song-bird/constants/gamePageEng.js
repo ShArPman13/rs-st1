@@ -3,7 +3,7 @@ const gamePageEng = [
   'Listen and select a bird from the list',
   'Your score',
   'Next Level',
-  'You have finished the game with a score',
+  'You have finished the last game with a score',
   'points',
   'Congratulations! Now, you have known how all birds sing.',
   'Play again',

@@ -3,6 +3,7 @@ import birdsLang from '../constants/birdsLang';
 import { body, main } from '../constants/dom/constants_dom';
 // mainWrapper, homePopup,
 import gamePageLang from '../constants/gamePageLang';
+import setLocalStorage from './LS/setLocalStorage';
 import { playAudioRightAnswer, playAudioWrongAnswer } from './play_sounds';
 import renderPlayer from './render-audio-player';
 import renderResultPage from './renderResultPage';
@@ -171,11 +172,13 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score, la
 
   nextLevelButton.addEventListener('click', () => {
     if (level === 5) { // if user have guessed the last bird
+      setLocalStorage(lang, yourScore);
       gameWrapper.classList.add('opacity-for-homepopup');
       main.classList.add('result');
       nextLevelButton.style.pointerEvents = 'none';
       setTimeout(() => {
         gameWrapper.remove();
+        body.classList.add('noscroll');
         body.append(renderResultPage(yourScore, lang, observer));
       }, 700);
     } else if (nextLevelButton.classList.contains('active')) { // if user haven't guessed the last bird
