@@ -314,12 +314,14 @@
 
   .bird-description {
     display: flex;
-    align-items: center;
+    // align-items: center;
     font-family: Montserrat;
     font-size: 18px;
     text-align: left;
     color: white;
     font-weight: 200;
+    height: 180px;
+    overflow: auto;
 
     @media (max-width: 1230px) {
       font-size: 15px;

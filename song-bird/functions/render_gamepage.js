@@ -1,8 +1,7 @@
 import birdsData from '../constants/birds';
 import birdsLang from '../constants/birdsLang';
-import {
-  body, homePopup, main, mainWrapper,
-} from '../constants/dom/constants_dom';
+import { body, main } from '../constants/dom/constants_dom';
+// mainWrapper, homePopup,
 import gamePageLang from '../constants/gamePageLang';
 import { playAudioRightAnswer, playAudioWrongAnswer } from './play_sounds';
 import renderPlayer from './render-audio-player';
@@ -10,7 +9,11 @@ import renderResultPage from './renderResultPage';
 import renderBirdRightCard from './render_birdRightCard';
 import getRandomNum from './usefull/getRandomNum';
 
-function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score, lang) {
+function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score, language, observer) {
+  let lang = language;
+  observer.subscribe((lg) => {
+    lang = lg;
+  });
   let level = gameLevel;
   let gameWrapper = document.createElement('div');
   gameWrapper.classList.add('wrapper-game');
@@ -25,7 +28,10 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score, la
     const birdType = document.createElement('li');
     birdType.classList.add('bird-type');
     if (i === gameLevel) { birdType.classList.add('active'); }
-    birdType.innerText = gamePageLang[lang][0][i];
+    birdType.textContent = gamePageLang[lang][0][i];
+    observer.subscribe((lg) => {
+      birdType.textContent = gamePageLang[lg][0][i];
+    });
     ulBirdTypes.append(birdType);
     birdTopBtnArray.push(birdType);
   }
@@ -41,7 +47,10 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score, la
   scoreContainer.classList.add('score-container');
   const scoreCaption = document.createElement('h5');
   scoreCaption.classList.add('score-caption');
-  [, , scoreCaption.innerText] = gamePageLang[lang];
+  [, , scoreCaption.textContent] = gamePageLang[lang];
+  observer.subscribe((lg) => {
+    [, , scoreCaption.textContent] = gamePageLang[lg];
+  });
   const scoreValue = document.createElement('span');
   scoreValue.classList.add('score-value');
   scoreValue.innerText = __score;
@@ -74,7 +83,10 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score, la
   for (let i = 0; i < __parts.length; i += 1) {
     const liBird = document.createElement('li');
     liBird.classList.add('li-bird');
-    liBird.innerText = birdsLang[lang][gameLevel][i].name;
+    liBird.textContent = birdsLang[lang][gameLevel][i].name;
+    observer.subscribe((lg) => {
+      liBird.textContent = birdsLang[lg][gameLevel][i].name;
+    });
     chooseBirdLeft.append(liBird);
     birdLeftBtnArray.push(liBird);
   }
@@ -82,13 +94,19 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score, la
   const chooseBirdRight = document.createElement('div');
   chooseBirdLeft.classList.add('choose-bird__left');
   chooseBirdRight.classList.add('choose-bird__right');
-  [, chooseBirdRight.innerText] = gamePageLang[lang];
+  [, chooseBirdRight.textContent] = gamePageLang[lang];
+  observer.subscribe((lg) => {
+    [, chooseBirdRight.textContent] = gamePageLang[lg];
+  });
   chooseBird.append(chooseBirdLeft, chooseBirdRight);
   gameWrapper.append(chooseBird);
 
   const nextLevelButton = document.createElement('button');
   nextLevelButton.classList.add('next-level-button');
-  [, , , nextLevelButton.innerText] = gamePageLang[lang];
+  [, , , nextLevelButton.textContent] = gamePageLang[lang];
+  observer.subscribe((lg) => {
+    [, , , nextLevelButton.textContent] = gamePageLang[lg];
+  });
   gameWrapper.append(nextLevelButton);
 
   let turnOff;
@@ -106,22 +124,15 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score, la
           togglePlayBtn();
           playAudioRightAnswer();
           yourScore += (6 - click);
-          scoreValue.innerText = yourScore;
+          scoreValue.textContent = yourScore;
           click = 0;
           randomBirdImg.style.backgroundImage = `url(${birdsLang[lang][gameLevel][index].image})`;
-          if (level === 5) {
-            // homePopup.classList.remove('hidden');
-            // { alert(`You Win with score: ${yourScore}`); }
-            gameWrapper.classList.add('opacity-for-homepopup');
-            main.classList.add('result');
-            setTimeout(() => {
-              gameWrapper.style.display = 'none';
-              body.append(renderResultPage(yourScore));
-            }, 700);
-          }
         }
         el.classList.add('pressed-truth');
-        bierdToGuess.innerText = birdsLang[lang][gameLevel][index].name;
+        bierdToGuess.textContent = birdsLang[lang][gameLevel][index].name;
+        observer.subscribe((lg) => {
+          bierdToGuess.textContent = birdsLang[lg][gameLevel][index].name;
+        });
         nextLevelButton.classList.add('active');
       } else if (!nextLevelButton.classList.contains('active')) { // do not change btnColor after win
         if (!el.classList.contains('pressed')) { playAudioWrongAnswer(); }
@@ -137,19 +148,37 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score, la
       } = renderPlayer(birdsLang[lang][gameLevel][index].audio);
 
       turnOff = turnOffPlayer;
-      const imgDescriptionContainer = renderBirdRightCard(
+      let imgDescriptionContainer = renderBirdRightCard(
         birdsLang[lang][gameLevel][index].image,
         birdsLang[lang][gameLevel][index].description,
         birdsLang[lang][gameLevel][index].name,
         birdsLang[lang][gameLevel][index].species,
       );
+      observer.subscribe((lg) => {
+        imgDescriptionContainer = renderBirdRightCard(
+          birdsLang[lg][gameLevel][index].image,
+          birdsLang[lg][gameLevel][index].description,
+          birdsLang[lg][gameLevel][index].name,
+          birdsLang[lg][gameLevel][index].species,
+        );
+        chooseBirdRight.innerHTML = '';
+        chooseBirdRight.append(imgDescriptionContainer, secondPlayer);
+      });
       chooseBirdRight.innerHTML = '';
       chooseBirdRight.append(imgDescriptionContainer, secondPlayer);
     });
   });
 
   nextLevelButton.addEventListener('click', () => {
-    if (nextLevelButton.classList.contains('active')) {
+    if (level === 5) { // if user have guessed the last bird
+      gameWrapper.classList.add('opacity-for-homepopup');
+      main.classList.add('result');
+      nextLevelButton.style.pointerEvents = 'none';
+      setTimeout(() => {
+        gameWrapper.remove();
+        body.append(renderResultPage(yourScore, lang, observer));
+      }, 700);
+    } else if (nextLevelButton.classList.contains('active')) { // if user haven't guessed the last bird
       if (typeof turnOff === 'function') {
         turnOff();
       }
@@ -166,6 +195,7 @@ function renderGamePage(__parts, __audioSrc, gameLevel, __randomNum, __score, la
         randomNum,
         yourScore,
         lang,
+        observer,
       );
 
       main.append(gameWrapper.gameWrapper);

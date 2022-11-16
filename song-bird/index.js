@@ -18,11 +18,13 @@ import {
   mainButton,
   playNavButton,
   playNavLink,
+  resultNavButton,
 } from './constants/dom/constants_dom';
 import renderGamePage from './functions/render_gamepage';
 import getRandomNum from './functions/usefull/getRandomNum';
 import { mainTextEn, mainTextRus } from './constants/main-text';
 import birdsLang from './constants/birdsLang';
+import observable from './functions/usefull/observer';
 
 if (window.screen.width > 1400) { // moving back-ground by mousemove
   document.addEventListener('mousemove', parallax);
@@ -32,6 +34,8 @@ const gameLevel = 0;
 const score = 0;
 let language = 'en';
 
+const observer = observable();
+
 body.addEventListener('click', (event) => { // -------------------play_Button click---------------
   const { gameWrapper } = renderGamePage(
     birdsLang[language],
@@ -40,9 +44,14 @@ body.addEventListener('click', (event) => { // -------------------play_Button cl
     randomNum,
     score,
     language,
+    observer,
   );
   if (body.classList.contains('game')) return;
-  if (event.target.dataset.action !== 'play') { return; }
+  if (event.target.dataset.action !== 'play') return;
+  // -------------------avoid many clicks by users
+  playNavButton.style.pointerEvents = 'none';
+  mainButton.style.pointerEvents = 'none';
+
   gameWrapper.classList.remove('opacity');
   mainContainer.classList.add('hidden');
   gameWrapper.remove();
@@ -50,6 +59,9 @@ body.addEventListener('click', (event) => { // -------------------play_Button cl
     mainContainer.style.display = 'none';
     body.classList.add('game');
     main.append(gameWrapper);
+
+    playNavButton.style.pointerEvents = 'auto';
+    mainButton.style.pointerEvents = 'auto';
   }, 700);
 });
 
@@ -77,19 +89,23 @@ homeNavButton.addEventListener('click', () => { // -------------------home_Butto
   }
 });
 
-langNavButton.addEventListener('click', () => {
+langNavButton.addEventListener('click', () => { // -------------------language_Button click---------------
   langNavButton.classList.toggle('rus');
   if (langNavButton.classList.contains('rus')) {
     language = 'ru';
+    observer.update(language);
     mainText.innerHTML = mainTextRus;
-    langNavButton.innerText = 'RU';
-    mainButton.innerText = 'Играть';
-    playNavLink.innerText = 'Играть';
+    langNavButton.textContent = 'RU';
+    mainButton.textContent = 'Играть';
+    playNavLink.textContent = 'Играть';
+    resultNavButton.textContent = 'Результаты';
   } else {
     language = 'en';
+    observer.update(language);
     mainText.innerHTML = mainTextEn;
-    langNavButton.innerText = 'EN';
-    mainButton.innerText = 'Play';
-    playNavLink.innerText = 'Play';
+    langNavButton.textContent = 'EN';
+    mainButton.textContent = 'Play';
+    playNavLink.textContent = 'Play';
+    resultNavButton.textContent = 'Results';
   }
 });

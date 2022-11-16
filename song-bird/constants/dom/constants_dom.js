@@ -10,6 +10,7 @@ export const mainContainer = document.querySelector('.main__container');
 
 export const playNavButton = document.querySelector('.nav__item-play');
 export const homeNavButton = document.querySelector('.nav__item-main');
+export const resultNavButton = document.querySelector('.nav__item-res');
 export const langNavButton = document.querySelector('.nav__item-lang');
 
 export const playNavLink = document.querySelector('.nav__link-play');

@@ -6,10 +6,10 @@ function renderBirdRightCard(img, description, n, latN) {
   namesContainer.classList.add('names-container');
   const name = document.createElement('span');
   name.classList.add('realname');
-  name.innerText = n;
+  name.textContent = n;
   const latinName = document.createElement('span');
   latinName.classList.add('latin-realname');
-  latinName.innerText = `[${latN}]`;
+  latinName.textContent = `[${latN}]`;
   namesContainer.append(name, latinName);
 
   const imgDescriptionContainer = document.createElement('div');
@@ -19,7 +19,7 @@ function renderBirdRightCard(img, description, n, latN) {
   birdImg.classList.add('bird-img');
   birdImg.style.backgroundImage = `url(${img})`;
   const birdDescription = document.createElement('div');
-  birdDescription.classList.add('bird-description');
+  birdDescription.classList.add('bird-description', 'scroll-block');
   birdDescription.innerText = description;
 
   imgDescriptionContainer.append(birdImg, birdDescription);
