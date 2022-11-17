@@ -6,7 +6,13 @@ import gamePageLang from '../constants/gamePageLang';
 import renderGamePage from './render_gamepage';
 import getRandomNum from './usefull/getRandomNum';
 
-function renderResultPage(score, language, observer) {
+function renderResultPage(score, language, observer, turnOffAudio, turnOff) {
+  if (typeof turnOffAudio === 'function') {
+    turnOffAudio();
+  }
+  if (typeof turnOff === 'function') {
+    turnOff();
+  }
   const backBtn = document.createElement('button');
   if (localStorage.getItem('score-Sharp13') === 'null'
   || !localStorage.getItem('score-Sharp13')) {

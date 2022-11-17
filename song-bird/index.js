@@ -27,7 +27,7 @@ import birdsLang from './constants/birdsLang';
 import observable from './functions/usefull/observer';
 import setLocalStorage from './functions/LS/setLocalStorage';
 import renderResultPage from './functions/renderResultPage';
-import gamePageLang from './constants/gamePageLang';
+// import gamePageLang from './constants/gamePageLang';
 
 if (window.screen.width > 1400) { // moving background by mousemove
   document.addEventListener('mousemove', parallax);
@@ -37,6 +37,7 @@ const gameLevel = 0;
 const score = 0;
 
 let language = '';
+
 if (localStorage.getItem('lang-Sharp13')) {
   language = localStorage.getItem('lang-Sharp13');
   if (language === 'ru') {
@@ -49,7 +50,6 @@ if (localStorage.getItem('lang-Sharp13')) {
   }
 } else {
   language = 'en';
-  // localStorage.setItem('score-Sharp13', 'null');
   langNavButton.classList.remove('rus');
   mainText.innerHTML = mainTextEn;
   langNavButton.textContent = 'EN';
@@ -70,6 +70,7 @@ body.addEventListener('click', (event) => { // -------------------play_Button cl
     language,
     observer,
   );
+
   if (body.classList.contains('game')) return;
   if (event.target.dataset.action !== 'play') return;
   // -------------------avoid many clicks by users
