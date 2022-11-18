@@ -1,6 +1,6 @@
 import getTimeCodeFromNum from './usefull/getTimeCodeFromNum';
 
-function renderPlayer(__audioSrc) {
+function audioPlayer(__audioSrc) {
   const player = document.createElement('div');
   player.classList.add('player');
 
@@ -132,4 +132,4 @@ function renderPlayer(__audioSrc) {
   return { player, turnOffAudio, togglePlayBtn };
 }
 
-export default renderPlayer;
+export default audioPlayer;

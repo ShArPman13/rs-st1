@@ -20,4 +20,6 @@ export const mainText = document.querySelector('.main__text');
 export const mainButton = document.querySelector('.main__button');
 export const headerWrapper = document.querySelector('.header__wrapper');
 
+export const homePopupText = document.querySelector('.home-poup__text');
+
 export const gameWrapper = document.createElement('div');

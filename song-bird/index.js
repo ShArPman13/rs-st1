@@ -19,6 +19,7 @@ import {
   playNavButton,
   playNavLink,
   resultNavButton,
+  homePopupText,
 } from './constants/dom/constants_dom';
 import renderGamePage from './functions/render_gamepage';
 import getRandomNum from './functions/usefull/getRandomNum';
@@ -47,6 +48,9 @@ if (localStorage.getItem('lang-Sharp13')) {
     mainButton.textContent = 'Играть';
     playNavLink.textContent = 'Играть';
     resultNavButton.textContent = 'Результаты';
+    homePopupText.textContent = 'Ваш прогресс будет утерян!';
+    homePopupBtnOk.textContent = 'На главную';
+    homePopupBtnCancel.textContent = 'Назад в игру';
   }
 } else {
   language = 'en';
@@ -56,11 +60,17 @@ if (localStorage.getItem('lang-Sharp13')) {
   mainButton.textContent = 'Play';
   playNavLink.textContent = 'Play';
   resultNavButton.textContent = 'Results';
+  homePopupText.textContent = 'Your game progress will be lost!';
+  homePopupBtnOk.textContent = 'Ok';
+  homePopupBtnCancel.textContent = 'Cancel';
 }
 
 const observer = observable();
 
 body.addEventListener('click', (event) => { // -------------------play_Button click---------------
+  if (body.classList.contains('game')) return;
+  if (event.target.dataset.action !== 'play') return;
+
   const { gameWrapper } = renderGamePage(
     birdsLang[language],
     birdsLang[language][gameLevel][randomNum].audio,
@@ -70,9 +80,6 @@ body.addEventListener('click', (event) => { // -------------------play_Button cl
     language,
     observer,
   );
-
-  if (body.classList.contains('game')) return;
-  if (event.target.dataset.action !== 'play') return;
   // -------------------avoid many clicks by users
   playNavButton.style.pointerEvents = 'none';
   mainButton.style.pointerEvents = 'none';
@@ -133,6 +140,9 @@ langNavButton.addEventListener('click', () => { // -------------------language_B
     mainButton.textContent = 'Играть';
     playNavLink.textContent = 'Играть';
     resultNavButton.textContent = 'Результаты';
+    homePopupText.textContent = 'Ваш прогресс будет утерян!';
+    homePopupBtnOk.textContent = 'На главную';
+    homePopupBtnCancel.textContent = 'Назад в игру';
   } else {
     language = 'en';
     setLocalStorage(language, scoreInLS);
@@ -142,6 +152,9 @@ langNavButton.addEventListener('click', () => { // -------------------language_B
     mainButton.textContent = 'Play';
     playNavLink.textContent = 'Play';
     resultNavButton.textContent = 'Results';
+    homePopupText.textContent = 'Your game progress will be lost!';
+    homePopupBtnOk.textContent = 'Ok';
+    homePopupBtnCancel.textContent = 'Cancel';
   }
 });
 
