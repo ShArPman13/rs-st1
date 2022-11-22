@@ -1,11 +1,14 @@
 import getTimeCodeFromNum from './usefull/getTimeCodeFromNum';
 
+const prev = {
+  btn: document.createElement('button'),
+  audio: new Audio(),
+};
+
 class AudioPlayer {
   constructor(audioSrc) {
     this.audio.src = audioSrc;
   }
-
-  isPlay = false;
 
   audio = new Audio();
 
@@ -101,7 +104,12 @@ class AudioPlayer {
   play() {
     let intervalProgressLine;
     this.audio.volume = this.globalVolume;
-    if (!this.isPlay) {
+    if (this.audio.paused) {
+      prev.audio.pause();
+      prev.audio = this.audio;
+      prev.btn.classList.remove('pause');
+      prev.btn = this.playButton;
+
       this.audio.play();
       this.audio.currentTime = this.globalTimeToSeek;
       this.isPlay = true;
@@ -120,7 +128,7 @@ class AudioPlayer {
   }
 
   togglePlayBtn() {
-    if (!this.isPlay) {
+    if (this.audio.paused) {
       this.playButton.classList.remove('pause');
     } else {
       this.playButton.classList.add('pause');

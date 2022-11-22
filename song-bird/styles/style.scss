@@ -122,12 +122,14 @@
         .nav__item-main,
         .nav__item-res,
         .nav__item-play,
-        .nav__item-lang {
+        .nav__item-lang,
+        .nav__item-gallery {
           cursor: pointer;
         }
 
         .nav__item-res.game,
-        .nav__item-play.game {
+        .nav__item-play.game,
+        .nav__item-gallery.game {
           opacity: 0;
           transition: 0.3s;
           cursor: auto;

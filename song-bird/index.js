@@ -20,6 +20,8 @@ import {
   playNavLink,
   resultNavButton,
   homePopupText,
+  galleryNavButton,
+  containerGallery,
 } from './constants/dom/constants_dom';
 import renderGamePage from './functions/render_gamepage';
 import getRandomNum from './functions/usefull/getRandomNum';
@@ -28,6 +30,8 @@ import birdsLang from './constants/birdsLang';
 import observable from './functions/usefull/observer';
 import setLocalStorage from './functions/LS/setLocalStorage';
 import renderResultPage from './functions/renderResultPage';
+// import renderBirdRightCard from './functions/render_birdRightCard';
+import BirdRightCard from './functions/CLASS_BirdRightCard';
 // import gamePageLang from './constants/gamePageLang';
 
 if (window.screen.width > 1400) { // moving background by mousemove
@@ -48,6 +52,7 @@ if (localStorage.getItem('lang-Sharp13')) {
     mainButton.textContent = 'Играть';
     playNavLink.textContent = 'Играть';
     resultNavButton.textContent = 'Результаты';
+    galleryNavButton.textContent = 'Галерея';
     homePopupText.textContent = 'Ваш прогресс будет утерян!';
     homePopupBtnOk.textContent = 'На главную';
     homePopupBtnCancel.textContent = 'Назад в игру';
@@ -60,6 +65,7 @@ if (localStorage.getItem('lang-Sharp13')) {
   mainButton.textContent = 'Play';
   playNavLink.textContent = 'Play';
   resultNavButton.textContent = 'Results';
+  galleryNavButton.textContent = 'Gallery';
   homePopupText.textContent = 'Your game progress will be lost!';
   homePopupBtnOk.textContent = 'Ok';
   homePopupBtnCancel.textContent = 'Cancel';
@@ -83,6 +89,7 @@ body.addEventListener('click', (event) => { // -------------------play_Button cl
   // -------------------avoid many clicks by users
   playNavButton.style.pointerEvents = 'none';
   mainButton.style.pointerEvents = 'none';
+  galleryNavButton.style.pointerEvents = 'none';
 
   gameWrapper.classList.remove('opacity');
   mainContainer.classList.add('hidden');
@@ -90,6 +97,7 @@ body.addEventListener('click', (event) => { // -------------------play_Button cl
 
   playNavButton.classList.add('game');
   resultNavButton.classList.add('game');
+  galleryNavButton.classList.add('game');
 
   setTimeout(() => {
     mainContainer.style.display = 'none';
@@ -98,6 +106,7 @@ body.addEventListener('click', (event) => { // -------------------play_Button cl
 
     playNavButton.style.pointerEvents = 'auto';
     mainButton.style.pointerEvents = 'auto';
+    galleryNavButton.style.pointerEvents = 'auto';
   }, 700);
 });
 
@@ -124,6 +133,7 @@ homeNavButton.addEventListener('click', () => { // -------------------home_Butto
 
       playNavButton.classList.remove('game');
       resultNavButton.classList.remove('game');
+      galleryNavButton.classList.remove('game');
     });
   }
 });
@@ -140,6 +150,7 @@ langNavButton.addEventListener('click', () => { // -------------------language_B
     mainButton.textContent = 'Играть';
     playNavLink.textContent = 'Играть';
     resultNavButton.textContent = 'Результаты';
+    galleryNavButton.textContent = 'Галерея';
     homePopupText.textContent = 'Ваш прогресс будет утерян!';
     homePopupBtnOk.textContent = 'На главную';
     homePopupBtnCancel.textContent = 'Назад в игру';
@@ -152,6 +163,7 @@ langNavButton.addEventListener('click', () => { // -------------------language_B
     mainButton.textContent = 'Play';
     playNavLink.textContent = 'Play';
     resultNavButton.textContent = 'Results';
+    galleryNavButton.textContent = 'Gallery';
     homePopupText.textContent = 'Your game progress will be lost!';
     homePopupBtnOk.textContent = 'Ok';
     homePopupBtnCancel.textContent = 'Cancel';
@@ -169,5 +181,27 @@ resultNavButton.addEventListener('click', () => { // -------------------results_
       body.classList.add('noscroll');
       body.append(renderResultPage(scoreInLS, langInLS, observer));
     }
+  }
+});
+
+galleryNavButton.addEventListener('click', () => { // -------------------gallery_Button click---------------
+  galleryNavButton.classList.toggle('pressed');
+
+  if (galleryNavButton.classList.contains('pressed')) {
+    body.classList.add('game');
+    mainContainer.style.display = 'none';
+
+    birdsLang[language].forEach((array, indexArray) => {
+      array.forEach((bird, indexBird) => {
+        const birdCard = new BirdRightCard(bird, indexArray, indexBird, observer);
+        containerGallery.append(birdCard.render());
+      });
+    });
+
+    main.append(containerGallery);
+  } else {
+    mainContainer.style.display = 'flex';
+    body.classList.remove('game');
+    containerGallery.innerHTML = '';
   }
 });
