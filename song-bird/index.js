@@ -103,10 +103,6 @@ body.addEventListener('click', (event) => { // -------------------play_Button cl
     mainContainer.style.display = 'none';
     body.classList.add('game');
     main.append(gameWrapper);
-
-    playNavButton.style.pointerEvents = 'auto';
-    mainButton.style.pointerEvents = 'auto';
-    galleryNavButton.style.pointerEvents = 'auto';
   }, 700);
 });
 
@@ -119,6 +115,7 @@ homeNavButton.addEventListener('click', () => { // -------------------home_Butto
     playNavButton.classList.remove('game');
     resultNavButton.classList.remove('game');
     galleryNavButton.classList.remove('game');
+    galleryNavButton.style.pointerEvents = 'auto';
   }
 
   const gameWrapperToDelete = document.querySelector('.wrapper-game');
@@ -144,6 +141,9 @@ homeNavButton.addEventListener('click', () => { // -------------------home_Butto
       playNavButton.classList.remove('game');
       resultNavButton.classList.remove('game');
       galleryNavButton.classList.remove('game');
+      playNavButton.style.pointerEvents = 'auto';
+      mainButton.style.pointerEvents = 'auto';
+      galleryNavButton.style.pointerEvents = 'auto';
     });
   }
 });
@@ -158,7 +158,6 @@ langNavButton.addEventListener('click', () => { // -------------------language_B
     mainText.innerHTML = mainTextRus;
     langNavButton.textContent = 'RU';
     mainButton.textContent = 'Играть';
-    // playNavLink.textContent = 'Играть';
     resultNavButton.textContent = 'Результаты';
     galleryNavButton.textContent = 'Галерея';
     homePopupText.textContent = 'Ваш прогресс будет утерян!';
@@ -171,7 +170,6 @@ langNavButton.addEventListener('click', () => { // -------------------language_B
     mainText.innerHTML = mainTextEn;
     langNavButton.textContent = 'EN';
     mainButton.textContent = 'Play';
-    // playNavLink.textContent = 'Play';
     resultNavButton.textContent = 'Results';
     galleryNavButton.textContent = 'Gallery';
     homePopupText.textContent = 'Your game progress will be lost!';
@@ -201,6 +199,7 @@ galleryNavButton.addEventListener('click', () => { // -------------------gallery
     playNavButton.classList.add('game');
     resultNavButton.classList.add('game');
     galleryNavButton.classList.add('game');
+    galleryNavButton.style.pointerEvents = 'none';
     body.classList.add('game');
     mainContainer.style.display = 'none';
 
@@ -213,6 +212,7 @@ galleryNavButton.addEventListener('click', () => { // -------------------gallery
 
     main.append(containerGallery);
   } else {
+    galleryNavButton.style.pointerEvents = 'auto';
     mainContainer.style.display = 'flex';
     body.classList.remove('game');
     containerGallery.innerHTML = '';
