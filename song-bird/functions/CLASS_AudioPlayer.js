@@ -104,6 +104,7 @@ class AudioPlayer {
   play() {
     let intervalProgressLine;
     this.audio.volume = this.globalVolume;
+
     if (this.audio.paused) {
       prev.audio.pause();
       prev.audio = this.audio;

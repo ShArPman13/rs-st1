@@ -2,11 +2,12 @@ import birdsLang from '../constants/birdsLang';
 import AudioPlayer from './CLASS_AudioPlayer';
 
 class BirdRightCard {
-  constructor(bird, indexArray, indexBird, observer) {
+  constructor(bird, indexArray, indexBird, observer, audioObserver) {
     this.bird = bird;
     this.indexArray = indexArray;
     this.indexBird = indexBird;
     this.observer = observer;
+    this.audioObserver = audioObserver;
   }
 
   render() {
@@ -38,8 +39,12 @@ class BirdRightCard {
     });
 
     imgDescriptionContainer.append(birdImg, birdDescription);
-    const player = new AudioPlayer(this.bird.audio);
+    const player = new AudioPlayer(this.bird.audio, this.audioObserver);
     topContainerGallery.append(namesContainer, imgDescriptionContainer, player.render());
+
+    this.audioObserver.subscribe(() => {
+      player.turnOff();
+    });
 
     return topContainerGallery;
   }

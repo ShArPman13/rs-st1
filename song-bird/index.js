@@ -17,7 +17,6 @@ import {
   langNavButton,
   mainButton,
   playNavButton,
-  // playNavLink,
   resultNavButton,
   homePopupText,
   galleryNavButton,
@@ -30,9 +29,7 @@ import birdsLang from './constants/birdsLang';
 import observable from './functions/usefull/observer';
 import setLocalStorage from './functions/LS/setLocalStorage';
 import renderResultPage from './functions/renderResultPage';
-// import renderBirdRightCard from './functions/render_birdRightCard';
 import BirdRightCard from './functions/CLASS_BirdRightCard';
-// import gamePageLang from './constants/gamePageLang';
 
 if (window.screen.width > 1400) { // moving background by mousemove
   document.addEventListener('mousemove', parallax);
@@ -50,7 +47,6 @@ if (localStorage.getItem('lang-Sharp13')) {
     mainText.innerHTML = mainTextRus;
     langNavButton.textContent = 'RU';
     mainButton.textContent = 'Играть';
-    // playNavLink.textContent = 'Играть';
     resultNavButton.textContent = 'Результаты';
     galleryNavButton.textContent = 'Галерея';
     homePopupText.textContent = 'Ваш прогресс будет утерян!';
@@ -63,7 +59,6 @@ if (localStorage.getItem('lang-Sharp13')) {
   mainText.innerHTML = mainTextEn;
   langNavButton.textContent = 'EN';
   mainButton.textContent = 'Play';
-  // playNavLink.textContent = 'Play';
   resultNavButton.textContent = 'Results';
   galleryNavButton.textContent = 'Gallery';
   homePopupText.textContent = 'Your game progress will be lost!';
@@ -72,6 +67,7 @@ if (localStorage.getItem('lang-Sharp13')) {
 }
 
 const observer = observable();
+const audioObserver = observable();
 
 body.addEventListener('click', (event) => { // -------------------play_Button click---------------
   if (body.classList.contains('game')) return;
@@ -116,6 +112,7 @@ homeNavButton.addEventListener('click', () => { // -------------------home_Butto
     resultNavButton.classList.remove('game');
     galleryNavButton.classList.remove('game');
     galleryNavButton.style.pointerEvents = 'auto';
+    audioObserver.update();
   }
 
   const gameWrapperToDelete = document.querySelector('.wrapper-game');
@@ -205,7 +202,7 @@ galleryNavButton.addEventListener('click', () => { // -------------------gallery
 
     birdsLang[language].forEach((array, indexArray) => {
       array.forEach((bird, indexBird) => {
-        const birdCard = new BirdRightCard(bird, indexArray, indexBird, observer);
+        const birdCard = new BirdRightCard(bird, indexArray, indexBird, observer, audioObserver);
         containerGallery.append(birdCard.render());
       });
     });
