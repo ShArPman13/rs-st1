@@ -105,6 +105,11 @@
           font-size: 15px;
         }
 
+        @media (max-width: 400px) {
+          gap:20px;
+
+        }
+
         .nav__item {
           height: fit-content;
           opacity: 0.4;
@@ -116,6 +121,10 @@
 
           .nav__home-img {
             width: 30px;
+          }
+
+          .nav__play-img {
+            width: 23px;
           }
         }
 

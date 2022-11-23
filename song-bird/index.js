@@ -17,7 +17,7 @@ import {
   langNavButton,
   mainButton,
   playNavButton,
-  playNavLink,
+  // playNavLink,
   resultNavButton,
   homePopupText,
   galleryNavButton,
@@ -50,7 +50,7 @@ if (localStorage.getItem('lang-Sharp13')) {
     mainText.innerHTML = mainTextRus;
     langNavButton.textContent = 'RU';
     mainButton.textContent = 'Играть';
-    playNavLink.textContent = 'Играть';
+    // playNavLink.textContent = 'Играть';
     resultNavButton.textContent = 'Результаты';
     galleryNavButton.textContent = 'Галерея';
     homePopupText.textContent = 'Ваш прогресс будет утерян!';
@@ -63,7 +63,7 @@ if (localStorage.getItem('lang-Sharp13')) {
   mainText.innerHTML = mainTextEn;
   langNavButton.textContent = 'EN';
   mainButton.textContent = 'Play';
-  playNavLink.textContent = 'Play';
+  // playNavLink.textContent = 'Play';
   resultNavButton.textContent = 'Results';
   galleryNavButton.textContent = 'Gallery';
   homePopupText.textContent = 'Your game progress will be lost!';
@@ -111,6 +111,16 @@ body.addEventListener('click', (event) => { // -------------------play_Button cl
 });
 
 homeNavButton.addEventListener('click', () => { // -------------------home_Button click---------------
+  if (galleryNavButton.classList.contains('pressed')) { // close results if open
+    galleryNavButton.classList.remove('pressed');
+    mainContainer.style.display = 'flex';
+    body.classList.remove('game');
+    containerGallery.innerHTML = '';
+    playNavButton.classList.remove('game');
+    resultNavButton.classList.remove('game');
+    galleryNavButton.classList.remove('game');
+  }
+
   const gameWrapperToDelete = document.querySelector('.wrapper-game');
   if (gameWrapperToDelete) { // we're on the game page
     mainWrapper.classList.add('opacity-for-homepopup');
@@ -148,7 +158,7 @@ langNavButton.addEventListener('click', () => { // -------------------language_B
     mainText.innerHTML = mainTextRus;
     langNavButton.textContent = 'RU';
     mainButton.textContent = 'Играть';
-    playNavLink.textContent = 'Играть';
+    // playNavLink.textContent = 'Играть';
     resultNavButton.textContent = 'Результаты';
     galleryNavButton.textContent = 'Галерея';
     homePopupText.textContent = 'Ваш прогресс будет утерян!';
@@ -161,7 +171,7 @@ langNavButton.addEventListener('click', () => { // -------------------language_B
     mainText.innerHTML = mainTextEn;
     langNavButton.textContent = 'EN';
     mainButton.textContent = 'Play';
-    playNavLink.textContent = 'Play';
+    // playNavLink.textContent = 'Play';
     resultNavButton.textContent = 'Results';
     galleryNavButton.textContent = 'Gallery';
     homePopupText.textContent = 'Your game progress will be lost!';
@@ -188,6 +198,9 @@ galleryNavButton.addEventListener('click', () => { // -------------------gallery
   galleryNavButton.classList.toggle('pressed');
 
   if (galleryNavButton.classList.contains('pressed')) {
+    playNavButton.classList.add('game');
+    resultNavButton.classList.add('game');
+    galleryNavButton.classList.add('game');
     body.classList.add('game');
     mainContainer.style.display = 'none';
 
