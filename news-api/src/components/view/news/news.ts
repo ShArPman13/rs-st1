@@ -19,19 +19,12 @@ interface IOneNews {
 class News {
     draw(data: IOneNews[]) {
         const news = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;
-
         const fragment = document.createDocumentFragment();
-
         const newsItemTemp = <HTMLTemplateElement>document.querySelector('#newsItemTemp');
 
         news.forEach((item, idx) => {
-
             const newsClone = <HTMLTemplateElement>newsItemTemp.content.cloneNode(true);
-
             if (idx % 2) newsClone.querySelector('.news__item')?.classList.add('alt');
-
-            console.log(newsItemTemp);
-            console.log(newsClone);
 
             (<HTMLDivElement>newsClone.querySelector('.news__meta-photo')).style.backgroundImage = `url(${
                 item.urlToImage || 'img/news_placeholder.jpg'
