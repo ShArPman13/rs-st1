@@ -1,19 +1,19 @@
 import './news.css';
 
-interface ISourceNews {
-  id: string;
-  name: string;
+export interface IOneNewsSources {
+    id: string;
+    name: string;
 }
 
-interface IOneNews {
-  author: string;
-  content: string;
-  description: string;
-  publishedAt: string;
-  source: ISourceNews;
-  title: string;
-  url: string;
-  urlToImage: string;
+export interface IOneNews {
+    author: string;
+    content: string;
+    description: string;
+    publishedAt: string;
+    source: IOneNewsSources;
+    title: string;
+    url: string;
+    urlToImage: string;
 }
 
 class News {

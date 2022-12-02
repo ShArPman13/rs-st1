@@ -1,6 +1,6 @@
 import './sources.css';
 
-interface ISourcesNews {
+export interface ISourcesNews {
     category: string;
     country: string;
     description: string;
@@ -15,7 +15,6 @@ class Sources {
 
         const fragment = document.createDocumentFragment();
         const sourceItemTemp = <HTMLTemplateElement>document.querySelector('#sourceItemTemp');
-        console.log(data);
 
         data.forEach((item) => {
             const sourceClone = <HTMLTemplateElement>sourceItemTemp.content.cloneNode(true);
