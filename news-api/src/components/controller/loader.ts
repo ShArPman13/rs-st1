@@ -1,11 +1,11 @@
 interface IApiKey {
   apiKey: string;
 }
-interface ISourceOfNews {
-  source: string;
+export interface ISourceOfNews {
+  sources: string;
 }
 
-type IUrlOptions = Record<string, string>
+type IUrlOptions = Record<string, string>;
 
 interface IForGetResp {
   endpoint: string;
@@ -44,7 +44,10 @@ class Loader {
 
   load(method: string, endpoint: string, callback: (firstArg: string) => void, options: ISourceOfNews) {
     fetch(this.makeUrl(options, endpoint), { method })
-      .then(this.errorHandler)
+      .then((qqq) => {
+
+        return this.errorHandler(qqq)
+      })
       .then((res) => res.json())
       .then((data) => callback(data))
       .catch((err) => console.error(err));
