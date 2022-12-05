@@ -9,7 +9,7 @@ type IUrlOptions = Record<string, string>;
 
 interface IForGetResp {
   endpoint: string;
-  options: ISourceOfNews;
+  options?: ISourceOfNews;
 }
 
 class Loader {
@@ -32,7 +32,7 @@ class Loader {
     return res;
   }
 
-  makeUrl(options: ISourceOfNews, endpoint: string) {
+  makeUrl(endpoint: string, options?: ISourceOfNews) {
     const urlOptions: IUrlOptions = { ...this.options, ...options };
     let url = `${this.baseLink}${endpoint}?`;
 
@@ -42,8 +42,8 @@ class Loader {
     return url.slice(0, -1);
   }
 
-  load(method: string, endpoint: string, callback: (firstArg: string) => void, options: ISourceOfNews) {
-    fetch(this.makeUrl(options, endpoint), { method })
+  load(method: string, endpoint: string, callback: (firstArg: string) => void, options?: ISourceOfNews) {
+    fetch(this.makeUrl(endpoint, options), { method })
       .then((qqq) => {
 
         return this.errorHandler(qqq)

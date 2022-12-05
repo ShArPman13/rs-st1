@@ -1,13 +1,13 @@
 import News, { IOneNews } from './news/news';
 import Sources, { ISourcesNews } from './sources/sources';
 
-interface IResultsNews {
+export interface IResultsNews {
     status: string;
     totalResults: number;
     articles: IOneNews[];
 }
 
-interface IResultsSources {
+export interface IResultsSources {
     status: string;
     sources: ISourcesNews[];
 }

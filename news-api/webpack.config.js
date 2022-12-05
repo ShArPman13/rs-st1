@@ -23,7 +23,7 @@ const devServer = () =>
 module.exports = ({ develop }) => ({
     mode: develop ? 'development' : 'production',
     entry: {
-        app_: './src/index.js',
+        app_: './src/index.ts',
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
