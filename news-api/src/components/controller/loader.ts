@@ -43,14 +43,16 @@ class Loader {
   }
 
   load(method: string, endpoint: string, callback: (firstArg: string) => void, options?: ISourceOfNews) {
+    const main = document.querySelector('.main');
+    document.body.classList.add('loading')
     fetch(this.makeUrl(endpoint, options), { method })
-      .then((qqq) => {
-
-        return this.errorHandler(qqq)
+      .then((response) => {
+        return this.errorHandler(response)
       })
       .then((res) => res.json())
       .then((data) => callback(data))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(() => document.body.classList.remove('loading'))
   }
 }
 
