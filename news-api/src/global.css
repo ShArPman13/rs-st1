@@ -26,6 +26,7 @@ main {
 footer {
     height: 100px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -42,4 +43,11 @@ footer .copyright a:hover {
 }
 footer .copyright:before {
     content: '©';
+}
+
+.sm-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 }

@@ -29,6 +29,7 @@ module.exports = ({ develop }) => ({
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].[contenthash].js',
         assetModuleFilename: 'assets/[hash][ext]',
+        clean: true
     },
     module: {
         rules: [
@@ -72,9 +73,14 @@ module.exports = ({ develop }) => ({
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
         }),
-        // new CopyPlugin({
-        //     patterns: [{ from: './public' }],
-        // }),
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: './src/assets',
+                    to: './assets',
+                }
+            ],
+        }),
         new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
     ],
     devtool: 'inline-source-map',
