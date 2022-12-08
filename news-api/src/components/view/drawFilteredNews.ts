@@ -1,4 +1,5 @@
-import Sources, { ISourcesNews } from "./sources/sources";
+import { ISourcesNews } from "../../types/ISourcesNews";
+import Sources from "./sources/sources";
 
 export const drawFilteredNews = (data: ISourcesNews[], sources: Sources) => {
   const search = <HTMLInputElement>document.querySelector('.text-field__input');

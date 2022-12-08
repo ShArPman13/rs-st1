@@ -1,10 +1,8 @@
+import { ISourceOfNews } from "../../types/ISourceOfNews";
 import { toggleLoader } from "../view/toggleLoader";
 
 interface IApiKey {
   apiKey: string;
-}
-export interface ISourceOfNews {
-  sources: string;
 }
 
 type IUrlOptions = Record<string, string>;

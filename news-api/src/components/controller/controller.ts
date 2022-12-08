@@ -1,4 +1,5 @@
-import { IResultsNews, IResultsSources } from '../view/appView';
+import { IResultsNews } from '../../types/IResultsNews';
+import { IResultsSources } from '../../types/IResultsSources';
 import AppLoader from './appLoader';
 
 class AppController extends AppLoader {

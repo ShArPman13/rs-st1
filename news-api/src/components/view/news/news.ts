@@ -1,20 +1,5 @@
+import { IOneNews } from '../../../types/IOneNews';
 import './news.css';
-
-export interface IOneNewsSources {
-    id: string;
-    name: string;
-}
-
-export interface IOneNews {
-    author: string;
-    content: string;
-    description: string;
-    publishedAt: string;
-    source: IOneNewsSources;
-    title: string;
-    url: string;
-    urlToImage: string;
-}
 
 class News {
     draw(data: IOneNews[]) {
@@ -26,9 +11,8 @@ class News {
             const newsClone = <HTMLTemplateElement>newsItemTemp.content.cloneNode(true);
             if (idx % 2) newsClone.querySelector('.news__item')?.classList.add('alt');
 
-            (<HTMLDivElement>newsClone.querySelector('.news__meta-photo')).style.backgroundImage = `url(${
-                item.urlToImage || 'img/news_placeholder.jpg'
-            })`;
+            (<HTMLDivElement>newsClone.querySelector('.news__meta-photo')).style.backgroundImage = `url(${item.urlToImage || 'img/news_placeholder.jpg'
+                })`;
             (<HTMLLIElement>newsClone.querySelector('.news__meta-author')).textContent = item.author || item.source.name;
             (<HTMLLIElement>newsClone.querySelector('.news__meta-date')).textContent = item.publishedAt
                 .slice(0, 10)

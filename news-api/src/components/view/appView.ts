@@ -1,17 +1,8 @@
+import { IResultsNews } from '../../types/IResultsNews';
+import { IResultsSources } from '../../types/IResultsSources';
 import { drawFilteredNews } from './drawFilteredNews';
-import News, { IOneNews } from './news/news';
-import Sources, { ISourcesNews } from './sources/sources';
-
-export interface IResultsNews {
-  status: string;
-  totalResults: number;
-  articles: IOneNews[];
-}
-
-export interface IResultsSources {
-  status: string;
-  sources: ISourcesNews[];
-}
+import News from './news/news';
+import Sources from './sources/sources';
 
 export class AppView {
   news = new News();
