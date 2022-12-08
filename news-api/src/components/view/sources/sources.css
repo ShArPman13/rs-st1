@@ -1,7 +1,7 @@
 .sources {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    height: 340px;
+    height: 405px;
     width: 90%;
     overflow: auto;
     align-items: center;
@@ -36,6 +36,7 @@
 
 @media (max-width: 930px) {
     .sources {
+        height: 335px;
         grid-template-columns: 1fr 1fr;
     }
 }
@@ -43,6 +44,7 @@
 @media (max-width: 650px) {
     .sources {
         width: 100%;
+        height: 275px;
         grid-template-columns: 1fr;
     }
 }

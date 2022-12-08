@@ -51,3 +51,21 @@ footer .copyright:before {
     align-items: center;
     gap: 20px;
 }
+
+.rss,
+.git {
+    height: 20px;
+    opacity: 0.5;
+}
+
+.year {
+    opacity: 0.5;
+}
+
+@media (max-width: 400px) {
+    body {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+}
