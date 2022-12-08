@@ -6,13 +6,26 @@
   right: 0;
   bottom: 0;
   background: transparent;
-  z-index: 1001;
-  filter: none;
+  z-index: 3;
 }
 
-.loading .preloader {
+.shadow {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: none;
+  backdrop-filter: blur(3px);
+  z-index: 2;
+}
+
+.loading {
   display: block;
-  filter: none;
+}
+
+.loading ~ .preloader {
+  display: block;
 }
 
 .preloader__row {

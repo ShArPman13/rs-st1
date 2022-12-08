@@ -4,10 +4,6 @@ body {
     font-family: sans-serif;
 }
 
-.loading {
-  filter: blur(3px);
-}
-
 header {
     padding: 10px 30px;
 }
@@ -20,11 +16,11 @@ header h1 {
 }
 
 main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
 }
 
 footer {

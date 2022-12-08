@@ -1,3 +1,5 @@
+import { toggleLoader } from "../view/toggleLoader";
+
 interface IApiKey {
   apiKey: string;
 }
@@ -43,16 +45,13 @@ class Loader {
   }
 
   load(method: string, endpoint: string, callback: (firstArg: string) => void, options?: ISourceOfNews) {
-    const main = document.querySelector('.main');
-    document.body.classList.add('loading')
+    toggleLoader();
     fetch(this.makeUrl(endpoint, options), { method })
-      .then((response) => {
-        return this.errorHandler(response)
-      })
+      .then(this.errorHandler)
       .then((res) => res.json())
       .then((data) => callback(data))
       .catch((err) => console.error(err))
-      .finally(() => document.body.classList.remove('loading'))
+      .finally(() => toggleLoader());
   }
 }
 
