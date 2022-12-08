@@ -6,6 +6,7 @@ interface IApiKey {
 }
 
 type IUrlOptions = Record<string, string>;
+type Callback = <T>(value: T) => void;
 
 interface IForGetResp {
   endpoint: string;
@@ -42,7 +43,7 @@ class Loader {
     return url.slice(0, -1);
   }
 
-  load(method: string, endpoint: string, callback: (firstArg: string) => void, options?: ISourceOfNews) {
+  load(method: string, endpoint: string, callback: Callback, options?: ISourceOfNews) {
     toggleLoader();
     fetch(this.makeUrl(endpoint, options), { method })
       .then(this.errorHandler)
