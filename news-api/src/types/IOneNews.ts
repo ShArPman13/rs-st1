@@ -1,4 +1,4 @@
-import { IOneNewsSources } from "./IOneNewsSources";
+import { IOneNewsSources } from './IOneNewsSources';
 
 export interface IOneNews {
   author: string;

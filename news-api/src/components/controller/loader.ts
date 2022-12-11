@@ -1,5 +1,5 @@
-import { ISourceOfNews } from "../../types/ISourceOfNews";
-import { toggleLoader } from "../view/toggleLoader";
+import { ISourceOfNews } from '../../types/ISourceOfNews';
+import { toggleLoader } from '../view/toggleLoader';
 
 interface IApiKey {
   apiKey: string;
@@ -19,7 +19,12 @@ class Loader {
     this.options = options;
   }
 
-  getResp({ endpoint, options }: IForGetResp, callback = () => { console.error('No callback for GET response'); }) {
+  getResp(
+    { endpoint, options }: IForGetResp,
+    callback = () => {
+      console.error('No callback for GET response');
+    }
+  ) {
     this.load('GET', endpoint, callback, options);
   }
 

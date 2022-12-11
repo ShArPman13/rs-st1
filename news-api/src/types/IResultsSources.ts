@@ -1,4 +1,4 @@
-import { ISourcesNews } from "./ISourcesNews";
+import { ISourcesNews } from './ISourcesNews';
 
 export interface IResultsSources {
   status: string;
